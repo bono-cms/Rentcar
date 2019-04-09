@@ -14,6 +14,13 @@ namespace Rentcar\Storage;
 interface CarMapperInterface
 {
     /**
+     * Fetch all cars
+     * 
+     * @return array
+     */
+    public function fetchAll();
+
+    /**
      * Fetches car data by its associated id
      * 
      * @param string $id Car id

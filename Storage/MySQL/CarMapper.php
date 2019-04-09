@@ -49,6 +49,20 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     }
 
     /**
+     * Fetch all cars
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+                   ->orderBy(self::column('id'));
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetches car data by its associated id
      * 
      * @param string $id Car id
