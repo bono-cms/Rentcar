@@ -51,6 +51,17 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Deletes a car by its id
+     * 
+     * @param string $id Car id
+     * @return void
+     */
+    public function deleteById($id)
+    {
+        return $this->carMapper->deleteByPk($id);
+    }
+
+    /**
      * Fetches car data by its associated id
      * 
      * @param string $id Car id
