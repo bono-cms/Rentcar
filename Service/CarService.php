@@ -62,6 +62,16 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Fetch all cars
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        return $this->prepareResults($this->carMapper->fetchAll());
+    }
+
+    /**
      * Fetches car data by its associated id
      * 
      * @param string $id Car id
