@@ -31,4 +31,32 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     {
         return CarTranslationMapper::getTableName();
     }
+
+    /**
+     * Returns columns to be selected
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::column('id'),
+            self::column('order'),
+            CarTranslationMapper::column('lang_id'),
+            CarTranslationMapper::column('name'),
+            CarTranslationMapper::column('description')
+        );
+    }
+
+    /**
+     * Fetches car data by its associated id
+     * 
+     * @param string $id Car id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findWebPage($this->getColumns(), $id, $withTranslations);
+    }
 }

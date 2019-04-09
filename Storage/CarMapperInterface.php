@@ -13,4 +13,12 @@ namespace Rentcar\Storage;
 
 interface CarMapperInterface
 {
+    /**
+     * Fetches car data by its associated id
+     * 
+     * @param string $id Car id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations);
 }
