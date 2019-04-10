@@ -71,6 +71,6 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->findWebPage($this->getColumns(), $id, $withTranslations);
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
     }
 }
