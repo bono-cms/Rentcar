@@ -45,7 +45,9 @@ final class CarService extends AbstractManager
                ->setLangId($row['lang_id'])
                ->setOrder($row['order'])
                ->setName($row['name'])
-               ->setDescription($row['description']);
+               ->setDescription($row['description'])
+               ->setInterior($row['interior'])
+               ->setExterior($row['exterior']);
 
         return $entity;
     }

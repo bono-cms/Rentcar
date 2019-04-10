@@ -11,6 +11,8 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
     `lang_id` INT NOT NULL COMMENT 'Language identificator',
     `name` varchar(255) NOT NULL,
     `description` TEXT NOT NULL,
+    `interior` TEXT NOT NULL,
+    `exterior` TEXT NOT NULL,
 
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
 );

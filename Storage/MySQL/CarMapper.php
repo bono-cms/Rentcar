@@ -44,6 +44,8 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             self::column('order'),
             CarTranslationMapper::column('lang_id'),
             CarTranslationMapper::column('name'),
+            CarTranslationMapper::column('interior'),
+            CarTranslationMapper::column('exterior'),
             CarTranslationMapper::column('description')
         );
     }

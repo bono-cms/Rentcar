@@ -44,6 +44,19 @@ defined('KRYSTAL') or die;
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Interior'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][interior]', $language->getId()), $entity->getInterior(), array('data-wysiwyg' => 'true')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Exterior'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][exterior]', $language->getId()), $entity->getExterior(), array('data-wysiwyg' => 'true')); ?>
+                        </div>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             </div>
