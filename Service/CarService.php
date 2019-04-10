@@ -51,6 +51,16 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Returns last car id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->carMapper->getMaxId();
+    }
+
+    /**
      * Deletes a car by its id
      * 
      * @param string $id Car id
