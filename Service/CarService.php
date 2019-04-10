@@ -72,6 +72,17 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Saves a car
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->carMapper->saveEntity($input['car'], $input['translation']);
+    }
+
+    /**
      * Fetch all cars
      * 
      * @return array
