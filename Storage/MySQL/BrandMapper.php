@@ -11,19 +11,16 @@
 
 namespace Rentcar\Storage\MySQL;
 
-use Cms\Storage\MySQL\AbstractStorageDropper;
+use Cms\Storage\MySQL\AbstractMapper;
+use Rentcar\Storage\BrandMapperInterface;
 
-final class Dropper extends AbstractStorageDropper
+final class BrandMapper extends AbstractMapper implements BrandMapperInterface
 {
     /**
      * {@inheritDoc}
      */
-    protected function getTables()
+    public static function getTableName()
     {
-        return array(
-            CarMapper::getTableName(),
-            CarTranslationMapper::getTableName(),
-            BrandMapper::getTableName()
-        );
+        return self::getWithPrefix('bono_module_rentcar_brands');
     }
 }
