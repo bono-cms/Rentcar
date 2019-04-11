@@ -23,4 +23,19 @@ final class BrandMapper extends AbstractMapper implements BrandMapperInterface
     {
         return self::getWithPrefix('bono_module_rentcar_brands');
     }
+
+    /**
+     * Fetch all brands
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->orderBy($this->getPk())
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }
