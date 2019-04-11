@@ -58,7 +58,14 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
      */
     public function fetchAll()
     {
-        $db = $this->createEntitySelect($this->getColumns())
+        $columns = $this->getColumns();
+        $columns[BrandMapper::column('name')] = 'brand';
+
+        $db = $this->createEntitySelect($columns)
+                   // Brand relation
+                   ->leftJoin(BrandMapper::getTableName(), array(
+                        BrandMapper::column('id') => self::column('brand_id')
+                   ))
                    ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
                    ->orderBy(self::column('id'));
 
