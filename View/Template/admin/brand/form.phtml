@@ -1,0 +1,39 @@
+<?php
+
+use Krystal\Form\Element;
+defined('KRYSTAL') or die;
+
+?>
+
+<form class="card" data-group="brand" autocomplete="off">
+    <?= Element::hidden('brand[id]', $brand->getId()); ?>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?= Element::text('brand[name]', $brand->getName(), array('class' => 'form-control')); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-12 control-label"><?php $this->show('Order'); ?></label>
+        <div class="col-lg-10">
+            <div class="input-group">
+                <?= Element::number('brand[order]', $brand->getOrder(), array('class' => 'form-control')); ?>
+                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <?php $this->loadPartial('actions', array(
+        'new' => !$brand->getId(),
+        'add' => 'Rentcar:Admin:Brand@addAction',
+        'edit' => 'Rentcar:Admin:Brand@editAction',
+        'save' => 'Rentcar:Admin:Brand@saveAction',
+        'cancel' => 'Rentcar:Admin:Brand@indexAction'
+    )); ?>
+
+</form>
