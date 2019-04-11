@@ -13,6 +13,7 @@ namespace Rentcar;
 
 use Cms\AbstractCmsModule;
 use Rentcar\Service\CarService;
+use Rentcar\Service\BrandService;
 
 final class Module extends AbstractCmsModule
 {
@@ -22,7 +23,8 @@ final class Module extends AbstractCmsModule
     public function getServiceProviders()
     {
         return array(
-            'carService' => new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper'))
+            'carService' => new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper')),
+            'brandService' => new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper'))
         );
     }
 }
