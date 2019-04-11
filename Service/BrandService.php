@@ -14,6 +14,7 @@ namespace Rentcar\Service;
 use Rentcar\Storage\BrandMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 
 final class BrandService extends AbstractManager
 {
@@ -89,6 +90,16 @@ final class BrandService extends AbstractManager
     public function fetchById($id)
     {
         return $this->prepareResult($this->brandMapper->findByPk($id));
+    }
+
+    /**
+     * Fetch brands as a list
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->brandMapper->fetchAll(), 'id', 'name');
     }
 
     /**
