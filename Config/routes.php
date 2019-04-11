@@ -10,6 +10,7 @@
  */
 
 return array(
+    // Cars
     '/%s/module/rent-car/cars' => array(
         'controller' => 'Admin:Car@indexAction'
     ),
@@ -28,5 +29,26 @@ return array(
 
     '/%s/module/rent-car/cars/delete/(:var)' => array(
         'controller' => 'Admin:Car@deleteAction'
+    ),
+
+    // Brands
+    '/%s/module/rent-car/brands' => array(
+        'controller' => 'Admin:Brand@indexAction'
+    ),
+    
+    '/%s/module/rent-car/brands/save' => array(
+        'controller' => 'Admin:Brand@saveAction'
+    ),
+
+    '/%s/module/rent-car/brands/add' => array(
+        'controller' => 'Admin:Brand@addAction'
+    ),
+
+    '/%s/module/rent-car/brands/edit/(:var)' => array(
+        'controller' => 'Admin:Brand@editAction'
+    ),
+
+    '/%s/module/rent-car/brands/delete/(:var)' => array(
+        'controller' => 'Admin:Brand@deleteAction'
     )
 );

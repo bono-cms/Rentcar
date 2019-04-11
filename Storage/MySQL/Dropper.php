@@ -22,7 +22,8 @@ final class Dropper extends AbstractStorageDropper
     {
         return array(
             CarMapper::getTableName(),
-            CarTranslationMapper::getTableName()
+            CarTranslationMapper::getTableName(),
+            BrandMapper::getTableName()
         );
     }
 }
