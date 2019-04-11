@@ -43,6 +43,7 @@ final class CarService extends AbstractManager
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setLangId($row['lang_id'])
+               ->setBrandId($row['brand_id'])
                ->setOrder($row['order'])
                ->setName($row['name'])
                ->setDescription($row['description'])

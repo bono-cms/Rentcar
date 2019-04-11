@@ -49,7 +49,8 @@ final class Car extends AbstractController
                    ->addOne(is_array($car) ? 'Edit the car' : 'Add new car');
 
         return $this->view->render('form', array(
-            'car' => $car
+            'car' => $car,
+            'brands' => $this->getModuleService('brandService')->fetchList()
         ));
     }
 
