@@ -9,20 +9,20 @@
  * the license file that was distributed with this source code.
  */
 
-namespace Rentcar;
+namespace Rentcar\Storage\MySQL;
 
-use Cms\AbstractCmsModule;
-use Rentcar\Service\CarService;
+use Cms\Storage\MySQL\AbstractStorageDropper;
 
-final class Module extends AbstractCmsModule
+final class Dropper extends AbstractStorageDropper
 {
     /**
-     * {@inhertiDoc}
+     * {@inheritDoc}
      */
-    public function getServiceProviders()
+    protected function getTables()
     {
         return array(
-            'carService' => new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper'))
+            CarMapper::getTableName(),
+            CarTranslationMapper::getTableName()
         );
     }
 }
