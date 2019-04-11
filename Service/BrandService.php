@@ -44,7 +44,8 @@ final class BrandService extends AbstractManager
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setName($row['name'])
-               ->setOrder($row['order']);
+               ->setOrder($row['order'])
+               ->setIcon($row['icon']);
 
         return $entity;
     }

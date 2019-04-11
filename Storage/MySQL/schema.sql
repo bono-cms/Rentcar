@@ -3,7 +3,8 @@ DROP TABLE IF EXISTS `bono_module_rentcar_brands`;
 CREATE TABLE `bono_module_rentcar_brands` (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `order` INT NOT NULL COMMENT 'Sorting order',
-    `name` varchar(255) NOT NULL COMMENT 'Brand name'
+    `name` varchar(255) NOT NULL COMMENT 'Brand name',
+    `icon` varchar(255) NOT NULL COMMENT 'Brand icon'
 );
 
 DROP TABLE IF EXISTS `bono_module_rentcar_cars`;
