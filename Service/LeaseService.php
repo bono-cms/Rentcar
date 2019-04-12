@@ -37,6 +37,16 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
     }
 
     /**
+     * Returns prepare pagination instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator()
+    {
+        return $this->leaseMapper->getPaginator();
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $row)
