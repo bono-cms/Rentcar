@@ -25,6 +25,49 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
     }
 
     /**
+     * Filters the raw input
+     * 
+     * @param array|\ArrayAccess $input Raw input data
+     * @param integer $page Current page number
+     * @param integer $itemsPerPage Items per page to be displayed
+     * @param string $sortingColumn Column name to be sorted
+     * @param string $desc Whether to sort in DESC order
+     * @return array
+     */
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc)
+    {
+        $sortingColumns = array(
+            'owner' => self::column('owner'),
+            'model' => self::column('model')
+        );
+
+        // Current sorting column
+        $sortingColumn = isset($sortingColumn[$sortingColumn]) ? $sortingColumn[$sortingColumn] : self::column($this->getPk());
+
+        if (!$sortingColumn) {
+            $sortingColumn = $this->getPk();
+        }
+
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('1', '1')
+                       ->andWhereLike(self::column('owner'), '%'.$input['owner'].'%', true)
+                       ->andWhereLike(self::column('model'), '%'.$input['model'].'%', true)
+                       ->andWhereLike(self::column('numberplate'), '%'.$input['numberplate'].'%', true)
+                       ->andWhereLike(self::column('contract_number'), '%'.$input['contract_number'].'%', true)
+                       ->andWhereEquals(self::column('apply_date'), $input['apply_date'], true)
+                       ->andWhereEquals(self::column('run_date'), $input['run_date'], true)
+                       ->orderBy($sortingColumn);
+
+        if ($desc) {
+            $db->desc();
+        }
+
+        return $db->paginate($page, $itemsPerPage)
+                  ->queryAll();
+    }
+
+    /**
      * Fetch all lease items
      * 
      * @return array

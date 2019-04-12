@@ -14,8 +14,9 @@ namespace Rentcar\Service;
 use Rentcar\Storage\LeaseMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Db\Filter\FilterableServiceInterface;
 
-final class LeaseService extends AbstractManager
+final class LeaseService extends AbstractManager implements FilterableServiceInterface
 {
     /**
      * Any compliant lease mapper interface
@@ -67,6 +68,21 @@ final class LeaseService extends AbstractManager
     public function fetchById($id)
     {
         return $this->prepareResult($this->leaseMapper->findByPk($id));
+    }
+
+    /**
+     * Filters the raw input
+     * 
+     * @param array|\ArrayAccess $input Raw input data
+     * @param integer $page Current page number
+     * @param integer $itemsPerPage Items per page to be displayed
+     * @param string $sortingColumn Column name to be sorted
+     * @param string $desc Whether to sort in DESC order
+     * @return array
+     */
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $params = array())
+    {
+        return $this->prepareResults($this->leaseMapper->filter($input, $page, $itemsPerPage, $sortingColumn, $desc));
     }
 
     /**
