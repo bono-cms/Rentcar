@@ -10,7 +10,7 @@ CREATE TABLE `bono_module_rentcar_lease` (
     `run_date` DATE NOT NULL COMMENT 'Date of receiving car',
     `contract_lease_number` varchar(255) NOT NULL COMMENT 'Contract and lease number',
     `period` INT NOT NULL COMMENT 'Contract period',
-    `contract_completed` BOOLEAN NOT NULL COMMENT 'Whether this contract is completed',
+    `status` INT NOT NULL COMMENT 'Contract status',
     `city_applied` varchar(255) NOT NULL COMMENT 'City where it has been applied',
     `city_owner` varchar(255) NOT NULL COMMENT 'City of owner',
     `comment` TEXT NOT NULL COMMENT 'Extra information'

@@ -50,7 +50,7 @@ final class LeaseService extends AbstractManager
                ->setRunDate($row['run_date'])
                ->setContractLeaseNumber($row['contract_lease_number'])
                ->setPeriod($row['period'])
-               ->setContractCompleted($row['contract_completed'])
+               ->setStatus($row['status'])
                ->setCityApplied($row['city_applied'])
                ->setCityOwner($row['city_owner'])
                ->setComment($row['comment']);
