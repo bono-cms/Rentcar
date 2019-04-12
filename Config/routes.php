@@ -71,5 +71,9 @@ return array(
 
     '/%s/module/rent-car/lease/delete/(:var)' => array(
         'controller' => 'Admin:Lease@deleteAction'
+    ),
+
+    '/%s/module/rent-car/lease/view/(:var)' => array(
+        'controller' => 'Admin:Lease@viewAction'
     )
 );

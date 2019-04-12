@@ -40,6 +40,30 @@ final class Lease extends AbstractController
     }
 
     /**
+     * Renders lease item
+     * 
+     * @param int $id
+     * @return mixed
+     */
+    public function viewAction($id)
+    {
+        $lease = $this->getModuleService('leaseService')->fetchById($id);
+
+        if ($lease !== false) {
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
+                                           ->addOne('Lease', 'Rentcar:Admin:Lease@indexAction')
+                                           ->addOne('View contract');
+            
+            return $this->view->render('lease/view', array(
+                'lease' => $lease
+            ));
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Renders lease form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $lease
