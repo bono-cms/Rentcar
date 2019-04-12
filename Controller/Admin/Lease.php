@@ -25,12 +25,17 @@ final class Lease extends AbstractController
      */
     public function indexAction()
     {
+        $leaseService = $this->getModuleService('leaseService');
+
+        $contracts = $this->getFilter($leaseService, $this->createUrl('Rentcar:Admin:Lease@indexAction', array(null)));
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Lease');
 
         return $this->view->render('lease/index', array(
-            'contracts' => $this->getModuleService('leaseService')->fetchAll()
+            'contracts' => $contracts,
+            'paginator' => $leaseService->getPaginator()
         ));
     }
 

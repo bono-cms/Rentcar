@@ -31,10 +31,14 @@ defined('KRYSTAL') or die;
                 </div>
             </div>
         </div>
+
+        <div class="col-lg-1">
+            <p><button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button></p>
+        </div>
     </div>
 
     <div class="card">
-        <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Contracts'); ?> (<?= count($contracts); ?>)</h4>
+        <h4><i class="fab fa-accusoft"></i> <?php $this->show('Contracts'); ?> (<?= count($contracts); ?>)</h4>
 
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($contracts, array(
@@ -46,27 +50,33 @@ defined('KRYSTAL') or die;
                     ),
 
                     array(
-                        'column' => 'owner'
+                        'column' => 'owner',
+                        'filter' => true
                     ),
 
                     array(
-                        'column' => 'model'
+                        'column' => 'model',
+                        'filter' => true
                     ),
                     
                     array(
-                        'column' => 'numberplate'
+                        'column' => 'numberplate',
+                        'filter' => true
                     ),
                     
                     array(
-                        'column' => 'contract_number'
+                        'column' => 'contract_number',
+                        'filter' => true
                     ),
 
                     array(
-                        'column' => 'apply_date'
+                        'column' => 'apply_date',
+                        'filter' => true
                     ),
                     
                     array(
-                        'column' => 'run_date'
+                        'column' => 'run_date',
+                        'filter' => true
                     ),
                     
                     //
@@ -95,6 +105,8 @@ defined('KRYSTAL') or die;
             </div>
             <?php endif; ?>
         </div>
+
+        <?php $this->loadPartial('paginator'); ?>
     </div>
 </form>
 
