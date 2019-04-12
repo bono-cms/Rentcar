@@ -20,6 +20,7 @@ defined('KRYSTAL') or die;
                   <div class="dropdown-menu">
                      <a class="dropdown-item" href="<?= $this->url('Rentcar:Admin:Car@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add new car'); ?></a>
                      <a class="dropdown-item" href="<?= $this->url('Rentcar:Admin:Brand@indexAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Brands'); ?></a>
+                     <a class="dropdown-item" href="<?= $this->url('Rentcar:Admin:Lease@indexAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Car leasing'); ?></a>
                      <div class="dropdown-divider"></div>
                      <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
                      <?php if (!empty($cars)): ?>
