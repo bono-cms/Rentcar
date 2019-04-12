@@ -23,4 +23,19 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
     {
         return self::getWithPrefix('bono_module_rentcar_lease');
     }
+
+    /**
+     * Fetch all lease items
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->orderBy($this->getPk())
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }

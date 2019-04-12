@@ -11,6 +11,12 @@
 
 namespace Rentcar\Storage;
 
-interface LeaseMapperInterface {
-    
+interface LeaseMapperInterface
+{
+    /**
+     * Fetch all lease items
+     * 
+     * @return array
+     */
+    public function fetchAll();
 }
