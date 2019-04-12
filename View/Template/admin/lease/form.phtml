@@ -1,0 +1,103 @@
+<?php
+
+use Krystal\Form\Element;
+defined('KRYSTAL') or die;
+
+?>
+
+<form class="card" data-group="lease" autocomplete="off">
+    <?= Element::hidden('lease[id]', $lease->getId()); ?>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Owner'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[owner]', $lease->getOwner(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Model'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[model]', $lease->getModel(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Numberplate'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[numberplate]', $lease->getNumberplate(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Contract number'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[contract_number]', $lease->getContractNumber(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Apply date'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[apply_date]', $lease->getApplyDate(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Run date'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[run_date]', $lease->getRunDate(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Contract lease number'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[contract_lease_number]', $lease->getContractLeaseNumber(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Contract months'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[contract_months]', $lease->getContractMonths(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Contract completed'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[contract_completed]', $lease->getContractCompleted(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('City applied'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[city_applied]', $lease->getCityApplied(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('City of owner'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::text('lease[city_owner]', $lease->getCityOwner(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label"><?php $this->show('Comment'); ?></label>
+        <div class="col-lg-10">
+            <?= Element::textarea('lease[comment]', $lease->getComment(), array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <?php $this->loadPartial('actions', array(
+        'new' => !$lease->getId(),
+        'add' => 'Rentcar:Admin:Lease@addAction',
+        'edit' => 'Rentcar:Admin:Lease@editAction',
+        'save' => 'Rentcar:Admin:Lease@saveAction',
+        'cancel' => 'Rentcar:Admin:Lease@indexAction'
+    )); ?>
+
+</form>
