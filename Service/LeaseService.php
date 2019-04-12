@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * This file is part of the Bono CMS
+ * 
+ * Copyright (c) No Global State Lab
+ * 
+ * For the full copyright and license information, please view
+ * the license file that was distributed with this source code.
+ */
+
+namespace Rentcar\Service;
+
+use Rentcar\Storage\LeaseMapperInterface;
+use Cms\Service\AbstractManager;
+use Krystal\Stdlib\VirtualEntity;
+
+final class LeaseService extends AbstractManager
+{
+    /**
+     * Any compliant lease mapper interface
+     * 
+     * @var \Rentcar\Storage\LeaseMapperInterface
+     */
+    private $leaseMapper;
+
+    /**
+     * State initialization
+     * 
+     * @param \Rentcar\Storage\LeaseMapperInterface $leaseMapper
+     * @return void
+     */
+    public function __construct(LeaseMapperInterface $leaseMapper)
+    {
+        $this->leaseMapper = $leaseMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setOwner($row['owner'])
+               ->setModel($row['model'])
+               ->setNumberplate($row['numberplate'])
+               ->setContractNumber($row['contract_number'])
+               ->setApplyDate($row['apply_date'])
+               ->setRunDate($row['run_date'])
+               ->setContractLeaseNumber($row['contract_lease_number'])
+               ->setContractMonths($row['contract_months'])
+               ->setContractCompleted($row['contract_completed'])
+               ->setCityApplied($row['city_applied'])
+               ->setCityOwner($row['city_owner'])
+               ->setComment($row['comment']);
+
+        return $entity;
+    }
+
+    /**
+     * Fetch leasing contract by its id
+     * 
+     * @param array $id Lease id
+     * @return mixed
+     */
+    public function fetchById($id)
+    {
+        return $this->prepareResult($this->leaseMapper->findByPk($id));
+    }
+
+    /**
+     * Fetch all lease items
+     * 
+     * @return array
+     */
+    public function fetchAll()
+    {
+        return $this->prepareResults($this->leaseMapper->fetchAll());
+    }
+
+    /**
+     * Returns last lease id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->leaseMapper->getMaxId();
+    }
+
+    /**
+     * Deletes lease item by its id
+     * 
+     * @param int $id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->leaseMapper->deleteByPk($id);
+    }
+
+    /**
+     * Saves lease item
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->leaseMapper->persist($input);
+    }
+}
