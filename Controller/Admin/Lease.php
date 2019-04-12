@@ -14,6 +14,7 @@ namespace Rentcar\Controller\Admin;
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
 use Rentcar\Collection\LeasePeriodCollection;
+use Rentcar\Collection\StatusCollection;
 
 final class Lease extends AbstractController
 {
@@ -47,10 +48,12 @@ final class Lease extends AbstractController
                                        ->addOne(is_array($lease) ? 'Edit the lease contract' : 'Add new lease contract');
 
         $lpCol = new LeasePeriodCollection();
+        $stCol = new StatusCollection();
 
         return $this->view->render('lease/form', array(
             'lease' => $lease,
-            'periods' => $lpCol->getAll()
+            'periods' => $lpCol->getAll(),
+            'statuses' => $stCol->getAll()
         ));
     }
 
