@@ -1,14 +1,24 @@
 <?php
 
 /**
- * This file is part of the Bono CMS
- * 
- * Copyright (c) No Global State Lab
- * 
- * For the full copyright and license information, please view
- * the license file that was distributed with this source code.
+ * Module configuration container
  */
 
 return array(
-    
+    'caption'  => 'Cars',
+    'description' => 'Cars module allows you to manage cars booking on your site',
+    'menu' => array(
+        'name'  => 'Cars',
+        'icon' => 'fas fa-car',
+        'items' => array(
+            array(
+                'route' => 'Rentcar:Admin:Car@indexAction',
+                'name' => 'View all cars'
+            ),
+            array(
+                'route' => 'Rentcar:Admin:Lease@indexAction',
+                'name' => 'Car leasing'
+            )
+        )
+    )
 );
