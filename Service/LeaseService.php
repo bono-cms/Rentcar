@@ -14,6 +14,7 @@ namespace Rentcar\Service;
 use Rentcar\Storage\LeaseMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 use Krystal\Db\Filter\FilterableServiceInterface;
 
 final class LeaseService extends AbstractManager implements FilterableServiceInterface
@@ -93,6 +94,16 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
     public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $params = array())
     {
         return $this->prepareResults($this->leaseMapper->filter($input, $page, $itemsPerPage, $sortingColumn, $desc));
+    }
+
+    /**
+     * Fetch available car models
+     * 
+     * @return array
+     */
+    public function fetchModels()
+    {
+        return ArrayUtils::valuefy($this->leaseMapper->fetchModels());
     }
 
     /**

@@ -25,6 +25,23 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
     }
 
     /**
+     * Fetch available car models
+     * 
+     * @return array
+     */
+    public function fetchModels()
+    {
+        $column = 'model';
+
+        $db = $this->db->select($column, true)
+                       ->from(self::getTableName())
+                       ->orderBy($this->getPk())
+                       ->desc();
+
+        return $db->queryAll($column);
+    }
+
+    /**
      * Filters the raw input
      * 
      * @param array|\ArrayAccess $input Raw input data
