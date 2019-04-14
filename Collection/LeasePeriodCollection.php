@@ -19,10 +19,10 @@ final class LeasePeriodCollection extends ArrayCollection
      * {@inheritDoc}
      */
     protected $collection = array(
-        12 => '1 Year (12 months)',
-        24 => '2 Years (24 months)',
-        36 => '3 Years (36 months)',
-        48 => '4 Years (48 months)',
-        60 => '5 Years (60 months)'
+        12 => '12 months',
+        24 => '24 months',
+        36 => '36 months',
+        48 => '48 months',
+        60 => '60 months'
     );
 }
