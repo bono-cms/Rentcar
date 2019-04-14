@@ -3,6 +3,7 @@
 use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
 use Rentcar\Collection\LeasePeriodCollection;
+use Rentcar\Collection\StatusCollection;
 use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
@@ -46,6 +47,11 @@ $stCol = new LeasePeriodCollection();
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($contracts, array(
                 'tableClass' => 'table table-hover table-bordered',
+                'rowAttributes' => array(
+                    'class' => function($row){
+                        return $row['status'] == StatusCollection::STATUS_FINISHED ? 'table-success' : 'table-warning';
+                    }
+                ),
                 'columns' => array(
                     array(
                         'column' => 'owner',
