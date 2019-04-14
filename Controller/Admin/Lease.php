@@ -123,6 +123,8 @@ final class Lease extends AbstractController
     public function deleteAction($id)
     {
         $this->getModuleService('leaseService')->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
         return 1;
     }
 
@@ -139,8 +141,10 @@ final class Lease extends AbstractController
         $leaseService->save($input);
 
         if ($input['id']) {
+            $this->flashBag->set('success', 'The element has been updated successfully');
             return 1;
         } else {
+            $this->flashBag->set('success', 'The element has been created successfully');
             return $leaseService->getLastId();
         }
     }
