@@ -50,5 +50,30 @@ return array(
 
     '/%s/module/rent-car/brands/delete/(:var)' => array(
         'controller' => 'Admin:Brand@deleteAction'
+    ),
+
+    // Lease
+    '/%s/module/rent-car/lease' => array(
+        'controller' => 'Admin:Lease@indexAction'
+    ),
+
+    '/%s/module/rent-car/lease/save' => array(
+        'controller' => 'Admin:Lease@saveAction'
+    ),
+
+    '/%s/module/rent-car/lease/add' => array(
+        'controller' => 'Admin:Lease@addAction'
+    ),
+
+    '/%s/module/rent-car/lease/edit/(:var)' => array(
+        'controller' => 'Admin:Lease@editAction'
+    ),
+
+    '/%s/module/rent-car/lease/delete/(:var)' => array(
+        'controller' => 'Admin:Lease@deleteAction'
+    ),
+
+    '/%s/module/rent-car/lease/view/(:var)' => array(
+        'controller' => 'Admin:Lease@viewAction'
     )
 );

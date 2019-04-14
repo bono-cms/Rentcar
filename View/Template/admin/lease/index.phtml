@@ -1,0 +1,122 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Rentcar\Collection\LeasePeriodCollection;
+use Rentcar\Collection\StatusCollection;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+$stCol = new LeasePeriodCollection();
+
+?>
+
+<form autocomplete="off">
+    <div class="row">
+        <div class="col-lg-1">
+            <div class="btn-toolbar">
+                <div class="dropdown">
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    <i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
+                  </button>
+
+                  <div class="dropdown-menu">
+                     <a class="dropdown-item" href="<?= $this->url('Rentcar:Admin:Lease@addAction'); ?>"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Add new contract'); ?></a>
+                     <div class="dropdown-divider"></div>
+                     <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
+                     <?php if (!empty($contracts)): ?>
+                     <a class="dropdown-item" href="#" data-button="remove-selected" data-url="<?= $this->url('Rentcar:Admin:Lease@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
+                     <?php else: ?>
+                     <a class="dropdown-item disabled"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes'); ?></a>
+                     <a class="dropdown-item disabled"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
+                     <?php endif; ?>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2">
+            <p><button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h4><i class="fab fa-accusoft"></i> <?php $this->show('Contracts'); ?> (<?= count($contracts); ?>)</h4>
+
+        <div class="table-responsive">
+            <?= $this->widget(new GridViewWidget($contracts, array(
+                'tableClass' => 'table table-hover table-bordered',
+                'rowAttributes' => array(
+                    'class' => function($row){
+                        return $row['status'] == StatusCollection::STATUS_FINISHED ? 'table-success' : 'table-warning';
+                    }
+                ),
+                'columns' => array(
+                    array(
+                        'column' => 'owner',
+                        'filter' => true
+                    ),
+
+                    array(
+                        'column' => 'model',
+                        'type' => 'select',
+                        'filter' => $models
+                    ),
+                    
+                    array(
+                        'column' => 'numberplate',
+                        'filter' => true
+                    ),
+                    
+                    array(
+                        'column' => 'contract_number',
+                        'filter' => true
+                    ),
+
+                    array(
+                        'column' => 'period',
+                        'translateable' => true,
+                        'filter' => $this->translateArray($stCol->getAll()),
+                        'type' => 'select',
+                        'value' => function($row) use ($stCol){
+                            return $stCol->findByKey($row['period']);
+                        }
+                    )
+                ),
+
+                'actions' => array(
+                    'view' => function($row){
+                        return Icon::details(
+                            $this->url('Rentcar:Admin:Lease@viewAction', $row['id']),
+                            $this->translate('View this contract')
+                        );
+                    },
+
+                    'edit' => function($row){
+                        return Icon::edit(
+                            $this->url('Rentcar:Admin:Lease@editAction', $row['id']),
+                            $this->translate('Edit this contract')
+                        );
+                    },
+
+                    'remove' => function($row){
+                        return Icon::remove(
+                            $this->url('Rentcar:Admin:Brand@deleteAction', $row['id']),
+                            $this->translate('Remove this contract')
+                        );
+                    }
+                )
+            ))); ?>
+
+            <?php if (empty($contracts)): ?>
+            <div class="center-block">
+                <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No contracts'); ?></h2>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <?php $this->loadPartial('paginator'); ?>
+    </div>
+</form>
+
