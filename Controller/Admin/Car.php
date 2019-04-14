@@ -27,7 +27,7 @@ final class Car extends AbstractController
         $this->view->getBreadcrumbBag()
                    ->addOne('Cars');
 
-        return $this->view->render('index', array(
+        return $this->view->render('car/index', array(
             'cars' => $this->getModuleService('carService')->fetchAll()
         ));
     }
@@ -48,7 +48,7 @@ final class Car extends AbstractController
                    ->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                    ->addOne(is_array($car) ? 'Edit the car' : 'Add new car');
 
-        return $this->view->render('form', array(
+        return $this->view->render('car/form', array(
             'car' => $car,
             'brands' => $this->getModuleService('brandService')->fetchList()
         ));
