@@ -83,6 +83,13 @@ defined('KRYSTAL') or die;
                 ),
 
                 'actions' => array(
+                    'view' => function($row){
+                        return Icon::details(
+                            $this->url('Rentcar:Admin:Lease@viewAction', $row['id']),
+                            $this->translate('View this contract')
+                        );
+                    },
+
                     'edit' => function($row){
                         return Icon::edit(
                             $this->url('Rentcar:Admin:Lease@editAction', $row['id']),
