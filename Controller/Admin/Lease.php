@@ -35,6 +35,7 @@ final class Lease extends AbstractController
 
         return $this->view->render('lease/index', array(
             'contracts' => $contracts,
+            'models' => $leaseService->fetchModels(),
             'paginator' => $leaseService->getPaginator()
         ));
     }
