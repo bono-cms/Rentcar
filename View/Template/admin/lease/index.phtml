@@ -2,9 +2,12 @@
 
 use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
+use Rentcar\Collection\LeasePeriodCollection;
 use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
+
+$stCol = new LeasePeriodCollection();
 
 ?>
 
@@ -45,11 +48,6 @@ defined('KRYSTAL') or die;
                 'tableClass' => 'table table-hover table-bordered',
                 'columns' => array(
                     array(
-                        'column' => 'id',
-                        'label' => '#'
-                    ),
-
-                    array(
                         'column' => 'owner',
                         'filter' => true
                     ),
@@ -70,16 +68,14 @@ defined('KRYSTAL') or die;
                     ),
 
                     array(
-                        'column' => 'apply_date',
-                        'filter' => true
-                    ),
-                    
-                    array(
-                        'column' => 'run_date',
-                        'filter' => true
-                    ),
-                    
-                    //
+                        'column' => 'period',
+                        'translateable' => true,
+                        'filter' => $this->translateArray($stCol->getAll()),
+                        'type' => 'select',
+                        'value' => function($row) use ($stCol){
+                            return $stCol->findByKey($row['period']);
+                        }
+                    )
                 ),
 
                 'actions' => array(

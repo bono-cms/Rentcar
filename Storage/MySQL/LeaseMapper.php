@@ -55,8 +55,7 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
                        ->andWhereLike(self::column('model'), '%'.$input['model'].'%', true)
                        ->andWhereLike(self::column('numberplate'), '%'.$input['numberplate'].'%', true)
                        ->andWhereLike(self::column('contract_number'), '%'.$input['contract_number'].'%', true)
-                       ->andWhereEquals(self::column('apply_date'), $input['apply_date'], true)
-                       ->andWhereEquals(self::column('run_date'), $input['run_date'], true)
+                       ->andWhereEquals(self::column('period'), $input['period'], true)
                        ->orderBy($sortingColumn);
 
         if ($desc) {
