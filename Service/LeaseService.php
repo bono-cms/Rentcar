@@ -138,6 +138,17 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
     }
 
     /**
+     * Delete many items at once
+     * 
+     * @param array $ids
+     * @return boolean
+     */
+    public function deleteByIds(array $ids)
+    {
+        return $this->leaseMapper->deleteByPks($ids);
+    }
+
+    /**
      * Saves lease item
      * 
      * @param array $input
