@@ -47,6 +47,8 @@ $stCol = new LeasePeriodCollection();
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($contracts, array(
                 'tableClass' => 'table table-hover table-bordered',
+                'batch' => true,
+                'pk' => 'id',
                 'rowAttributes' => array(
                     'class' => function($row){
                         return $row['status'] == StatusCollection::STATUS_FINISHED ? 'table-success' : 'table-warning';

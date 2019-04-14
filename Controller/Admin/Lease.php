@@ -122,9 +122,26 @@ final class Lease extends AbstractController
      */
     public function deleteAction($id)
     {
-        $this->getModuleService('leaseService')->deleteById($id);
+        // Grab lease service
+        $leaseService = $this->getModuleService('leaseService');
 
-        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        // Batch removal
+        if ($this->request->hasPost('batch')) {
+            $ids = array_keys($this->request->getPost('batch'));
+
+            $leaseService->deleteByIds($ids);
+            $this->flashBag->set('success', 'Selected elements have been removed successfully');
+
+        } else {
+            $this->flashBag->set('warning', 'You should select at least one element to remove');
+        }
+
+        // Single removal
+        if (!empty($id)){
+            $leaseService->deleteById($id);
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+        }
+
         return 1;
     }
 
