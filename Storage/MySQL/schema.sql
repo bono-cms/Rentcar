@@ -35,6 +35,7 @@ DROP TABLE IF EXISTS `bono_module_rentcar_cars_translations`;
 CREATE TABLE `bono_module_rentcar_cars_translations` (
     `id` INT NOT NULL,
     `lang_id` INT NOT NULL COMMENT 'Language identificator',
+    `web_page_id` INT NOT NULL COMMENT 'Web page identificator',
     `name` varchar(255) NOT NULL,
     `description` TEXT NOT NULL,
     `interior` TEXT NOT NULL,
