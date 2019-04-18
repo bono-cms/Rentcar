@@ -13,6 +13,7 @@ namespace Rentcar\Service;
 
 use Rentcar\Storage\CarMapperInterface;
 use Cms\Service\AbstractManager;
+use Cms\Service\WebPageManagerInterface;
 use Krystal\Stdlib\VirtualEntity;
 
 final class CarService extends AbstractManager
@@ -25,14 +26,34 @@ final class CarService extends AbstractManager
     private $carMapper;
 
     /**
+     * Web page manager is responsible for managing slugs
+     * 
+     * @var \Cms\Service\WebPageManagerInterface
+     */
+    private $webPageManager;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Storage\CarMapperInterface $carMapper
+     * @param \Cms\Service\WebPageManagerInterface $webPageManager
      * @return void
      */
-    public function __construct(CarMapperInterface $carMapper)
+    public function __construct(CarMapperInterface $carMapper, WebPageManagerInterface $webPageManager)
     {
         $this->carMapper = $carMapper;
+        $this->webPageManager = $webPageManager;
+    }
+
+    /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Car ID
+     * @return array
+     */
+    public function getSwitchUrls($id)
+    {
+        return $this->carMapper->createSwitchUrls($id, 'Rentcar', 'Rentcar:Car@carAction');
     }
 
     /**
@@ -50,7 +71,12 @@ final class CarService extends AbstractManager
                ->setName($row['name'])
                ->setDescription($row['description'])
                ->setInterior($row['interior'])
-               ->setExterior($row['exterior']);
+               ->setExterior($row['exterior'])
+               ->setSlug($row['slug'])
+               ->setTitle($row['title'])
+               ->setKeywords($row['keywords'])
+               ->setMetaDescription($row['meta_description'])
+               ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
 
         return $entity;
     }
@@ -84,7 +110,7 @@ final class CarService extends AbstractManager
      */
     public function save(array $input)
     {
-        return $this->carMapper->saveEntity($input['car'], $input['translation']);
+        return $this->carMapper->savePage('Rentcar', 'Rentcar:Car@carAction', $input['car'], $input['translation']);
     }
 
     /**

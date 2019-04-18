@@ -24,7 +24,7 @@ final class Module extends AbstractCmsModule
     public function getServiceProviders()
     {
         return array(
-            'carService' => new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper')),
+            'carService' => new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper'), $this->getWebPageManager()),
             'brandService' => new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper')),
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper'))
         );
