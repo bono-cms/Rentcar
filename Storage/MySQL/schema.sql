@@ -41,5 +41,10 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
     `interior` TEXT NOT NULL,
     `exterior` TEXT NOT NULL,
 
+    /* SEO - related attributes */
+    `title` varchar(255) NOT NULL,
+    `keywords` TEXT NOT NULL,
+    `meta_description` TEXT NOT NULL,
+
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
 );

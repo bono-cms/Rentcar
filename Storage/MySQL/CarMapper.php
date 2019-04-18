@@ -12,6 +12,7 @@
 namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Cms\Storage\MySQL\WebPageMapper;
 use Rentcar\Storage\CarMapperInterface;
 
 final class CarMapper extends AbstractMapper implements CarMapperInterface
@@ -48,7 +49,11 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             CarTranslationMapper::column('name'),
             CarTranslationMapper::column('interior'),
             CarTranslationMapper::column('exterior'),
-            CarTranslationMapper::column('description')
+            CarTranslationMapper::column('description'),
+            CarTranslationMapper::column('title'),
+            CarTranslationMapper::column('keywords'),
+            CarTranslationMapper::column('meta_description'),
+            WebPageMapper::column('slug')
         );
     }
 
@@ -62,7 +67,7 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
         $columns = $this->getColumns();
         $columns[BrandMapper::column('name')] = 'brand';
 
-        $db = $this->createEntitySelect($columns)
+        $db = $this->createWebPageSelect($columns)
                    // Brand relation
                    ->leftJoin(BrandMapper::getTableName(), array(
                         BrandMapper::column('id') => self::column('brand_id')
@@ -82,6 +87,6 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->findEntity($this->getColumns(), $id, $withTranslations);
+        return $this->findWebPage($this->getColumns(), $id, $withTranslations);
     }
 }
