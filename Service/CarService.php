@@ -66,6 +66,7 @@ final class CarService extends AbstractManager
                ->setLangId($row['lang_id'])
                ->setWebPageId($row['web_page_id'])
                ->setBrandId($row['brand_id'])
+               ->setPrice($row['price'])
                ->setBrand(isset($row['brand']) ? $row['brand'] : null)
                ->setOrder($row['order'])
                ->setName($row['name'])
