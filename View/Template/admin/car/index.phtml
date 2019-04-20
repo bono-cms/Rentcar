@@ -50,6 +50,13 @@ defined('KRYSTAL') or die;
                     ),
 
                     array(
+                        'column' => 'image',
+                        'value' => function($row){
+                            return Element::image($row->getImageUrl('350x350'), array('class' => 'img-fluid col-5'));
+                        }
+                    ),
+
+                    array(
                         'column' => 'name'
                     ),
 

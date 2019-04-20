@@ -14,7 +14,7 @@ namespace Rentcar\Service;
 use Rentcar\Storage\CarMapperInterface;
 use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
-use Krystal\Stdlib\VirtualEntity;
+use Krystal\Image\Tool\ImageManagerInterface;
 
 final class CarService extends AbstractManager
 {
@@ -33,16 +33,25 @@ final class CarService extends AbstractManager
     private $webPageManager;
 
     /**
+     * Car image service
+     * 
+     * @var \Krystal\Image\Tool\ImageManagerInterface
+     */
+    private $imageService;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Storage\CarMapperInterface $carMapper
      * @param \Cms\Service\WebPageManagerInterface $webPageManager
+     * @param \Krystal\Image\Tool\ImageManagerInterface $carService
      * @return void
      */
-    public function __construct(CarMapperInterface $carMapper, WebPageManagerInterface $webPageManager)
+    public function __construct(CarMapperInterface $carMapper, WebPageManagerInterface $webPageManager, ImageManagerInterface $imageService)
     {
         $this->carMapper = $carMapper;
         $this->webPageManager = $webPageManager;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -61,7 +70,7 @@ final class CarService extends AbstractManager
      */
     protected function toEntity(array $row)
     {
-        $entity = new VirtualEntity();
+        $entity = new CarEntity();
         $entity->setId($row['id'])
                ->setLangId($row['lang_id'])
                ->setWebPageId($row['web_page_id'])
@@ -79,6 +88,12 @@ final class CarService extends AbstractManager
                ->setKeywords($row['keywords'])
                ->setMetaDescription($row['meta_description'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+
+        $imageBag = clone $this->imageService->getImageBag();
+        $imageBag->setId($row['id'])
+                 ->setCover($row['image']);
+
+        $entity->setImageBag($imageBag);
 
         return $entity;
     }
@@ -101,7 +116,8 @@ final class CarService extends AbstractManager
      */
     public function deleteById($id)
     {
-        return $this->carMapper->deleteByPk($id);
+        // Delete row and its image (if present)
+        return $this->carMapper->deleteByPk($id) && $this->imageService->delete($id);
     }
 
     /**
@@ -112,7 +128,23 @@ final class CarService extends AbstractManager
      */
     public function save(array $input)
     {
-        return $this->carMapper->savePage('Rentcar', 'Rentcar:Car@carAction', $input['car'], $input['translation']);
+        // References
+        $file =& $input['files']['file'];
+        $data =& $input['data'];
+
+        // If image file is selected
+        if (!empty($file)) {
+            // And finally append
+            $data['car']['image'] = $file->getUniqueName();
+
+            // Grab ID depending on newness
+            $id = !empty($data['car']['id']) ? $data['car']['id'] : $this->getLastId();
+
+            // Now upload a new one
+            $this->imageService->upload($id, $file);
+        }
+
+        return $this->carMapper->savePage('Rentcar', 'Rentcar:Car@carAction', $data['car'], $data['translation']);
     }
 
     /**

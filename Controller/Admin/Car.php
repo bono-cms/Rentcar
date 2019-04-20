@@ -88,12 +88,12 @@ final class Car extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost();
+        $input = $this->request->getAll();
 
         $carService = $this->getModuleService('carService');
         $carService->save($input);
 
-        if ($input['car']['id']) {
+        if ($input['data']['car']['id']) {
             return 1;
         } else {
             return $carService->getLastId();
