@@ -29,7 +29,8 @@ CREATE TABLE bono_module_rentcar_cars (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `brand_id` INT DEFAULT NULL,
     `price` FLOAT NOT NULL COMMENT 'Car price',
-    `order` INT NOT NULL COMMENT 'Sorting order'
+    `order` INT NOT NULL COMMENT 'Sorting order',
+    `image` varchar(255) NOT NULL COMMENT 'Car cover image'
 );
 
 DROP TABLE IF EXISTS `bono_module_rentcar_cars_translations`;
