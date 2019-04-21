@@ -136,7 +136,7 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
      */
     public function fetchById($id)
     {
-        // Columbs to be selected
+        // Columns to be selected
         $columns = array(
             '*',
             // Override date columns with different format
