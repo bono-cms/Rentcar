@@ -54,6 +54,13 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             CarTranslationMapper::column('features'),
             CarTranslationMapper::column('options'),
             CarTranslationMapper::column('description'),
+            /* Common front attributes */
+            CarTranslationMapper::column('capacity'),
+            CarTranslationMapper::column('transmission'),
+            CarTranslationMapper::column('safety'),
+            CarTranslationMapper::column('fuel'),
+            CarTranslationMapper::column('airbags'),
+            /* SEO-related attributes */
             CarTranslationMapper::column('title'),
             CarTranslationMapper::column('keywords'),
             CarTranslationMapper::column('meta_description'),

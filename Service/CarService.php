@@ -85,6 +85,12 @@ final class CarService extends AbstractManager
                ->setExterior($row['exterior'])
                ->setFeatures($row['features'])
                ->setOptions($row['options'])
+               /* Common front attributes */
+               ->setCapacity($row['capacity'])
+               ->setTransmission($row['transmission'])
+               ->setSafety($row['safety'])
+               ->setFuel($row['fuel'])
+               ->setAirbags($row['airbags'])
                ->setSlug($row['slug'])
                ->setTitle($row['title'])
                ->setKeywords($row['keywords'])
