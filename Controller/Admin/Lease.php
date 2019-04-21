@@ -72,6 +72,9 @@ final class Lease extends AbstractController
      */
     private function createForm(VirtualEntity $lease)
     {
+        // Load datepicker plugin
+        $this->view->getPluginBag()->load('datepicker');
+
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Lease', 'Rentcar:Admin:Lease@indexAction')
