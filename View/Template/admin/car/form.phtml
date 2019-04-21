@@ -39,6 +39,41 @@ defined('KRYSTAL') or die;
                     </div>
 
                     <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Capacity'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][capacity]', $language->getId()), $entity->getCapacity(), array('class' => 'form-control')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Transmission'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][transmission]', $language->getId()), $entity->getTransmission(), array('class' => 'form-control')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Safety'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][safety]', $language->getId()), $entity->getSafety(), array('class' => 'form-control')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Fuel'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][fuel]', $language->getId()), $entity->getFuel(), array('class' => 'form-control')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label"><?php $this->show('Airbags'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][airbags]', $language->getId()), $entity->getAirbags(), array('class' => 'form-control')); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
                         <div class="col-lg-10">
                             <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('data-wysiwyg' => 'true')); ?>
