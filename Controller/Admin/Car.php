@@ -94,8 +94,10 @@ final class Car extends AbstractController
         $carService->save($input);
 
         if ($input['data']['car']['id']) {
+            $this->flashBag->set('success', 'The element has been updated successfully');
             return 1;
         } else {
+            $this->flashBag->set('success', 'The element has been created successfully');
             return $carService->getLastId();
         }
     }
@@ -110,6 +112,7 @@ final class Car extends AbstractController
     {
         $this->getModuleService('carService')->deleteById($id);
 
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
         return 1;
     }
 }
