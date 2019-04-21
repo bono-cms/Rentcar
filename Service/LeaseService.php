@@ -78,7 +78,7 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
      */
     public function fetchById($id)
     {
-        return $this->prepareResult($this->leaseMapper->findByPk($id));
+        return $this->prepareResult($this->leaseMapper->fetchById($id));
     }
 
     /**
@@ -156,6 +156,6 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
      */
     public function save(array $input)
     {
-        return $this->leaseMapper->persist($input);
+        return $this->leaseMapper->save($input);
     }
 }

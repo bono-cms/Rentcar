@@ -13,15 +13,60 @@ namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
 use Rentcar\Storage\LeaseMapperInterface;
+use Krystal\Db\Sql\RawSqlFragment;
 
 final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
 {
+    /**
+     * Shared date format
+     * 
+     * @var string
+     */
+    private $dateFormat = '%d.%m.%Y';
+
     /**
      * {@inheritDoc}
      */
     public static function getTableName()
     {
         return self::getWithPrefix('bono_module_rentcar_lease');
+    }
+
+    /**
+     * Builds date format function to be used when selecting date column
+     * 
+     * @param string $column
+     * @return string
+     */
+    private function formatDate($column)
+    {
+        return "DATE_FORMAT({$column}, '{$this->dateFormat}') AS {$column}";
+    }
+
+    /**
+     * Formats string as a date
+     * 
+     * @param string $target Input date
+     * @return \Krystal\Db\Sql\RawSqlFragment
+     */
+    private function strToDate($target)
+    {
+        return new RawSqlFragment("STR_TO_DATE('{$target}', '{$this->dateFormat}')");
+    }
+
+    /**
+     * Saves lease item
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        // Override date columns with different format
+        $input['apply_date'] = $this->strToDate($input['apply_date']);
+        $input['run_date'] = $this->strToDate($input['run_date']);
+
+        return $this->persist($input);
     }
 
     /**
@@ -81,6 +126,25 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
 
         return $db->paginate($page, $itemsPerPage)
                   ->queryAll();
+    }
+
+    /**
+     * Fetch lease data by its id
+     * 
+     * @param int $id Lease id
+     * @return array
+     */
+    public function fetchById($id)
+    {
+        // Columbs to be selected
+        $columns = array(
+            '*',
+            // Override date columns with different format
+            $this->formatDate('apply_date'),
+            $this->formatDate('run_date')
+        );
+
+        return $this->fetchByColumn($this->getPk(), $id, join(', ', $columns));
     }
 
     /**
