@@ -66,6 +66,10 @@ defined('KRYSTAL') or die;
                 ),
 
                 'actions' => array(
+                    'view' => function($row){
+                        return Icon::view($row['url'], $this->translate('View this car on site'));
+                    },
+
                     'edit' => function($row){
                         return Icon::edit(
                             $this->url('Rentcar:Admin:Car@editAction', $row['id']),
