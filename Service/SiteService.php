@@ -30,4 +30,14 @@ final class SiteService
     {
         $this->carService = $carService;
     }
+
+    /**
+     * Return all cars
+     * 
+     * @return array
+     */
+    public function getCars()
+    {
+        return $this->carService->fetchAll();
+    }
 }
