@@ -42,6 +42,8 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
     `description` TEXT NOT NULL,
     `interior` TEXT NOT NULL,
     `exterior` TEXT NOT NULL,
+    `features` TEXT NOT NULL,
+    `options` TEXT NOT NULL,
 
     /* SEO - related attributes */
     `title` varchar(255) NOT NULL,

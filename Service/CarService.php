@@ -83,6 +83,8 @@ final class CarService extends AbstractManager
                ->setDescription($row['description'])
                ->setInterior($row['interior'])
                ->setExterior($row['exterior'])
+               ->setFeatures($row['features'])
+               ->setOptions($row['options'])
                ->setSlug($row['slug'])
                ->setTitle($row['title'])
                ->setKeywords($row['keywords'])
