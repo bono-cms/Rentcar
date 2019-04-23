@@ -155,15 +155,19 @@ final class CarService extends AbstractManager
         if (!empty($file)) {
             // And finally append
             $data['car']['image'] = $file->getUniqueName();
+        }
 
+        // Persist a car
+        $this->carMapper->savePage('Rentcar', 'Rentcar:Car@carAction', $data['car'], $data['translation']);
+
+        if (!empty($file)) {
             // Grab ID depending on newness
             $id = !empty($data['car']['id']) ? $data['car']['id'] : $this->getLastId();
-
             // Now upload a new one
             $this->imageService->upload($id, $file);
         }
 
-        return $this->carMapper->savePage('Rentcar', 'Rentcar:Car@carAction', $data['car'], $data['translation']);
+        return true;
     }
 
     /**
