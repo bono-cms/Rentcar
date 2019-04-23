@@ -110,9 +110,25 @@ final class Car extends AbstractController
      */
     public function deleteAction($id)
     {
-        $this->getModuleService('carService')->deleteById($id);
+        $service = $this->getModuleService('carService');
 
-        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        // Batch removal
+        if ($this->request->hasPost('batch')) {
+            $ids = array_keys($this->request->getPost('batch'));
+
+            $service->deleteByIds($ids);
+            $this->flashBag->set('success', 'Selected elements have been removed successfully');
+
+        } else {
+            $this->flashBag->set('warning', 'You should select at least one element to remove');
+        }
+
+        // Single removal
+        if (!empty($id)) {
+            $service->deleteById($id);
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+        }
+
         return 1;
     }
 }

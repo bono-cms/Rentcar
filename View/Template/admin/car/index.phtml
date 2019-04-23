@@ -39,6 +39,8 @@ defined('KRYSTAL') or die;
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($cars, array(
                 'tableClass' => 'table table-bordered table-sm',
+                'pk' => 'id',
+                'batch' => true,
                 'columns' => array(
                     array(
                         'column' => 'id',

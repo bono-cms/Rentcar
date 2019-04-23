@@ -129,6 +129,17 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Delete many cars by their ids
+     * 
+     * @param array $ids
+     * @return boolean
+     */
+    public function deleteByIds(array $ids)
+    {
+        return $this->carMapper->deleteByPks($ids) && $this->imageService->deleteMany($ids);
+    }
+
+    /**
      * Saves a car
      * 
      * @param array $input
