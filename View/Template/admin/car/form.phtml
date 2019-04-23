@@ -21,7 +21,7 @@ defined('KRYSTAL') or die;
                 <?php foreach ($languages as $index => $language): ?>
                 <?php $entity = LanguageManager::findByLangId($language->getId(), $car); ?>
 
-                <div class="tab-pane fade in <?= $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
                     <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
                     <?= Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
                     <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
