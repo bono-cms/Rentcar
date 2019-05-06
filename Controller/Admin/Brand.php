@@ -86,6 +86,8 @@ final class Brand extends AbstractController
     public function deleteAction($id)
     {
         $this->getModuleService('brandService')->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
         return 1;
     }
 
@@ -103,8 +105,12 @@ final class Brand extends AbstractController
         $brandService->save($input);
 
         if ($input['data']['brand']['id']) {
+
+            $this->flashBag->set('success', 'The element has been updated successfully');
             return 1;
         } else {
+
+            $this->flashBag->set('success', 'The element has been created successfully');
             return $brandService->getLastId();
         }
     }
