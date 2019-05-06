@@ -21,14 +21,33 @@ final class SiteService
     private $carService;
 
     /**
+     * Brand service instance
+     * 
+     * @var \Rentcar\Service\BrandService
+     */
+    private $brandService;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Service\CarService $carService
+     * @param \Rentcar\Service\BrandService $brandService
      * @return void
      */
-    public function __construct(CarService $carService)
+    public function __construct(CarService $carService, BrandService $brandService)
     {
         $this->carService = $carService;
+        $this->brandService = $brandService;
+    }
+
+    /**
+     * Return all brands
+     * 
+     * @return array
+     */
+    public function getBrands()
+    {
+        return $this->brandService->fetchAll();
     }
 
     /**

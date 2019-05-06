@@ -77,11 +77,12 @@ final class Module extends AbstractCmsModule
         $imageService = $this->createImageService();
 
         $carService = new CarService($this->getMapper('\Rentcar\Storage\MySQL\CarMapper'), $this->getWebPageManager(), $imageService);
+        $brandService = new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper'), $this->createBrandIcon());
 
         return array(
             'carService' => $carService,
-            'siteService' => new SiteService($carService),
-            'brandService' => new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper'), $this->createBrandIcon()),
+            'siteService' => new SiteService($carService, $brandService),
+            'brandService' => $brandService,
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper'))
         );
     }
