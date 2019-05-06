@@ -71,6 +71,17 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
     }
 
     /**
+     * Find lease row by its attributes
+     * 
+     * @param array $attributes
+     * @return array
+     */
+    public function findByAttributes($attributes)
+    {
+        return $this->prepareResult($this->leaseMapper->findByAttributes($attributes));
+    }
+
+    /**
      * Fetch leasing contract by its id
      * 
      * @param array $id Lease id

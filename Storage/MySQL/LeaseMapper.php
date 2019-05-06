@@ -129,12 +129,12 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
     }
 
     /**
-     * Fetch lease data by its id
+     * Find lease row by its attributes
      * 
-     * @param int $id Lease id
+     * @param array $attributes
      * @return array
      */
-    public function fetchById($id)
+    public function findByAttributes($attributes)
     {
         // Columns to be selected
         $columns = array(
@@ -144,7 +144,26 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
             $this->formatDate('run_date')
         );
 
-        return $this->fetchByColumn($this->getPk(), $id, join(', ', $columns));
+        $db = $this->db->select(join(', ', $columns))
+                       ->from(self::getTableName())
+                       ->whereEquals(1, 1);
+
+        foreach ($attributes as $column => $value) {
+            $db->andWhereEquals($column, $value);
+        }
+
+        return $db->query();
+    }
+
+    /**
+     * Fetch lease data by its id
+     * 
+     * @param int $id Lease id
+     * @return array
+     */
+    public function fetchById($id)
+    {
+        return $this->findByAttributes(array($this->getPk() => $id));
     }
 
     /**
