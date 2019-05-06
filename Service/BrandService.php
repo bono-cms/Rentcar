@@ -135,16 +135,17 @@ final class BrandService extends AbstractManager
      */
     public function fetchList()
     {
-        return ArrayUtils::arrayList($this->brandMapper->fetchAll(), 'id', 'name');
+        return ArrayUtils::arrayList($this->brandMapper->fetchAll(false), 'id', 'name');
     }
 
     /**
      * Fetch all brands
      * 
+     * @param boolean $sort Whether to sort brands by their sorting order
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($sort = false)
     {
-        return $this->prepareResults($this->brandMapper->fetchAll());
+        return $this->prepareResults($this->brandMapper->fetchAll($sort));
     }
 }

@@ -27,14 +27,20 @@ final class BrandMapper extends AbstractMapper implements BrandMapperInterface
     /**
      * Fetch all brands
      * 
+     * @param boolean $sort Whether to sort brands by their sorting order
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($sort)
     {
         $db = $this->db->select('*')
-                       ->from(self::getTableName())
-                       ->orderBy($this->getPk())
-                       ->desc();
+                       ->from(self::getTableName());
+
+        if ($sort === true) {
+            $db->orderBy('order');
+        } else {
+            $db->orderBy($this->getPk())
+               ->desc();
+        }
 
         return $db->queryAll();
     }

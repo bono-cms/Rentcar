@@ -16,7 +16,8 @@ interface BrandMapperInterface
     /**
      * Fetch all brands
      * 
+     * @param boolean $sort Whether to sort brands by their sorting order
      * @return array
      */
-    public function fetchAll();
+    public function fetchAll($sort);
 }

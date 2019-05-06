@@ -47,7 +47,7 @@ final class SiteService
      */
     public function getBrands()
     {
-        return $this->brandService->fetchAll();
+        return $this->brandService->fetchAll(true);
     }
 
     /**
