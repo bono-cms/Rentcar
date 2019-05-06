@@ -97,12 +97,12 @@ final class Brand extends AbstractController
     public function saveAction()
     {
         // Get raw POST data
-        $input = $this->request->getPost('brand');
+        $input = $this->request->getAll();
 
         $brandService = $this->getModuleService('brandService');
         $brandService->save($input);
 
-        if ($input['id']) {
+        if ($input['data']['brand']['id']) {
             return 1;
         } else {
             return $brandService->getLastId();

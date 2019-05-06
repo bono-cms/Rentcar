@@ -49,6 +49,27 @@ final class Module extends AbstractCmsModule
     }
 
     /**
+     * Returns brand icon service
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
+    private function createBrandIcon()
+    {
+        $plugins = array(
+            'original' => array(
+                'prefix' => 'original'
+            )
+        );
+
+        return new ImageManager(
+            '/data/uploads/module/rent-car/brands',
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
+
+    /**
      * {@inhertiDoc}
      */
     public function getServiceProviders()
@@ -60,7 +81,7 @@ final class Module extends AbstractCmsModule
         return array(
             'carService' => $carService,
             'siteService' => new SiteService($carService),
-            'brandService' => new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper')),
+            'brandService' => new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper'), $this->createBrandIcon()),
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper'))
         );
     }

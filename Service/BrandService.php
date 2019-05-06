@@ -13,8 +13,8 @@ namespace Rentcar\Service;
 
 use Rentcar\Storage\BrandMapperInterface;
 use Cms\Service\AbstractManager;
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
+use Krystal\Image\Tool\ImageManagerInterface;
 
 final class BrandService extends AbstractManager
 {
@@ -26,14 +26,23 @@ final class BrandService extends AbstractManager
     private $brandMapper;
 
     /**
+     * Car image service
+     * 
+     * @var \Krystal\Image\Tool\ImageManagerInterface
+     */
+    private $imageService;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Storage\BrandMapperInterface $brandMapper
+     * @param \Krystal\Image\Tool\ImageManagerInterface $imageService
      * @return void
      */
-    public function __construct(BrandMapperInterface $brandMapper)
+    public function __construct(BrandMapperInterface $brandMapper, ImageManagerInterface $imageService)
     {
         $this->brandMapper = $brandMapper;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -41,11 +50,17 @@ final class BrandService extends AbstractManager
      */
     protected function toEntity(array $row)
     {
-        $entity = new VirtualEntity();
+        $imageBag = clone $this->imageService->getImageBag();
+        $imageBag->setId($row['id'])
+                 ->setCover($row['icon']);
+
+        $entity = new BrandEntity();
         $entity->setId($row['id'])
                ->setName($row['name'])
                ->setOrder($row['order'])
                ->setIcon($row['icon']);
+
+        $entity->setImageBag($imageBag);
 
         return $entity;
     }
@@ -68,7 +83,27 @@ final class BrandService extends AbstractManager
      */
     public function save(array $input)
     {
-        return $this->brandMapper->persist($input);
+        // References
+        $file =& $input['files']['file'];
+        $brand =& $input['data']['brand'];
+
+        // If image file is selected
+        if (!empty($file)) {
+            // And finally append
+            $brand['icon'] = $file->getUniqueName();
+        }
+
+        $this->brandMapper->persist($brand);
+
+        if (!empty($file)) {
+            // Grab ID depending on newness
+            $id = !empty($brand['id']) ? $brand['id'] : $this->getLastId();
+
+            // Now upload a new one
+            $this->imageService->upload($id, $file);
+        }
+
+        return true;
     }
 
     /**
@@ -79,7 +114,7 @@ final class BrandService extends AbstractManager
      */
     public function deleteById($id)
     {
-        return $this->brandMapper->deleteByPk($id);
+        return $this->brandMapper->deleteByPk($id) && $this->imageService->delete($id);
     }
 
     /**
