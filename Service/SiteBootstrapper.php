@@ -21,6 +21,6 @@ final class SiteBootstrapper extends AbstractSiteBootstrapper
     public function bootstrap()
     {
         $siteService = $this->moduleManager->getModule('Rentcar')->getService('siteService');
-        $this->view->addVariable('car', $siteService);
+        $this->view->addVariable('carService', $siteService);
     }
 }
