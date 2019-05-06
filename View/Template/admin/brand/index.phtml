@@ -42,6 +42,13 @@ defined('KRYSTAL') or die;
                     ),
 
                     array(
+                        'column' => 'icon',
+                        'value' => function($row){
+                            return Element::image($row->getImageUrl(), array('class' => 'img-fluid'));
+                        }
+                    ),
+
+                    array(
                         'column' => 'name'
                     ),
 
