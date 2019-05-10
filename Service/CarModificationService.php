@@ -47,6 +47,10 @@ final class CarModificationService extends AbstractManager
                ->setName($row['name'])
                ->setPrice($row['price']);
 
+        if (isset($row['car'])) {
+            $entity->setCar($row['car']);
+        }
+
         return $entity;
     }
 
