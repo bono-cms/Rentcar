@@ -43,6 +43,7 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
             self::column('id'),
             self::column('car_id'),
             self::column('price'),
+            CarModificationTranslationMapper::column('lang_id'),
             CarModificationTranslationMapper::column('name')
         );
     }
