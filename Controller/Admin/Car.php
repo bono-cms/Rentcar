@@ -50,7 +50,8 @@ final class Car extends AbstractController
 
         return $this->view->render('car/form', array(
             'car' => $car,
-            'brands' => $this->getModuleService('brandService')->fetchList()
+            'brands' => $this->getModuleService('brandService')->fetchList(),
+            'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : array()
         ));
     }
 
