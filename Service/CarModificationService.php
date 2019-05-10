@@ -92,9 +92,9 @@ final class CarModificationService extends AbstractManager
     public function fetchById($id, $withTranslations)
     {
         if ($withTranslations) {
-            return $this->prepareResults($this->fetchById($id, true));
+            return $this->prepareResults($this->carModificationMapper->fetchById($id, true));
         } else {
-            return $this->prepareResult($this->fetchById($id, false));
+            return $this->prepareResult($this->carModificationMapper->fetchById($id, false));
         }
     }
 
