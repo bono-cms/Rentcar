@@ -59,3 +59,22 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
 );
+
+/* Car modifications */
+DROP TABLE IF EXISTS bono_module_rentcar_cars_modifications;
+CREATE TABLE bono_module_rentcar_cars_modifications (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `car_id` INT NOT NULL COMMENT 'Related car ID',
+    `price` FLOAT NOT NULL COMMENT 'Car price',
+
+    FOREIGN KEY (car_id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
+);
+
+/* Car modifications translations */
+DROP TABLE IF EXISTS bono_module_rentcar_cars_modifications_translations;
+CREATE TABLE bono_module_rentcar_cars_modifications_translations (
+    `id` INT NOT NULL COMMENT 'Modification ID',
+    `name` varchar(255) NOT NULL COMMENT 'Modification name',
+
+    FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars_modifications(id) ON DELETE CASCADE
+);
