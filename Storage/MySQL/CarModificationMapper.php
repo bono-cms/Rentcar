@@ -48,6 +48,18 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
     }
 
     /**
+     * Fetch car modification by its id
+     * 
+     * @param int $id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
+    }
+
+    /**
      * Fetch all modifications by associated car id
      * 
      * @param int $carId
