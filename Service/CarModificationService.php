@@ -49,4 +49,63 @@ final class CarModificationService extends AbstractManager
 
         return $entity;
     }
+
+    /**
+     * Returns max id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->carModificationMapper->getMaxId();
+    }
+
+    /**
+     * Deletes a modification by its id
+     * 
+     * @param mixed $id Modification id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->carModificationMapper->deleteByPk($id);
+    }
+
+    /**
+     * Saves car modification
+     * 
+     * @param array $input Raw input data
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->carModificationMapper->saveEntity($input['modification'], $input['translation']);
+    }
+
+    /**
+     * Fetch car modification by its id
+     * 
+     * @param int $id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return array
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        if ($withTranslations) {
+            return $this->prepareResults($this->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->fetchById($id, false));
+        }
+    }
+
+    /**
+     * Fetch all modifications by associated car id
+     * 
+     * @param int $carId
+     * @return array
+     */
+    public function fetchAll($carId)
+    {
+        return $this->prepareResults($this->carModificationMapper->fetchAll($carId));
+    }
 }
