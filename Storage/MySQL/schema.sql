@@ -74,6 +74,7 @@ CREATE TABLE bono_module_rentcar_cars_modifications (
 DROP TABLE IF EXISTS bono_module_rentcar_cars_modifications_translations;
 CREATE TABLE bono_module_rentcar_cars_modifications_translations (
     `id` INT NOT NULL COMMENT 'Modification ID',
+    `lang_id` INT NOT NULL COMMENT 'Language identificator',
     `name` varchar(255) NOT NULL COMMENT 'Modification name',
 
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars_modifications(id) ON DELETE CASCADE
