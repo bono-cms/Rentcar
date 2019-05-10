@@ -16,8 +16,8 @@ interface CarModificationMapperInterface
     /**
      * Fetch all modifications by associated car id
      * 
-     * @param int $carId
+     * @param mixed $carId
      * @return array
      */
-    public function fetchAll($carId);
+    public function fetchAll($carId = null);
 }

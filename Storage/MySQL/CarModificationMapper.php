@@ -63,10 +63,10 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
     /**
      * Fetch all modifications by associated car id
      * 
-     * @param int $carId
+     * @param mixed $carId
      * @return array
      */
-    public function fetchAll($carId)
+    public function fetchAll($carId = null)
     {
         $columns = $this->getColumns();
         $columns[CarTranslationMapper::column('name')] = 'car';
@@ -81,10 +81,15 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
                         CarTranslationMapper::column('id') => CarMapper::getRawColumn('id'),
                         CarTranslationMapper::column('lang_id') => CarModificationTranslationMapper::getRawColumn('lang_id')
                    ))
-                   ->whereEquals(CarModificationTranslationMapper::column('lang_id'), $this->getLangId())
-                   ->andWhereEquals(self::column('car_id'), $carId)
-                   ->orderBy(self::column('id'))
-                   ->desc();
+                   ->whereEquals(CarModificationTranslationMapper::column('lang_id'), $this->getLangId());
+
+        // Apply car ID constraint if provided
+        if ($carId !== null) {
+            $db->andWhereEquals(self::column('car_id'), $carId);
+        }
+
+        $db->orderBy(self::column('id'))
+           ->desc();
 
         return $db->queryAll();
     }
