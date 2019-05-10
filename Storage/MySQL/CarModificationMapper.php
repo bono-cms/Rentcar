@@ -73,6 +73,6 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
                    ->orderBy(self::column('id'))
                    ->desc();
 
-        return $db->queryAll()
+        return $db->queryAll();
     }
 }
