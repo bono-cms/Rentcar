@@ -13,6 +13,7 @@ namespace Rentcar\Service;
 
 use Cms\Service\AbstractManager;
 use Rentcar\Storage\CarModificationMapperInterface;
+use Krystal\Stdlib\VirtualEntity;
 
 final class CarModificationService extends AbstractManager
 {
@@ -32,5 +33,20 @@ final class CarModificationService extends AbstractManager
     public function __construct(CarModificationMapperInterface $carModificationMapper)
     {
         $this->carModificationMapper = $carModificationMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setCarId($row['car_id'])
+               ->setLangId($row['lang_id'])
+               ->setName($row['name'])
+               ->setPrice($row['price']);
+
+        return $entity;
     }
 }
