@@ -31,4 +31,36 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
     {
         return CarModificationTranslationMapper::getTableName();
     }
+
+    /**
+     * Returns columns to be selected
+     * 
+     * @return array
+     */
+    private function getColumns()
+    {
+        return array(
+            self::column('id'),
+            self::column('car_id'),
+            self::column('price'),
+            CarModificationTranslationMapper::column('name')
+        );
+    }
+
+    /**
+     * Fetch all modifications by associated car id
+     * 
+     * @param int $carId
+     * @return array
+     */
+    public function fetchAll($carId)
+    {
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(CarModificationTranslationMapper::column('lang_id'), $this->getLangId())
+                   ->andWhereEquals(self::column('car_id'), $carId)
+                   ->orderBy(self::column('id'))
+                   ->desc();
+
+        return $db->queryAll()
+    }
 }
