@@ -12,8 +12,9 @@
 namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Rentcar\Storage\CarModificationMapperInterface;
 
-final class CarModificationMapper extends AbstractMapper
+final class CarModificationMapper extends AbstractMapper implements CarModificationMapperInterface
 {
     /**
      * {@inheritDoc}
