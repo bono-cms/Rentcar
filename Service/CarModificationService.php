@@ -36,6 +36,69 @@ final class CarModificationService extends AbstractManager
     }
 
     /**
+     * Parse raw prices
+     * 
+     * @param array $prices Raw price data
+     * @return array
+     */
+    private static function parsePrices(array $prices)
+    {
+        $output = array();
+
+        foreach ($prices as $price) {
+            $output[] = array(
+                'name' => $price['car'],
+                'price' => $price['price'],
+                'car_id' => $price['id']
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Parse raw modification data
+     * 
+     * @param array $modifications Raw modification data
+     * @return array
+     */
+    private static function parseModifications(array $modifications)
+    {
+        $output = array();
+
+        foreach ($modifications as $modification) {
+            $output[] = array(
+                'name' => sprintf('%s (%s)', $modification['car'], $modification['name']),
+                'price' => $modification['price'],
+                'car_id' => $modification['car_id']
+            );
+        }
+
+        return $output;
+    }
+
+    /**
+     * Get global prices
+     * 
+     * @param mixed $carId Optional car ID constraint
+     * @return array
+     */
+    public function getPrices($carId = null)
+    {
+        $prices = self::parsePrices($this->carModificationMapper->fetchAllPrices($carId));
+        $modification = self::parseModifications($this->carModificationMapper->fetchAll($carId));
+
+        $merged = array_merge($prices, $modification);
+
+        // Sort by shared car ID value
+        usort($merged, function($a, $b) {
+            return $a['car_id'] - $b['car_id'];
+        });
+
+        return $merged;
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $row)
