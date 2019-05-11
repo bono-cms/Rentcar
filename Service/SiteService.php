@@ -21,6 +21,13 @@ final class SiteService
     private $carService;
 
     /**
+     * Car modification service
+     * 
+     * @var \Rentcar\Service\CarModificationService
+     */
+    private $carModificationService;
+
+    /**
      * Brand service instance
      * 
      * @var \Rentcar\Service\BrandService
@@ -32,12 +39,25 @@ final class SiteService
      * 
      * @param \Rentcar\Service\CarService $carService
      * @param \Rentcar\Service\BrandService $brandService
+     * @param \Rentcar\Service\CarModificationService $carModificationService
      * @return void
      */
-    public function __construct(CarService $carService, BrandService $brandService)
+    public function __construct(CarService $carService, BrandService $brandService, CarModificationService $carModificationService)
     {
         $this->carService = $carService;
         $this->brandService = $brandService;
+        $this->carModificationService = $carModificationService;
+    }
+
+    /**
+     * Get global prices
+     * 
+     * @param mixed $carId Optional car ID constraint
+     * @return array
+     */
+    public function getPrices($carId = null)
+    {
+        return $this->carModificationService->getPrices($carId);
     }
 
     /**
