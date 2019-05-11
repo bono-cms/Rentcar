@@ -10,6 +10,24 @@
  */
 
 return array(
+
+    // Car modifications
+    '/%s/module/rent-car/cars/modifications/edit/(:var)' => array(
+        'controller' => 'Admin:CarModification@editAction'
+    ),
+
+    '/%s/module/rent-car/cars/modifications/add/(:var)' => array(
+        'controller' => 'Admin:CarModification@addAction'
+    ),
+
+    '/%s/module/rent-car/cars/modifications/delete/(:var)' => array(
+        'controller' => 'Admin:CarModification@deleteAction'
+    ),
+
+    '/%s/module/rent-car/cars/modifications/save' => array(
+        'controller' => 'Admin:CarModification@saveAction'
+    ),
+    
     // Cars
     '/%s/module/rent-car/cars' => array(
         'controller' => 'Admin:Car@indexAction'

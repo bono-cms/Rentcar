@@ -1,7 +1,9 @@
 <?php
 
 use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
 use Cms\Service\LanguageManager;
+use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
 
@@ -10,6 +12,9 @@ defined('KRYSTAL') or die;
 <form class="card" data-group="car" autocomplete="off">
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="nav-item active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Page'); ?></a></li>
+        <?php if (is_array($car)): ?>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#modification" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Modification'); ?></a></li>
+        <?php endif; ?>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
     </ul>
 
@@ -150,6 +155,50 @@ defined('KRYSTAL') or die;
                 <?php endforeach; ?>
             </div>
 		</div>
+
+        <?php if ($entity->getId()): ?>
+        <div role="tabpanel" class="tab-pane" id="modification">
+            <p>
+                <a class="btn btn-primary" href="<?= $this->url('Rentcar:Admin:CarModification@addAction', $entity->getId()); ?>"><?php $this->show('Add new modification'); ?></a>
+            </p>
+
+            <h2 class="page-header"><?php $this->show('Modifications'); ?> <small>(<?= count($modifications); ?>)</small></h2>
+
+            <?= $this->widget(new GridViewWidget($modifications, array(
+                'tableClass' => 'table table-bordered',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
+                    ),
+
+                    array(
+                        'column' => 'name'
+                    ),
+
+                    array(
+                        'column' => 'price'
+                    )
+                ),
+
+                'actions' => array(
+                    'edit' => function($row){
+                        return Icon::edit(
+                            $this->url('Rentcar:Admin:CarModification@editAction', $row['id']),
+                            $this->translate('Edit this modification')
+                        );
+                    },
+
+                    'remove' => function($row){
+                        return Icon::remove(
+                            $this->url('Rentcar:Admin:CarModification@deleteAction', $row['id']),
+                            $this->translate('Remove this modification')
+                        );
+                    }
+                )
+            ))); ?>            
+        </div>
+        <?php endif; ?>
 
         <div role="tabpanel" class="tab-pane" id="configuration">
             <?= Element::hidden('car[id]', $entity->getId()); ?>
