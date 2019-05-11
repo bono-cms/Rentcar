@@ -49,6 +49,39 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
     }
 
     /**
+     * Fetch all prices
+     * 
+     * @param mixed $carId Optional car ID constraint
+     * @return array
+     */
+    public function fetchAllPrices($carId = null)
+    {
+        $columns = array(
+            CarMapper::column('id'),
+            CarMapper::column('price'),
+            CarTranslationMapper::column('name') => 'car'
+        );
+
+        $db = $this->db->select($columns)
+                       ->from(CarMapper::getTableName())
+                       // Translation mapper
+                       ->leftJoin(CarTranslationMapper::getTableName(), array(
+                            CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
+                       ))
+                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId());
+
+        // Apply car ID constraint if provided
+        if ($carId !== null) {
+            $db->andWhereEquals(CarMapper::column('car_id'), $carId);
+        }
+
+        $db->orderBy(CarMapper::column('id'))
+           ->desc();
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch car modification by its id
      * 
      * @param int $id

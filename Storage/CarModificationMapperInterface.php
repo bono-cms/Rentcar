@@ -14,6 +14,14 @@ namespace Rentcar\Storage;
 interface CarModificationMapperInterface
 {
     /**
+     * Fetch all prices
+     * 
+     * @param mixed $carId Optional car ID constraint
+     * @return array
+     */
+    public function fetchAllPrices($carId = null);
+
+    /**
      * Fetch all modifications by associated car id
      * 
      * @param mixed $carId
