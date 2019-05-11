@@ -47,9 +47,9 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
 
     /* Common front attributes */
     `capacity` varchar(255) NOT NULL,
-    `transmission` varchar(255) NOT NULL,,
+    `transmission` varchar(255) NOT NULL,
     `safety` varchar(255) NOT NULL,
-    `fuel` varchar(255) NOT NULL,,
+    `fuel` varchar(255) NOT NULL,
     `airbags` varchar(255) NOT NULL,
 
     /* SEO - related attributes */
