@@ -78,7 +78,7 @@ final class Lease extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Lease', 'Rentcar:Admin:Lease@indexAction')
-                                       ->addOne(is_array($lease) ? 'Edit the lease contract' : 'Add new lease contract');
+                                       ->addOne($lease->getId() ? 'Edit the lease contract' : 'Add new lease contract');
 
         $lpCol = new LeasePeriodCollection();
         $stCol = new StatusCollection();
