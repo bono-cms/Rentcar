@@ -72,7 +72,7 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
 
         // Apply car ID constraint if provided
         if ($carId !== null) {
-            $db->andWhereEquals(CarMapper::column('car_id'), $carId);
+            $db->andWhereEquals(CarMapper::column('id'), $carId);
         }
 
         $db->orderBy(CarMapper::column('id'))
