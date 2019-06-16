@@ -68,7 +68,9 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
                        ->leftJoin(CarTranslationMapper::getTableName(), array(
                             CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
                        ))
-                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId());
+                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+                       // Don't fetch zero-prices
+                       ->andWhereNotEquals(CarMapper::column('price'), 0);
 
         // Apply car ID constraint if provided
         if ($carId !== null) {
