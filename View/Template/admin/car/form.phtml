@@ -177,7 +177,10 @@ defined('KRYSTAL') or die;
                     ),
 
                     array(
-                        'column' => 'price'
+                        'column' => 'price',
+                        'value' => function($row){
+                            return number_format($row['price']);
+                        }
                     )
                 ),
 
