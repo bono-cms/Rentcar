@@ -56,7 +56,7 @@ defined('KRYSTAL') or die;
 
     <?php $this->loadPartial('actions', array(
         'new' => !$entity->getId(),
-        'add' => 'Rentcar:Admin:CarModification@addAction',
+        'add' => array('Rentcar:Admin:CarModification@addAction', $entity->getCarId()),
         'edit' => 'Rentcar:Admin:CarModification@editAction',
         'save' => 'Rentcar:Admin:CarModification@saveAction',
         'cancel' => 'Rentcar:Admin:CarModification@gridAction'
