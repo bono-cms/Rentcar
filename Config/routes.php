@@ -29,7 +29,7 @@ return array(
     ),
     
     // Cars
-    '/%s/module/rent-car/cars' => array(
+    '/%s/module/rent-car' => array(
         'controller' => 'Admin:Car@indexAction'
     ),
 
