@@ -20,17 +20,19 @@ final class CarModification extends AbstractController
      * Creates a form
      * 
      * @param mixed $entity
+     * @param string $title Page title
      * @return string
      */
-    private function createForm($modification)
+    private function createForm($modification, $title)
     {
         $carId = is_array($modification) ? $modification[0]->getCarId() : $modification->getCarId();
+        $car = $this->getModuleService('carService')->fetchById($carId, false);
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()
                    ->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
-                   ->addOne('Edit the car', $this->createUrl('Rentcar:Admin:Car@editAction', array($carId)))
-                   ->addOne(is_array($modification) ? 'Update car modification' : 'Add new car modification');
+                   ->addOne($this->translator->translate('Edit the car "%s"', $car->getName()), $this->createUrl('Rentcar:Admin:Car@editAction', array($carId)))
+                   ->addOne($title);
 
         return $this->view->render('car-modification/form', array(
             'modification' => $modification
@@ -48,7 +50,7 @@ final class CarModification extends AbstractController
         $modification = new VirtualEntity;
         $modification->setCarId($carId);
 
-        return $this->createForm($modification);
+        return $this->createForm($modification, 'Add new car modification');
     }
 
     /**
@@ -62,7 +64,8 @@ final class CarModification extends AbstractController
         $modification = $this->getModuleService('carModificationService')->fetchById($id, true);
 
         if ($modification !== false) {
-            return $this->createForm($modification);
+            $name = $this->getCurrentProperty($modification, 'name');
+            return $this->createForm($modification, $this->translator->translate('Update car modification "%s"', $name));
         } else {
             return false;
         }

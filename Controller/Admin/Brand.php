@@ -20,14 +20,15 @@ final class Brand extends AbstractController
      * Renders shared form
      * 
      * @param \Krystal\Stdlib\VirtualEntity $brand
+     * @param string $title
      * @return string
      */
-    private function createForm(VirtualEntity $brand)
+    private function createForm(VirtualEntity $brand, $title)
     {
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Brands', 'Rentcar:Admin:Brand@indexAction')
-                                       ->addOne($brand->getId() ? 'Edit the brand' : 'Add new brand');
+                                       ->addOne($title);
 
         return $this->view->render('brand/form', array(
             'brand' => $brand
@@ -57,7 +58,7 @@ final class Brand extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity);
+        return $this->createForm(new VirtualEntity, 'Add new brand');
     }
 
     /**
@@ -71,7 +72,7 @@ final class Brand extends AbstractController
         $brand = $this->getModuleService('brandService')->fetchById($id);
 
         if ($brand !== false) {
-            return $this->createForm($brand);
+            return $this->createForm($brand, $this->translator->translate('Edit the brand "%s"', $brand->getName()));
         } else {
             return false;
         }

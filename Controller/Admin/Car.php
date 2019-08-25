@@ -36,9 +36,10 @@ final class Car extends AbstractController
      * Renders car form
      * 
      * @param mixed $car
+     * @param string $title Page title
      * @return string
      */
-    private function createForm($car)
+    private function createForm($car, $title)
     {
         // Load view plugins
         $this->view->getPluginBag()->load($this->getWysiwygPluginName());
@@ -46,7 +47,7 @@ final class Car extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()
                    ->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
-                   ->addOne(is_array($car) ? 'Edit the car' : 'Add new car');
+                   ->addOne($title);
 
         return $this->view->render('car/form', array(
             'car' => $car,
@@ -66,7 +67,8 @@ final class Car extends AbstractController
         $car = $this->getModuleService('carService')->fetchById($id, true);
 
         if ($car !== false) {
-            return $this->createForm($car);
+            $name = $this->getCurrentProperty($car, 'name');
+            return $this->createForm($car, $this->translator->translate('Edit the car "%s"', $name));
         } else {
             return false;
         }
@@ -79,7 +81,7 @@ final class Car extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity);
+        return $this->createForm(new VirtualEntity, 'Add new car');
     }
 
     /**
