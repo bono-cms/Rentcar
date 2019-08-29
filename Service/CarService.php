@@ -95,7 +95,9 @@ final class CarService extends AbstractManager
                ->setTitle($row['title'])
                ->setKeywords($row['keywords'])
                ->setMetaDescription($row['meta_description'])
-               ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()));
+               ->setUrl($this->webPageManager->surround($entity->getSlug(), $entity->getLangId()))
+               ->setChangeFreq($row['changefreq'])
+               ->setPriority($row['priority']);
 
         $imageBag = clone $this->imageService->getImageBag();
         $imageBag->setId($row['id'])

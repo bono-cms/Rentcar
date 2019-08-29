@@ -81,7 +81,14 @@ final class Car extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity, 'Add new car');
+        // CMS configuration object
+        $config = $this->getService('Cms', 'configManager')->getEntity();
+
+        $car = new VirtualEntity;
+        $car->setChangeFreq($config->getSitemapFrequency())
+            ->setPriority($config->getSitemapPriority());
+
+        return $this->createForm($car, 'Add new car');
     }
 
     /**

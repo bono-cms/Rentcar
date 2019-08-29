@@ -64,7 +64,10 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             CarTranslationMapper::column('title'),
             CarTranslationMapper::column('keywords'),
             CarTranslationMapper::column('meta_description'),
-            WebPageMapper::column('slug')
+
+            WebPageMapper::column('slug'),
+            WebPageMapper::column('changefreq'),
+            WebPageMapper::column('priority')
         );
     }
 
