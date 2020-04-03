@@ -12,8 +12,9 @@
 namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;;
+use Rentcar\Storage\ServiceMapperInterface;
 
-final class ServiceMapper extends AbstractMapper
+final class ServiceMapper extends AbstractMapper implements ServiceMapperInterface
 {
     /**
      * {@inheritDoc}
