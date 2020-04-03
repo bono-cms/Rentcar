@@ -18,6 +18,7 @@ use Rentcar\Service\BrandService;
 use Rentcar\Service\LeaseService;
 use Rentcar\Service\SiteService;
 use Rentcar\Service\CarModificationService;
+use Rentcar\Service\RentService;
 
 final class Module extends AbstractCmsModule
 {
@@ -87,6 +88,7 @@ final class Module extends AbstractCmsModule
             'siteService' => new SiteService($carService, $brandService, $carModificationService),
             'brandService' => $brandService,
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper')),
+            'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\ServiceMapper'))
         );
     }
 }
