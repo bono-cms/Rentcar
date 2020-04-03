@@ -34,4 +34,58 @@ final class RentService extends AbstractManager
     {
         $this->serviceMapper = $serviceMapper;
     }
+
+    /**
+     * Returns last service id
+     * 
+     * @return mixed
+     */
+    public function getLastId()
+    {
+        return $this->serviceMapper->getMaxId();
+    }
+
+    /**
+     * Persists a service
+     * 
+     * @param array $input Raw input data
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->serviceMapper->persist($input);
+    }
+
+    /**
+     * Deletes a service by its id
+     * 
+     * @param int $id Service id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->serviceMapper->deleteByPk($id);
+    }
+    /**
+     * Fetch all services
+     * 
+     * @param boolean $sort Whether to sort by order
+     * @return array
+     */
+    public function fetchAll($sort = false)
+    {
+        return $this->serviceMapper->fetchAll($sort);
+    }
+
+    /**
+     * Fetches a service by its id
+     * 
+     * @param int $id Service id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->serviceMapper->fetchById($id, $withTranslations);
+    }
 }
