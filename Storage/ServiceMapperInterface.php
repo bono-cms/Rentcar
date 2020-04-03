@@ -19,7 +19,7 @@ interface ServiceMapperInterface
      * @param boolean $sort Whether to sort by order
      * @return array
      */
-    public function fetchAll($sort = false);
+    public function fetchAll($sort);
 
     /**
      * Fetches a service by its id

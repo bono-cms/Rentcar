@@ -56,7 +56,7 @@ final class ServiceMapper extends AbstractMapper implements ServiceMapperInterfa
      * @param boolean $sort Whether to sort by order
      * @return array
      */
-    public function fetchAll($sort = false)
+    public function fetchAll($sort)
     {
         $db = $this->createEntitySelect($this->getColumns())
                    ->whereEquals(ServiceTranslationMapper::column('lang_id'), $this->getLangId());
