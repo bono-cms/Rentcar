@@ -11,6 +11,7 @@
 
 namespace Rentcar\Storage\MySQL;
 
+use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;;
 use Rentcar\Storage\ServiceMapperInterface;
 
@@ -47,5 +48,38 @@ final class ServiceMapper extends AbstractMapper implements ServiceMapperInterfa
             ServiceTranslationMapper::column('name'),
             ServiceTranslationMapper::column('description')
         );
+    }
+
+    /**
+     * Fetch all extra services
+     * 
+     * @param boolean $sort Whether to sort by order
+     * @return array
+     */
+    public function fetchAll($sort = false)
+    {
+        $db = $this->createEntitySelect($this->getColumns())
+                   ->whereEquals(ServiceTranslationMapper::column('lang_id'), $this->getLangId());
+
+        if ($sort == true) {
+            $db->orderBy(new RawSqlFragment(sprintf('`order`, CASE WHEN `order` = 0 THEN %s END DESC', self::column('id'))));
+        } else {
+            $db->orderBy(self::column('id'))
+               ->desc();
+        }
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Fetches a service by its id
+     * 
+     * @param int $id Service id
+     * @param boolean $withTranslations Whether to fetch translations or not
+     * @return mixed
+     */
+    public function fetchById($id, $withTranslations)
+    {
+        return $this->findEntity($this->getColumns(), $id, $withTranslations);
     }
 }
