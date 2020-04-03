@@ -84,3 +84,22 @@ CREATE TABLE bono_module_rentcar_cars_modifications_translations (
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_cars_modifications(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE
 ) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
+
+
+/* Car extra services */
+DROP TABLE IF EXISTS bono_module_rentcar_services;
+CREATE TABLE  bono_module_rentcar_services (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Service ID',
+    `order` INT NOT NULL COMMENT 'Sorting order',
+    `price` FLOAT NOT NULL COMMENT 'Service price'
+) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS bono_module_rentcar_services_translations;
+CREATE TABLE bono_module_rentcar_services_translations (
+    `id` INT NOT NULL COMMENT 'Service ID',
+    `lang_id` INT NOT NULL COMMENT 'Language ID',
+    `name` varchar(255) NOT NULL COMMENT 'Service name',
+    `description` TEXT NOT NULL COMMENT 'Service description',
+
+    FOREIGN KEY (id) REFERENCES bono_module_rentcar_services(id) ON DELETE CASCADE
+) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;

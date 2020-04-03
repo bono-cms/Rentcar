@@ -26,7 +26,11 @@ final class Dropper extends AbstractStorageDropper
             BrandMapper::getTableName(),
             LeaseMapper::getTableName(),
             CarModificationMapper::getTableName(),
-            CarModificationTranslationMapper::getTableName()
+            CarModificationTranslationMapper::getTableName(),
+
+            // Extra services
+            ServiceMapper::getTableName(),
+            ServiceTranslationMapper::getTableName()
         );
     }
 }
