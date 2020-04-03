@@ -36,6 +36,22 @@ final class RentService extends AbstractManager
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setLangId($row['lang_id'])
+               ->setPrice($row['price'])
+               ->setOrder($row['order'])
+               ->setName($row['name'])
+               ->setDescription($row['description']);
+
+        return $entity;
+    }
+
+    /**
      * Returns last service id
      * 
      * @return mixed
@@ -66,6 +82,7 @@ final class RentService extends AbstractManager
     {
         return $this->serviceMapper->deleteByPk($id);
     }
+
     /**
      * Fetch all services
      * 
@@ -74,7 +91,7 @@ final class RentService extends AbstractManager
      */
     public function fetchAll($sort = false)
     {
-        return $this->serviceMapper->fetchAll($sort);
+        return $this->prepareResults($this->serviceMapper->fetchAll($sort));
     }
 
     /**
@@ -86,6 +103,12 @@ final class RentService extends AbstractManager
      */
     public function fetchById($id, $withTranslations)
     {
-        return $this->serviceMapper->fetchById($id, $withTranslations);
+        $data = $this->serviceMapper->fetchById($id, $withTranslations);
+
+        if ($withTranslations) {
+            return $this->prepareResults($data);
+        } else {
+            return $this->prepareResult($data);
+        }
     }
 }
