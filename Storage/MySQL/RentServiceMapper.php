@@ -51,6 +51,17 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
     }
 
     /**
+     * Fetch attaches service Ids by associated car ID
+     * 
+     * @param int $id Car id
+     * @return array
+     */
+    public function fetchAttachedIds($carId)
+    {
+        return $this->getSlaveIdsFromJunction(RentServiceTranslationMapper::getTableName(), $carId);
+    }
+
+    /**
      * Fetch all extra services
      * 
      * @param boolean $sort Whether to sort by order

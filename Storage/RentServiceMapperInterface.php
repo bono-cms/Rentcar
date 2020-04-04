@@ -14,6 +14,14 @@ namespace Rentcar\Storage;
 interface RentServiceMapperInterface
 {
     /**
+     * Fetch attaches service Ids by associated car ID
+     * 
+     * @param int $id Car id
+     * @return array
+     */
+    public function fetchAttachedIds($carId);
+
+    /**
      * Fetch all extra services
      * 
      * @param boolean $sort Whether to sort by order

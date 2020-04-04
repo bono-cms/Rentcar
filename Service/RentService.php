@@ -85,6 +85,17 @@ final class RentService extends AbstractManager
     }
 
     /**
+     * Fetch attaches service Ids by associated car ID
+     * 
+     * @param int $id Car id
+     * @return array
+     */
+    public function fetchAttachedIds($carId)
+    {
+        return $this->serviceMapper->fetchAttachedIds($carId);
+    }
+
+    /**
      * Fetch all services as a hash map
      * 
      * @return array
