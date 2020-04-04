@@ -72,6 +72,18 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     }
 
     /**
+     * Save service relation with current Car Id
+     * 
+     * @param int $carId
+     * @param array $serviceIds
+     * @return boolean
+     */
+    public function saveServiceRelation($carId, array $serviceIds)
+    {
+        return $this->syncWithJunction(RentServiceRelationMapper::getTableName(), $carId, $serviceIds);
+    }
+
+    /**
      * Fetch all cars
      * 
      * @return array
