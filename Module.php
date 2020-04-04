@@ -88,7 +88,7 @@ final class Module extends AbstractCmsModule
             'siteService' => new SiteService($carService, $brandService, $carModificationService),
             'brandService' => $brandService,
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper')),
-            'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\ServiceMapper'))
+            'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\RentServiceMapper'))
         );
     }
 }

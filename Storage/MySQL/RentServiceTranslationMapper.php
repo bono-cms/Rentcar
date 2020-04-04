@@ -13,7 +13,7 @@ namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;;
 
-final class ServiceTranslationMapper extends AbstractMapper
+final class RentServiceTranslationMapper extends AbstractMapper
 {
     /**
      * {@inheritDoc}

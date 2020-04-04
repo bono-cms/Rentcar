@@ -11,7 +11,7 @@
 
 namespace Rentcar\Storage;
 
-interface ServiceMapperInterface
+interface RentServiceMapperInterface
 {
     /**
      * Fetch all extra services

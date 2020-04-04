@@ -13,9 +13,9 @@ namespace Rentcar\Storage\MySQL;
 
 use Krystal\Db\Sql\RawSqlFragment;
 use Cms\Storage\MySQL\AbstractMapper;;
-use Rentcar\Storage\ServiceMapperInterface;
+use Rentcar\Storage\RentServiceMapperInterface;
 
-final class ServiceMapper extends AbstractMapper implements ServiceMapperInterface
+final class RentServiceMapper extends AbstractMapper implements RentServiceMapperInterface
 {
     /**
      * {@inheritDoc}
@@ -30,7 +30,7 @@ final class ServiceMapper extends AbstractMapper implements ServiceMapperInterfa
      */
     public static function getTranslationTable()
     {
-        return ServiceTranslationMapper::getTableName();
+        return RentServiceTranslationMapper::getTableName();
     }
 
     /**
@@ -44,9 +44,9 @@ final class ServiceMapper extends AbstractMapper implements ServiceMapperInterfa
             self::column('id'),
             self::column('order'),
             self::column('price'),
-            ServiceTranslationMapper::column('lang_id'),
-            ServiceTranslationMapper::column('name'),
-            ServiceTranslationMapper::column('description')
+            RentServiceTranslationMapper::column('lang_id'),
+            RentServiceTranslationMapper::column('name'),
+            RentServiceTranslationMapper::column('description')
         );
     }
 
@@ -59,7 +59,7 @@ final class ServiceMapper extends AbstractMapper implements ServiceMapperInterfa
     public function fetchAll($sort)
     {
         $db = $this->createEntitySelect($this->getColumns())
-                   ->whereEquals(ServiceTranslationMapper::column('lang_id'), $this->getLangId());
+                   ->whereEquals(RentServiceTranslationMapper::column('lang_id'), $this->getLangId());
 
         if ($sort == true) {
             $db->orderBy(new RawSqlFragment(sprintf('`order`, CASE WHEN `order` = 0 THEN %s END DESC', self::column('id'))));

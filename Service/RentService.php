@@ -11,7 +11,7 @@
 
 namespace Rentcar\Service;
 
-use Rentcar\Storage\ServiceMapperInterface;
+use Rentcar\Storage\RentServiceMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
 
@@ -20,17 +20,17 @@ final class RentService extends AbstractManager
     /**
      * Any compliant mapper
      * 
-     * @var \Rentcar\Storage\ServiceMapperInterface
+     * @var \Rentcar\Storage\RentServiceMapperInterface
      */
     private $serviceMapper;
 
     /**
      * State initialization
      * 
-     * @param \Rentcar\Storage\ServiceMapperInterface $serviceMapper
+     * @param \Rentcar\Storage\RentServiceMapperInterface $serviceMapper
      * @return void
      */
-    public function __construct(ServiceMapperInterface $serviceMapper)
+    public function __construct(RentServiceMapperInterface $serviceMapper)
     {
         $this->serviceMapper = $serviceMapper;
     }
