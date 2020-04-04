@@ -42,7 +42,7 @@ final class Car extends AbstractController
     private function createForm($car, $title)
     {
         // Load view plugins
-        $this->view->getPluginBag()->load($this->getWysiwygPluginName());
+        $this->view->getPluginBag()->load([$this->getWysiwygPluginName(), 'chosen']);
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()
@@ -52,6 +52,8 @@ final class Car extends AbstractController
         return $this->view->render('car/form', array(
             'car' => $car,
             'brands' => $this->getModuleService('brandService')->fetchList(),
+            'services' => $this->getModuleService('rentService')->fetchList(),
+            'activeServiceIds' => is_array($car) ? $this->getModuleService('rentService')->fetchAttachedIds($car[0]->getId()) : array(),
             'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : array()
         ));
     }
