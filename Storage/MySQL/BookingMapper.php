@@ -23,4 +23,26 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     {
         return self::getWithPrefix('bono_module_rentcar_booking');
     }
+
+    /**
+     * Fetch all bookings
+     * 
+     * @param int $page Current page number
+     * @param int $limit Per page limit
+     * @return array
+     */
+    public function fetchAll($page = null, $limit = null)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->orderBy('id')
+                       ->desc();
+
+        // Apply pagination if required
+        if ($page !== null && $limit !== null) {
+            $db->paginate($page, $limit);
+        }
+
+        return $db->queryAll();
+    }
 }

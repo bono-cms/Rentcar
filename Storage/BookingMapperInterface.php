@@ -13,4 +13,12 @@ namespace Rentcar\Storage;
 
 interface BookingMapperInterface
 {
+    /**
+     * Fetch all bookings
+     * 
+     * @param int $page Current page number
+     * @param int $limit Per page limit
+     * @return array
+     */
+    public function fetchAll($page = null, $limit = null);
 }
