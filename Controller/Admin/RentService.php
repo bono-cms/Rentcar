@@ -98,16 +98,16 @@ final class RentService extends AbstractController
     /**
      * Saves a service
      * 
-     * @return mixed
+     * @return int
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('service');
+        $input = $this->request->getPost();
 
         $rentService = $this->getModuleService('rentService');
         $rentService->save($input);
 
-        if (!empty($input)) {
+        if (!empty($input['service']['id'])) {
             $this->flashBag->set('success', 'A service has been updated successfully');
             return 1;
         } else {

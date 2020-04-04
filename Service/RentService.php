@@ -69,7 +69,7 @@ final class RentService extends AbstractManager
      */
     public function save(array $input)
     {
-        return $this->serviceMapper->persist($input);
+        return $this->serviceMapper->saveEntity($input['service'], $input['translation']);
     }
 
     /**
