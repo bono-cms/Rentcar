@@ -34,6 +34,9 @@ final class Car extends AbstractController
             $this->view->getBreadcrumbBag()
                        ->addOne($car->getName());
 
+            // Append services
+            $this->getModuleService('rentService')->appendServices($car);
+
             return $this->view->render('car-single', array(
                 'page' => $car,
                 'car' => $car,

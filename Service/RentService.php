@@ -53,6 +53,21 @@ final class RentService extends AbstractManager
     }
 
     /**
+     * Append services
+     * 
+     * @param \Rentcar\Service\CarEntity
+     * @return void
+     */
+    public function appendServices(CarEntity $car)
+    {
+        $serviceIds = $this->fetchAttachedIds($car->getId());
+        $services = !empty($serviceIds) ? $this->fetchByIds($serviceIds) : [];
+
+        $car->setServices($services)
+            ->setServiceCount(count($services));
+    }
+
+    /**
      * Returns last service id
      * 
      * @return mixed
