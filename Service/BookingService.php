@@ -33,4 +33,59 @@ final class BookingService extends AbstractManager
     {
         $this->bookingMapper = $bookingMapper;
     }
+
+    /**
+     * Returns last booking id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->bookingMapper->getMaxId();
+    }
+
+    /**
+     * Save booking entry
+     * 
+     * @param array $input Raw input data
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->bookingMapper->persist($input);
+    }
+
+    /**
+     * Deletes booking entry by its id
+     * 
+     * @param int $id Booking id
+     * @return boolean
+     */
+    public function deleteById($id)
+    {
+        return $this->bookingMapper->deleteByPk($id);
+    }
+
+    /**
+     * Fetches booking entry by its id
+     * 
+     * @param int $id Booking id
+     * @return mixed
+     */
+    public function fetchById($id)
+    {
+        return $this->bookingMapper->findByPk($id);
+    }
+
+    /**
+     * Fetch all bookings
+     * 
+     * @param int $page Current page number
+     * @param int $limit Per page limit
+     * @return array
+     */
+    public function fetchAll($page = null, $limit = null)
+    {
+        return $this->bookingMapper->fetchAll($page, $limit);
+    }
 }
