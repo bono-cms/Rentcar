@@ -86,9 +86,11 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     /**
      * Fetch all cars
      * 
+     * @param int $page Optional page number
+     * @param int $limit Optional per page limit
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($page = null, $limit = null)
     {
         $columns = $this->getColumns();
         $columns[BrandMapper::column('name')] = 'brand';
@@ -100,6 +102,16 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
                    ))
                    ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
                    ->orderBy(self::column('id'));
+
+        // Apply pagination if required
+        if ($page !== null && $limit !== null) {
+            $db->paginate($page, $limit);
+        }
+
+        // Limit rows
+        if ($page === null && $limit !== null){
+            $db->limit($limit);
+        }
 
         return $db->queryAll();
     }

@@ -179,11 +179,13 @@ final class CarService extends AbstractManager
     /**
      * Fetch all cars
      * 
+     * @param int $page Optional page number
+     * @param int $limit Optional per page limit
      * @return array
      */
-    public function fetchAll()
+    public function fetchAll($page = null, $limit = null)
     {
-        return $this->prepareResults($this->carMapper->fetchAll());
+        return $this->prepareResults($this->carMapper->fetchAll($page, $limit));
     }
 
     /**

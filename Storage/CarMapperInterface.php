@@ -25,9 +25,11 @@ interface CarMapperInterface
     /**
      * Fetch all cars
      * 
+     * @param int $page Optional page number
+     * @param int $limit Optional per page limit
      * @return array
      */
-    public function fetchAll();
+    public function fetchAll($page = null, $limit = null);
 
     /**
      * Fetches car data by its associated id
