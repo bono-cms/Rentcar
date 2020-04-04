@@ -93,5 +93,26 @@ return array(
 
     '/%s/module/rent-car/lease/view/(:var)' => array(
         'controller' => 'Admin:Lease@viewAction'
-    )
+    ),
+
+    // Services
+    '/%s/module/rent-car/services' => [
+        'controller' => 'Admin:RentService@indexAction'
+    ],
+
+    '/%s/module/rent-car/services/add' => [
+        'controller' => 'Admin:RentService@addAction'
+    ],
+
+    '/%s/module/rent-car/services/edit/(:var)' => [
+        'controller' => 'Admin:RentService@editAction'
+    ],
+
+    '/%s/module/rent-car/services/delete/(:var)' => [
+        'controller' => 'Admin:RentService@deleteAction'
+    ],
+
+    '/%s/module/rent-car/services/save' => [
+        'controller' => 'Admin:RentService@saveAction'
+    ]
 );
