@@ -19,15 +19,23 @@ defined('KRYSTAL') or die;
 
     <div class="table-responsive">
         <?= $this->widget(new GridViewWidget($services, [
-            'tableClass' => 'table table-bordered table-sm',
+            'tableClass' => 'table table-bordered table-stripped',
             'columns' => [
                 [
                     'column' => 'id',
-                    'label' => '#'
+                    'label' => '#',
+                    'attributes' => [
+                        'class' => 'text-muted text-center'
+                    ]
                 ],
 
                 [
-                    'column' => 'name'
+                    'column' => 'name',
+                    'label' => 'Service name',
+                    'attributes' => [
+                        'class' => null
+                    ],
+                    'translateable' => true
                 ],
 
                 [
