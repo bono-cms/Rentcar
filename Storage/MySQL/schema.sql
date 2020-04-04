@@ -103,3 +103,12 @@ CREATE TABLE bono_module_rentcar_services_translations (
 
     FOREIGN KEY (id) REFERENCES bono_module_rentcar_services(id) ON DELETE CASCADE
 ) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS bono_module_rentcar_services_relation;
+CREATE TABLE bono_module_rentcar_services_relation (
+    `master_id` INT NOT NULL COMMENT 'Car ID',
+    `slave_id` INT NOT NULL COMMENT 'Service ID',
+
+    FOREIGN KEY (master_id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE,
+    FOREIGN KEY (slave_id) REFERENCES bono_module_rentcar_services(id) ON DELETE CASCADE
+);
