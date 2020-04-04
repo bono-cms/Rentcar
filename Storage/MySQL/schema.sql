@@ -112,3 +112,30 @@ CREATE TABLE bono_module_rentcar_services_relation (
     FOREIGN KEY (master_id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE,
     FOREIGN KEY (slave_id) REFERENCES bono_module_rentcar_services(id) ON DELETE CASCADE
 );
+
+/* Car booking */
+DROP TABLE IF EXISTS bono_module_rentcar_booking;
+CREATE TABLE bono_module_rentcar_booking (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Booking ID',
+    `car_id` INT NOT NULL COMMENT 'Attached Car ID',
+
+    /* Main details */
+    `status` SMALLINT NOT NULL COMMENT 'Booking status',
+    `amount` FLOAT NOT NULL COMMENT 'Total amount',
+    `datetime` INT NOT NULL COMMENT 'Date and time or this order',
+
+    /* Client details */
+    `name` varchar(255) NOT NULL COMMENT 'Client Full Name',
+    `gender` TINYINT NOT NULL COMMENT 'Client gender',
+    `email` varchar(255) NOT NULL COMMENT 'Client email',
+    `comment` TEXT NOT NULL COMMENT 'Extra wishes',
+
+    /* Order details */
+    `pickup` TEXT NOT NULL COMMENT 'Pickup location',
+    `return` TEXT NOT NULL COMMENT 'Return localtion',
+    `checkin` DATETIME NOT NULL,
+    `checkout` DATETIME NOT NULL,
+
+    FOREIGN KEY (car_id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
+
+) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
