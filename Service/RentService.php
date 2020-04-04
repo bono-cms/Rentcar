@@ -14,6 +14,7 @@ namespace Rentcar\Service;
 use Rentcar\Storage\RentServiceMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Stdlib\ArrayUtils;
 
 final class RentService extends AbstractManager
 {
@@ -81,6 +82,16 @@ final class RentService extends AbstractManager
     public function deleteById($id)
     {
         return $this->serviceMapper->deleteByPk($id);
+    }
+
+    /**
+     * Fetch all services as a hash map
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->serviceMapper->fetchAll(false), 'id', 'name');
     }
 
     /**
