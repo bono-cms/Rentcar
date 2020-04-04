@@ -10,6 +10,9 @@
  */
 
 return array(
+    '/module/cars/list' => array(
+        'controller' => 'Car@listAction'
+    ),
 
     // Car modifications
     '/%s/module/rent-car/cars/modifications/edit/(:var)' => array(
