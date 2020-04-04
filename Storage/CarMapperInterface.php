@@ -14,6 +14,15 @@ namespace Rentcar\Storage;
 interface CarMapperInterface
 {
     /**
+     * Save service relation with current Car Id
+     * 
+     * @param int $carId
+     * @param array $serviceIds
+     * @return boolean
+     */
+    public function saveServiceRelation($carId, array $serviceIds);
+
+    /**
      * Fetch all cars
      * 
      * @return array

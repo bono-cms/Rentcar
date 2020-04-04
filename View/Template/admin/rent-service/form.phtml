@@ -1,0 +1,77 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\Service\LanguageManager;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<form class="card" data-group="service" autocomplete="off">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="nav-item active"><a class="nav-link" href="#rent-service-main" role="tab" data-toggle="tab"><i class="fas fa-dolly"></i> <?php $this->show('Service'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#rent-service-options" role="tab" data-toggle="tab"><i class="fas fa-clipboard-check"></i> <?php $this->show('Options'); ?></a></li>
+    </ul>
+
+    <div class="tab-content">
+		<div class="tab-pane fade in active" id="rent-service-main" role="tabpanel">
+            <?php $this->loadPartial('language-tabs'); ?>
+
+            <div class="tab-content">
+                <?php foreach ($languages as $index => $language): ?>
+                <?php $entity = LanguageManager::findByLangId($language->getId(), $service); ?>
+
+                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
+
+                    <div class="form-group">
+                        <label class="col-lg-2"><?php $this->show('Name'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Page name')]); ?>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2"><?php $this->show('Description'); ?></label>
+                        <div class="col-lg-10">
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['data-wysiwyg' => 'true']); ?>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+		</div>
+
+        <div role="tabpanel" class="tab-pane" id="rent-service-options">
+            <?= Element::hidden('service[id]', $entity->getId()); ?>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Sorting order'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::number('service[order]', $entity->getOrder(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Price'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::number('service[price]', $entity->getPrice(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
+        </div>
+	</div>
+
+    <?php $this->loadPartial('actions', [
+        'new' => !$entity->getId(),
+        'add' => 'Rentcar:Admin:RentService@addAction',
+        'edit' => 'Rentcar:Admin:RentService@editAction',
+        'save' => 'Rentcar:Admin:RentService@saveAction',
+        'cancel' => 'Rentcar:Admin:Car@indexAction'
+    ]); ?>
+
+</form>
