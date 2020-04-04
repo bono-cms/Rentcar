@@ -1,0 +1,68 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <a class="btn btn-primary btn-sm" href="<?= $this->url('Rentcar:Admin:RentService@addAction'); ?>"><?php $this->show('Add new service'); ?></a>
+    </div>
+</div>
+
+<div class="card">
+    <h4 class="mb-4"><i class="fas fa-dolly"></i> <?php $this->show('Rent services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h4>
+
+    <div class="table-responsive">
+        <?= $this->widget(new GridViewWidget($services, [
+            'tableClass' => 'table table-bordered table-sm',
+            'columns' => [
+                [
+                    'column' => 'id',
+                    'label' => '#'
+                ],
+
+                [
+                    'column' => 'name'
+                ],
+
+                [
+                    'column' => 'price',
+                    'translateable' => true,
+                    'value' => function($row){
+                        if ($row['price'] == 0){
+                            return 'Free';
+                        }
+
+                        return $row['price'];
+                    }
+                ],
+
+                [
+                    'column' => 'order'
+                ]
+            ],
+
+            'actions' => [
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Rentcar:Admin:RentService@editAction', $row['id']),
+                        $this->translate('Edit this service')
+                    );
+                },
+
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Rentcar:Admin:RentService@deleteAction', $row['id']),
+                        $this->translate('Remove this service')
+                    );
+                }
+            ]
+        ])); ?>
+    </div>
+</div>
+
