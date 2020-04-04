@@ -58,7 +58,7 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
      */
     public function fetchAttachedIds($carId)
     {
-        return $this->getSlaveIdsFromJunction(RentServiceTranslationMapper::getTableName(), $carId);
+        return $this->getSlaveIdsFromJunction(RentServiceRelationMapper::getTableName(), $carId);
     }
 
     /**
