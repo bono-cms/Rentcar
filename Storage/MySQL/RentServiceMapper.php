@@ -83,6 +83,17 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
     }
 
     /**
+     * Fetch services by their ids
+     * 
+     * @param array $ids
+     * @return array
+     */
+    public function fetchByIds(array $ids)
+    {
+        return $this->findEntities($this->getColumns(), $ids);
+    }
+
+    /**
      * Fetches a service by its id
      * 
      * @param int $id Service id

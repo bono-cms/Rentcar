@@ -30,6 +30,14 @@ interface RentServiceMapperInterface
     public function fetchAll($sort);
 
     /**
+     * Fetch services by their ids
+     * 
+     * @param array $ids
+     * @return array
+     */
+    public function fetchByIds(array $ids);
+
+    /**
      * Fetches a service by its id
      * 
      * @param int $id Service id

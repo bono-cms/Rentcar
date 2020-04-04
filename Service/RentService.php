@@ -117,6 +117,17 @@ final class RentService extends AbstractManager
     }
 
     /**
+     * Fetch services by their ids
+     * 
+     * @param array $ids
+     * @return array
+     */
+    public function fetchByIds(array $ids)
+    {
+        return $this->prepareResults($this->serviceMapper->fetchByIds($ids));
+    }
+
+    /**
      * Fetches a service by its id
      * 
      * @param int $id Service id
