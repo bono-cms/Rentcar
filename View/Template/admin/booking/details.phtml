@@ -1,0 +1,29 @@
+<?php
+
+use Krystal\Widget\ListView\ListViewWidget;
+
+?>
+
+<div class="card">
+    <div class="row">
+        <div class="col-lg-6">
+            <?= $this->widget(new ListViewWidget($booking, [
+                'columns' => [
+                    ['column' => 'id'],
+                    ['column' => 'name'],
+                    ['column' => 'datetime'],
+                    ['column' => 'name'],
+                    ['column' => 'gender'],
+                    ['column' => 'email'],
+                    ['column' => 'comment'],
+                    ['column' => 'pickup'],
+                    ['column' => 'return'],
+                    ['column' => 'checkin'],
+                    ['column' => 'checkout'],
+                    ['column' => 'status'],
+                    ['column' => 'amount'],
+                ]
+            ])); ?>
+        </div>
+    </div>
+</div>
