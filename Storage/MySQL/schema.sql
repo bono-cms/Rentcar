@@ -122,7 +122,7 @@ CREATE TABLE bono_module_rentcar_booking (
     /* Main details */
     `status` SMALLINT NOT NULL COMMENT 'Booking status',
     `amount` FLOAT NOT NULL COMMENT 'Total amount',
-    `datetime` INT NOT NULL COMMENT 'Date and time or this order',
+    `datetime` DATETIME NOT NULL COMMENT 'Date and time or this order',
 
     /* Client details */
     `name` varchar(255) NOT NULL COMMENT 'Client Full Name',
