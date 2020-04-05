@@ -117,5 +117,14 @@ return array(
 
     '/%s/module/rent-car/services/save' => [
         'controller' => 'Admin:RentService@saveAction'
+    ],
+
+    // Booking
+    '/%s/module/rent-car/booking' => [
+        'controller' => 'Admin:Booking@indexAction'
+    ],
+
+    '/%s/module/rent-car/booking/delete/(:var)' => [
+        'controller' => 'Admin:Booking@deleteAction'
     ]
 );
