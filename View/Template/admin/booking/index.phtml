@@ -1,0 +1,59 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="card">
+    <h4 class="mb-4"><i class="fas fa-address-card"></i> <?php $this->show('Bookings'); ?> <small class="text-muted">(<?= count($bookings); ?>)</small></h4>
+
+    <div class="table-responsive">
+        <?= $this->widget(new GridViewWidget($bookings, [
+            'tableClass' => 'table table-bordered table-stripped',
+            'columns' => [
+                [
+                    'column' => 'id',
+                    'label' => '#',
+                    'attributes' => [
+                        'class' => 'text-muted text-center'
+                    ]
+                ],
+
+                [
+                    'column' => 'name',
+                    'label' => 'Client'
+                ],
+
+                [
+                    'column' => 'car'
+                ],
+
+                [
+                    'column' => 'datetime',
+                    'label' => 'Date and time'
+                ],
+
+                [
+                    'column' => 'amount',
+                    'value' => function($row){
+                        return number_format($row['amount']);
+                    }
+                ]
+            ],
+
+            'actions' => [
+                'remove' => function($row){
+                    return Icon::remove(
+                        $this->url('Rentcar:Admin:Booking@deleteAction', $row['id']),
+                        $this->translate('Remove this booking entry')
+                    );
+                }
+            ]
+        ])); ?>
+    </div>
+</div>
+
