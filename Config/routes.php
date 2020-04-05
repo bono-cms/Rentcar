@@ -126,5 +126,9 @@ return array(
 
     '/%s/module/rent-car/booking/delete/(:var)' => [
         'controller' => 'Admin:Booking@deleteAction'
+    ],
+
+    '/%s/module/rent-car/booking/details/(:var)' => [
+        'controller' => 'Admin:Booking@detailsAction'
     ]
 );

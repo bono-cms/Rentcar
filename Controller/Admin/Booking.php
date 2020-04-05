@@ -32,6 +32,30 @@ final class Booking extends AbstractController
     }
 
     /**
+     * Render booking details by its id
+     * 
+     * @param int $id Booking Id
+     * @return string
+     */
+    public function detailsAction($id)
+    {
+        $booking = $this->getModuleService('bookingService')->fetchById($id);
+
+        if ($booking !== false) {
+            // Append breadcrumbs
+            $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
+                                           ->addOne('Bookings', 'Rentcar:Admin:Booking@indexAction')
+                                           ->addOne(sprintf('View booking details #%s', $id));
+
+            return $this->view->render('booking/details', [
+                'booking' => $booking
+            ]);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Deletes booking entry
      * 
      * @param int $id Booking Id
