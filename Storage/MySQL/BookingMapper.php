@@ -33,9 +33,40 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
      */
     public function fetchAll($page = null, $limit = null)
     {
-        $db = $this->db->select('*')
+        // Columns to be selected
+        $columns = [
+            self::column('id'),
+            self::column('car_id'),
+            // Main details
+            self::column('status'),
+            self::column('amount'),
+            self::column('datetime'),
+            // Client details
+            self::column('name'),
+            self::column('gender'),
+            self::column('comment'),
+            // Order detauls
+            self::column('pickup'),
+            self::column('return'),
+            self::column('checkin'),
+            self::column('checkout'),
+
+            CarTranslationMapper::column('name') => 'car'
+        ];
+
+        $db = $this->db->select($columns)
                        ->from(self::getTableName())
-                       ->orderBy('id')
+                       // Car relation
+                       ->leftJoin(CarMapper::getTableName(), [
+                            CarMapper::column('id') => self::getRawColumn('car_id')
+                       ])
+                       // Car translation relation
+                       ->leftJoin(CarTranslationMapper::getTableName(), [
+                            CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
+                       ])
+                       // Language constraint
+                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+                       ->orderBy(self::column('id'))
                        ->desc();
 
         // Apply pagination if required
