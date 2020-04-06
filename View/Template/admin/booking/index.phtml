@@ -32,7 +32,10 @@ defined('KRYSTAL') or die;
                 [
                     'column' => 'car',
                     'value' => function($row){
-                        $content = Element::image($row['image'], ['class' => 'w-25']);
+                        // Create HTML Image element
+                        $image = Element::image($row['image'], ['class' => 'w-25']);
+                        
+                        $content = Element::link($image, $this->url('Rentcar:Admin:Car@editAction', $row['car_id']));
                         $content .= '<br>';
                         $content .= $row['car'];
 
