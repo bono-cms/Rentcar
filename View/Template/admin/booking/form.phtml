@@ -32,6 +32,13 @@ defined('KRYSTAL') or die;
                     <?= Element::text('booking[datetime]', $booking->getDatetime(), ['class' => 'form-control']); ?>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="col-lg-12"><?php $this->show('Comment'); ?></label>
+                <div class="col-lg-10">
+                    <?= Element::textarea('booking[comment]', $booking->getComment(), ['class' => 'form-control']); ?>
+                </div>
+            </div>
         </div>
 
         <div class="col-lg-6">
@@ -59,9 +66,9 @@ defined('KRYSTAL') or die;
             </div>
 
             <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Comment'); ?></label>
+                <label class="col-lg-12"><?php $this->show('Phone'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::textarea('booking[comment]', $booking->getComment(), ['class' => 'form-control']); ?>
+                    <?= Element::text('booking[phone]', $booking->getPhone(), ['class' => 'form-control']); ?>
                 </div>
             </div>
         </div>
