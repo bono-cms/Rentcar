@@ -130,5 +130,17 @@ return array(
 
     '/%s/module/rent-car/booking/details/(:var)' => [
         'controller' => 'Admin:Booking@detailsAction'
+    ],
+
+    '/%s/module/rent-car/booking/add' => [
+        'controller' => 'Admin:Booking@addAction'
+    ],
+
+    '/%s/module/rent-car/booking/edit/(:var)' => [
+        'controller' => 'Admin:Booking@editAction'
+    ],
+
+    '/%s/module/rent-car/booking/save' => [
+        'controller' => 'Admin:Booking@saveAction'
     ]
 );
