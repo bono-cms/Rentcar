@@ -10,6 +10,8 @@ defined('KRYSTAL') or die;
 
     <div class="row">
         <div class="col-lg-6">
+            <h2 class="mb-4 ml-3"><i class="fas fa-address-card"></i> <?php $this->show('Order details'); ?></h2>
+
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Status'); ?></label>
                 <div class="col-lg-10">
@@ -33,6 +35,8 @@ defined('KRYSTAL') or die;
         </div>
 
         <div class="col-lg-6">
+            <h2 class="mb-4 ml-3"><i class="fas fa-user-tie"></i> <?php $this->show('Client details'); ?></h2>
+
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Name'); ?></label>
                 <div class="col-lg-10">
@@ -57,12 +61,14 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Comment'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::text('booking[comment]', $booking->getComment(), ['class' => 'form-control']); ?>
+                    <?= Element::textarea('booking[comment]', $booking->getComment(), ['class' => 'form-control']); ?>
                 </div>
             </div>
         </div>
-        
-        <div class="col-lg-6">
+
+        <div class="col-lg-8">
+            <h2 class="mb-4 ml-3"><i class="fas fa-car-side"></i> <?php $this->show('Pickup and return'); ?></h2>
+
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Pickup'); ?></label>
                 <div class="col-lg-10">
