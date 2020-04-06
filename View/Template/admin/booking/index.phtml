@@ -8,6 +8,12 @@ defined('KRYSTAL') or die;
 
 ?>
 
+<div class="btn-toolbar">
+    <div class="btn-group">
+        <a href="<?= $this->url('Rentcar:Admin:Booking@addAction'); ?>" class="btn btn-primary btn-sm"><?php $this->show('Add new booking'); ?></a>
+    </div>
+</div>
+
 <div class="card">
     <h4 class="mb-4"><i class="fas fa-address-card"></i> <?php $this->show('Bookings'); ?> <small class="text-muted">(<?= count($bookings); ?>)</small></h4>
 
