@@ -13,6 +13,7 @@ namespace Rentcar\Service;
 
 use Rentcar\Storage\BookingMapperInterface;
 use Cms\Service\AbstractManager;
+use Krystal\Stdlib\VirtualEntity;
 
 final class BookingService extends AbstractManager
 {
@@ -32,6 +33,29 @@ final class BookingService extends AbstractManager
     public function __construct(BookingMapperInterface $bookingMapper)
     {
         $this->bookingMapper = $bookingMapper;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setCarId($row['car_id'])
+               ->setStatus($row['status'])
+               ->setAmount($row['amount'])
+               ->setDatetime($row['datetime'])
+               ->setName($row['name'])
+               ->setGender($row['gender'])
+               ->setEmail($row['email'])
+               ->setComment($row['comment'])
+               ->setPickup($row['pickup'])
+               ->setReturn($row['return'])
+               ->setCheckin($row['checkin'])
+               ->setCheckout($row['checkout']);
+
+        return $entity;
     }
 
     /**
@@ -74,7 +98,7 @@ final class BookingService extends AbstractManager
      */
     public function fetchById($id)
     {
-        return $this->bookingMapper->findByPk($id);
+        return $this->prepareResult($this->bookingMapper->findByPk($id));
     }
 
     /**
@@ -86,6 +110,6 @@ final class BookingService extends AbstractManager
      */
     public function fetchAll($page = null, $limit = null)
     {
-        return $this->bookingMapper->fetchAll($page, $limit);
+        return $this->prepareResults($this->bookingMapper->fetchAll($page, $limit));
     }
 }
