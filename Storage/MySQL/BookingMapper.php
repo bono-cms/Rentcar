@@ -52,6 +52,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
             self::column('checkin'),
             self::column('checkout'),
 
+            CarMapper::column('image') => 'image',
             CarTranslationMapper::column('name') => 'car'
         ];
 
