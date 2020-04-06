@@ -69,10 +69,10 @@ final class Booking extends AbstractController
      */
     public function editAction($id)
     {
-        $booking = $this->getModuleService('bookingService');
+        $booking = $this->getModuleService('bookingService')->fetchById($id);
 
         if ($booking) {
-            return $this->createForm($booking, sprintf('Edit booking entry from "%s"', $booking['name']));
+            return $this->createForm($booking, sprintf('Edit booking entry from "%s"', $booking->getName()));
         } else {
             return false;
         }
