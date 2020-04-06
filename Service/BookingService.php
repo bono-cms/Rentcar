@@ -43,7 +43,6 @@ final class BookingService extends AbstractManager
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setCarId($row['car_id'])
-               ->setCar($row['car'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
                ->setDatetime($row['datetime'])
@@ -55,6 +54,10 @@ final class BookingService extends AbstractManager
                ->setReturn($row['return'])
                ->setCheckin($row['checkin'])
                ->setCheckout($row['checkout']);
+
+        if (isset($row['car'])) {
+            $entity->setCar($row['car']);
+        }
 
         return $entity;
     }
