@@ -14,6 +14,7 @@ namespace Rentcar\Service;
 use Rentcar\Storage\BookingMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Rentcar\Module;
 
 final class BookingService extends AbstractManager
 {
@@ -57,6 +58,10 @@ final class BookingService extends AbstractManager
 
         if (isset($row['car'])) {
             $entity->setCar($row['car']);
+        }
+
+        if (isset($row['image'])) {
+            $entity->setImage(sprintf('%s/%s/350x350/%s', Module::IMG_PATH_CARS, $row['car_id'], $row['image']));
         }
 
         return $entity;

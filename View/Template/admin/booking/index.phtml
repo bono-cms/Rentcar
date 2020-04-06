@@ -30,12 +30,19 @@ defined('KRYSTAL') or die;
                 ],
 
                 [
-                    'column' => 'name',
-                    'label' => 'Client'
+                    'column' => 'car',
+                    'value' => function($row){
+                        $content = Element::image($row['image'], ['class' => 'w-25']);
+                        $content .= '<br>';
+                        $content .= $row['car'];
+
+                        return $content;
+                    }
                 ],
 
                 [
-                    'column' => 'car'
+                    'column' => 'name',
+                    'label' => 'Client'
                 ],
 
                 [
