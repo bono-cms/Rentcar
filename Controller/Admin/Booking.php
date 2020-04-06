@@ -42,8 +42,8 @@ final class Booking extends AbstractController
     private function createForm(VirtualEntity $booking, $title)
     {
         // Append breadcrumbs
-        $this->view->getBreadcrumbBag()->addOne('Rentcar:Admin:Car@indexAction')
-                                       ->addOne('Rentcar:Admin:Booking@indexAction')
+        $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
+                                       ->addOne('Bookings', 'Rentcar:Admin:Booking@indexAction')
                                        ->addOne($title);
 
         return $this->view->render('booking/form', [
