@@ -59,6 +59,13 @@ defined('KRYSTAL') or die;
                     );
                 },
 
+                'edit' => function($row){
+                    return Icon::edit(
+                        $this->url('Rentcar:Admin:Booking@editAction', $row['id']),
+                        $this->translate('Edit this booking entry')
+                    );
+                },
+
                 'remove' => function($row){
                     return Icon::remove(
                         $this->url('Rentcar:Admin:Booking@deleteAction', $row['id']),
