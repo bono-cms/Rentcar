@@ -128,6 +128,7 @@ CREATE TABLE bono_module_rentcar_booking (
     `name` varchar(255) NOT NULL COMMENT 'Client Full Name',
     `gender` TINYINT NOT NULL COMMENT 'Client gender',
     `email` varchar(255) NOT NULL COMMENT 'Client email',
+    `phone` varchar(255) NOT NULL COMMENT 'Client phone',
     `comment` TEXT NOT NULL COMMENT 'Extra wishes',
 
     /* Order details */

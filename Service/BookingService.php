@@ -50,6 +50,7 @@ final class BookingService extends AbstractManager
                ->setName($row['name'])
                ->setGender($row['gender'])
                ->setEmail($row['email'])
+               ->setPhone($row['phone'])
                ->setComment($row['comment'])
                ->setPickup($row['pickup'])
                ->setReturn($row['return'])
