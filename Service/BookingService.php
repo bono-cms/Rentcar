@@ -43,6 +43,7 @@ final class BookingService extends AbstractManager
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setCarId($row['car_id'])
+               ->setCar($row['car'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
                ->setDatetime($row['datetime'])
