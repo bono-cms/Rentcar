@@ -29,8 +29,16 @@ final class Booking extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Bookings');
 
+        $orderStCol = new OrderStatusCollection();
+        $bookingService = $this->getModuleService('bookingService');
+
         return $this->view->render('booking/index', [
-            'bookings' => $this->getModuleService('bookingService')->fetchAll()
+            'bookings' => $this->getFilter($bookingService),
+
+            // Vars for filters
+            'cars' => $this->getModuleService('carService')->fetchList(),
+            'orderStatuses' => $orderStCol->getAll(),
+            'filterApplied' => $this->request->getQuery('filter', false)
         ]);
     }
 
