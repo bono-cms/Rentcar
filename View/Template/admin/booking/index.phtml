@@ -37,10 +37,10 @@ defined('KRYSTAL') or die;
                         $image = Element::image($row['image'], ['class' => 'w-25']);
                         
                         $content = Element::link($image, $this->url('Rentcar:Admin:Car@editAction', $row['car_id']));
-                        $content .= '<br>';
+                        $content .= PHP_EOL;
                         $content .= $row['car'];
 
-                        return $content;
+                        return nl2br($content);
                     }
                 ],
 
