@@ -92,7 +92,8 @@ final class Booking extends AbstractController
         $booking = $this->getModuleService('bookingService')->fetchById($id);
 
         if ($booking) {
-            return $this->createForm($booking, sprintf('Edit booking entry from "%s"', $booking->getName()));
+            $title = $this->translator->translate('Edit booking entry from "%s"', $booking->getName());
+            return $this->createForm($booking, $title);
         } else {
             return false;
         }
