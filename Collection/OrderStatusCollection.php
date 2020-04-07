@@ -18,12 +18,14 @@ final class OrderStatusCollection extends ArrayCollection
     /* Status constants */
     const STATUS_DECLINED = 0;
     const STATUS_APPROVED = 1;
+    const STATUS_NEW = 2;
 
     /**
      * {@inheritDoc}
      */
     protected $collection = [
         self::STATUS_DECLINED => 'Declined',
-        self::STATUS_APPROVED => 'Approved'
+        self::STATUS_APPROVED => 'Approved',
+        self::STATUS_NEW => 'New'
     ];
 }
