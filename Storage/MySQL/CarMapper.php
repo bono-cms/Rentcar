@@ -46,6 +46,7 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             self::column('price'),
             self::column('order'),
             self::column('image'),
+            self::column('qty'),
             CarTranslationMapper::column('lang_id'),
             CarTranslationMapper::column('web_page_id'),
             CarTranslationMapper::column('name'),

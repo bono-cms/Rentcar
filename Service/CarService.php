@@ -80,6 +80,7 @@ final class CarService extends AbstractManager
                ->setBrand(isset($row['brand']) ? $row['brand'] : null)
                ->setOrder($row['order'])
                ->setImage($row['image'])
+               ->setQty($row['qty'])
                ->setName($row['name'])
                ->setDescription($row['description'])
                ->setInterior($row['interior'])
