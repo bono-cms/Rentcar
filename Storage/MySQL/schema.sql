@@ -32,6 +32,7 @@ CREATE TABLE bono_module_rentcar_cars (
     `order` INT NOT NULL COMMENT 'Sorting order',
     `image` varchar(255) NOT NULL COMMENT 'Car cover image',
     `qty` INT NOT NULL COMMENT 'Total number of available cars. 0 - Unlimited',
+    `rent` FLOAT NOT NULL COMMENT 'Daily rent price'
 
     FOREIGN KEY (brand_id) REFERENCES bono_module_rentcar_brands(id) ON DELETE CASCADE
 ) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;

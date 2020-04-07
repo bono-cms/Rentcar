@@ -81,6 +81,7 @@ final class CarService extends AbstractManager
                ->setOrder($row['order'])
                ->setImage($row['image'])
                ->setQty($row['qty'])
+               ->setRent($row['rent'])
                ->setName($row['name'])
                ->setDescription($row['description'])
                ->setInterior($row['interior'])
