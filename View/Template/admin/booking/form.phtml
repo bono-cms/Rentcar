@@ -54,7 +54,7 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Gender'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::text('booking[gender]', $booking->getGender(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[gender]', $this->translateArray($genders), $booking->getGender(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 

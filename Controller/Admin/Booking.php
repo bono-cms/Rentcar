@@ -14,6 +14,7 @@ namespace Rentcar\Controller\Admin;
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
 use Rentcar\Collection\OrderStatusCollection;
+use Rentcar\Collection\GenderCollection;
 
 final class Booking extends AbstractController
 {
@@ -43,6 +44,7 @@ final class Booking extends AbstractController
     private function createForm(VirtualEntity $booking, $title)
     {
         $orderStCol = new OrderStatusCollection();
+        $genderStCol = new GenderCollection();
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
@@ -51,7 +53,8 @@ final class Booking extends AbstractController
 
         return $this->view->render('booking/form', [
             'booking' => $booking,
-            'orderStatuses' => $orderStCol->getAll()
+            'orderStatuses' => $orderStCol->getAll(),
+            'genders' => $genderStCol->getAll()
         ]);
     }
 
