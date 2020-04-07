@@ -66,7 +66,21 @@ defined('KRYSTAL') or die;
                         'value' => function($row){
                             $orderStCol = new OrderStatusCollection();
                             return $orderStCol->findByKey($row['status']);
-                        }
+                        },
+                        'attributes' => [
+                            'class' => function($row){
+                                switch($row['status']){
+                                    case OrderStatusCollection::STATUS_NEW:
+                                        return 'table-warning text-center';
+                                    case OrderStatusCollection::STATUS_DECLINED:
+                                        return 'table-danger text-center';
+                                    case OrderStatusCollection::STATUS_APPROVED:
+                                        return 'table-success text-center';
+                                    default:
+                                        return 'text-center';
+                                }
+                            }
+                        ]
                     ],
 
                     [
