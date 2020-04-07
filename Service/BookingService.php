@@ -107,6 +107,16 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Count new orders
+     * 
+     * @return int
+     */
+    public function countNew()
+    {
+        return (int) $this->bookingMapper->countNew();
+    }
+
+    /**
      * Deletes booking entry by its id
      * 
      * @param int $id Booking id

@@ -14,6 +14,13 @@ namespace Rentcar\Storage;
 interface BookingMapperInterface
 {
     /**
+     * Count new orders
+     * 
+     * @return int
+     */
+    public function countNew();
+
+    /**
      * {@inheritDoc}
      */
     public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = []);

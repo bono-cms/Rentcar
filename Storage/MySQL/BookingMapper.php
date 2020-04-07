@@ -13,6 +13,7 @@ namespace Rentcar\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
 use Rentcar\Storage\BookingMapperInterface;
+use Rentcar\Collection\OrderStatusCollection;
 
 final class BookingMapper extends AbstractMapper implements BookingMapperInterface
 {
@@ -22,6 +23,21 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     public static function getTableName()
     {
         return self::getWithPrefix('bono_module_rentcar_booking');
+    }
+
+    /**
+     * Count new orders
+     * 
+     * @return int
+     */
+    public function countNew()
+    {
+        $db = $this->db->select()
+                       ->count('id')
+                       ->from(self::getTableName())
+                       ->whereEquals('status', OrderStatusCollection::STATUS_NEW);
+
+        return $db->queryScalar();
     }
 
     /**
