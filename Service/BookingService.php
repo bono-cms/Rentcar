@@ -96,6 +96,18 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Update booking status
+     * 
+     * @param int $id Booking id
+     * @param int $status STatus constant
+     * @return boolean
+     */
+    public function updateStatus($id, $status)
+    {
+        return $this->bookingMapper->updateStatus($id, $status);
+    }
+
+    /**
      * Save booking entry
      * 
      * @param array $input Raw input data

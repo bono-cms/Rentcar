@@ -14,6 +14,15 @@ namespace Rentcar\Storage;
 interface BookingMapperInterface
 {
     /**
+     * Update booking status
+     * 
+     * @param int $id Booking id
+     * @param int $status STatus constant
+     * @return boolean
+     */
+    public function updateStatus($id, $status);
+
+    /**
      * Count new orders
      * 
      * @return int
