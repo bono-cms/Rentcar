@@ -93,7 +93,8 @@ DROP TABLE IF EXISTS bono_module_rentcar_services;
 CREATE TABLE  bono_module_rentcar_services (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Service ID',
     `order` INT NOT NULL COMMENT 'Sorting order',
-    `price` FLOAT NOT NULL COMMENT 'Service price'
+    `price` FLOAT NOT NULL COMMENT 'Service price',
+    `unit` TINYINT NOT NULL COMMENT 'Unit constant'
 ) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
 
 DROP TABLE IF EXISTS bono_module_rentcar_services_translations;

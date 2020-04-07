@@ -44,6 +44,7 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
             self::column('id'),
             self::column('order'),
             self::column('price'),
+            self::column('unit'),
             RentServiceTranslationMapper::column('lang_id'),
             RentServiceTranslationMapper::column('name'),
             RentServiceTranslationMapper::column('description')

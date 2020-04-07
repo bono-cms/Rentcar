@@ -46,6 +46,7 @@ final class RentService extends AbstractManager
                ->setLangId($row['lang_id'])
                ->setPrice($row['price'])
                ->setOrder($row['order'])
+               ->setUnit($row['unit'])
                ->setName($row['name'])
                ->setDescription($row['description']);
 
