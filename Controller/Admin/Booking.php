@@ -113,7 +113,7 @@ final class Booking extends AbstractController
             // Append breadcrumbs
             $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                            ->addOne('Bookings', 'Rentcar:Admin:Booking@indexAction')
-                                           ->addOne(sprintf('View booking details #%s', $id));
+                                           ->addOne($this->translator->translate('View booking details #%s', $id));
 
             return $this->view->render('booking/details', [
                 'booking' => $booking
