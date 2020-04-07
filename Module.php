@@ -19,9 +19,14 @@ use Rentcar\Service\LeaseService;
 use Rentcar\Service\SiteService;
 use Rentcar\Service\CarModificationService;
 use Rentcar\Service\RentService;
+use Rentcar\Service\BookingService;
 
 final class Module extends AbstractCmsModule
 {
+    /* Constants */
+    const IMG_PATH_CARS = '/data/uploads/module/rent-car';
+    const IMG_PATH_BRAND = '/data/uploads/module/rent-car/brands';
+
     /**
      * Returns album image manager
      * 
@@ -43,7 +48,7 @@ final class Module extends AbstractCmsModule
         );
 
         return new ImageManager(
-            '/data/uploads/module/rent-car',
+            self::IMG_PATH_CARS,
             $this->appConfig->getRootDir(),
             $this->appConfig->getRootUrl(),
             $plugins
@@ -64,7 +69,7 @@ final class Module extends AbstractCmsModule
         );
 
         return new ImageManager(
-            '/data/uploads/module/rent-car/brands',
+            self::IMG_PATH_BRAND,
             $this->appConfig->getRootDir(),
             $this->appConfig->getRootUrl(),
             $plugins
@@ -88,7 +93,8 @@ final class Module extends AbstractCmsModule
             'siteService' => new SiteService($carService, $brandService, $carModificationService),
             'brandService' => $brandService,
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper')),
-            'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\RentServiceMapper'))
+            'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\RentServiceMapper')),
+            'bookingService' => new BookingService($this->getMapper('\Rentcar\Storage\MySQL\BookingMapper'))
         );
     }
 }

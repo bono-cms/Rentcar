@@ -1,0 +1,134 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\View\Icon;
+use Rentcar\Collection\OrderStatusCollection;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<form>
+    <div class="btn-toolbar">
+        <div class="btn-group mr-2">
+            <a href="<?= $this->url('Rentcar:Admin:Booking@addAction'); ?>" class="btn btn-primary btn-sm"><?php $this->show('Add new booking'); ?></a>
+        </div>
+
+        <div class="btn-group mr-2">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button>
+        </div>
+
+        <?php if ($filterApplied): ?>
+        <div class="btn-group mr-2">
+            <a href="<?= $this->url('Rentcar:Admin:Booking@indexAction'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-search-minus"></i> <?php $this->show('Reset filter'); ?></a>
+        </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="card">
+        <h4 class="mb-4"><i class="fas fa-address-card"></i> <?php $this->show('Bookings'); ?> <small class="text-muted">(<?= count($bookings); ?>)</small></h4>
+
+        <div class="table-responsive">
+            <?= $this->widget(new GridViewWidget($bookings, [
+                'tableClass' => 'table table-bordered table-stripped table-sm',
+                'columns' => [
+                    [
+                        'column' => 'id',
+                        'label' => '#',
+                        'attributes' => [
+                            'class' => 'text-muted text-center'
+                        ]
+                    ],
+
+                    [
+                        'column' => 'car',
+                        'name' => 'car_id',
+                        'filter' => $cars,
+                        'type' => 'select',
+                        'value' => function($row){
+                            // Create HTML Image element
+                            $image = Element::image($row['image'], ['class' => 'w-50']);
+                            
+                            $content = Element::link($image, $this->url('Rentcar:Admin:Car@editAction', $row['car_id']));
+                            $content .= PHP_EOL;
+                            $content .= $row['car'];
+
+                            return nl2br($content);
+                        }
+                    ],
+
+                    [
+                        'column' => 'status',
+                        'filter' => $this->translateArray($orderStatuses),
+                        'type' => 'select',
+                        'translateable' => true,
+                        'value' => function($row){
+                            $orderStCol = new OrderStatusCollection();
+                            return $orderStCol->findByKey($row['status']);
+                        },
+                        'attributes' => [
+                            'class' => function($row){
+                                switch($row['status']){
+                                    case OrderStatusCollection::STATUS_NEW:
+                                        return 'table-warning text-center';
+                                    case OrderStatusCollection::STATUS_DECLINED:
+                                        return 'table-danger text-center';
+                                    case OrderStatusCollection::STATUS_APPROVED:
+                                        return 'table-success text-center';
+                                    default:
+                                        return 'text-center';
+                                }
+                            }
+                        ]
+                    ],
+
+                    [
+                        'column' => 'name',
+                        'label' => 'Client',
+                        'filter' => true
+                    ],
+
+                    [
+                        'column' => 'pickup'
+                    ],
+                    
+                    [
+                        'column' => 'return'
+                    ],
+
+                    [
+                        'column' => 'datetime',
+                        'label' => 'Date and time'
+                    ]
+                ],
+
+                'actions' => [
+                    'view' => function($row){
+                        return Icon::details(
+                            $this->url('Rentcar:Admin:Booking@detailsAction', $row['id']),
+                            $this->translate('View booking details')
+                        );
+                    },
+
+                    'edit' => function($row){
+                        return Icon::edit(
+                            $this->url('Rentcar:Admin:Booking@editAction', $row['id']),
+                            $this->translate('Edit this booking entry')
+                        );
+                    },
+
+                    'remove' => function($row){
+                        return Icon::remove(
+                            $this->url('Rentcar:Admin:Booking@deleteAction', $row['id']),
+                            $this->translate('Remove this booking entry')
+                        );
+                    }
+                ]
+            ])); ?>
+        </div>
+
+        <?php $this->loadPartial('paginator'); ?>
+    </div>
+
+</form>

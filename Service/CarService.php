@@ -15,6 +15,7 @@ use Rentcar\Storage\CarMapperInterface;
 use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
 use Krystal\Image\Tool\ImageManagerInterface;
+use Krystal\Stdlib\ArrayUtils;
 
 final class CarService extends AbstractManager
 {
@@ -79,6 +80,8 @@ final class CarService extends AbstractManager
                ->setBrand(isset($row['brand']) ? $row['brand'] : null)
                ->setOrder($row['order'])
                ->setImage($row['image'])
+               ->setQty($row['qty'])
+               ->setRent($row['rent'])
                ->setName($row['name'])
                ->setDescription($row['description'])
                ->setInterior($row['interior'])
@@ -177,13 +180,25 @@ final class CarService extends AbstractManager
     }
 
     /**
-     * Fetch all cars
+     * Fetches hash map
      * 
      * @return array
      */
-    public function fetchAll()
+    public function fetchList()
     {
-        return $this->prepareResults($this->carMapper->fetchAll());
+        return ArrayUtils::arrayList($this->carMapper->fetchAll(null, null), 'id', 'name');
+    }
+
+    /**
+     * Fetch all cars
+     * 
+     * @param int $page Optional page number
+     * @param int $limit Optional per page limit
+     * @return array
+     */
+    public function fetchAll($page = null, $limit = null)
+    {
+        return $this->prepareResults($this->carMapper->fetchAll($page, $limit));
     }
 
     /**

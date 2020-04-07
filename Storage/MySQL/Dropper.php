@@ -31,7 +31,10 @@ final class Dropper extends AbstractStorageDropper
             // Extra services
             RentServiceMapper::getTableName(),
             RentServiceTranslationMapper::getTableName(),
-            RentServiceRelationMapper::getTableName()
+            RentServiceRelationMapper::getTableName(),
+
+            // Booking
+            BookingMapper::getTableName()
         );
     }
 }

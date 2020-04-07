@@ -10,6 +10,9 @@
  */
 
 return array(
+    '/module/cars/list' => array(
+        'controller' => 'Car@listAction'
+    ),
 
     // Car modifications
     '/%s/module/rent-car/cars/modifications/edit/(:var)' => array(
@@ -114,5 +117,34 @@ return array(
 
     '/%s/module/rent-car/services/save' => [
         'controller' => 'Admin:RentService@saveAction'
+    ],
+
+    // Booking
+    '/%s/module/rent-car/booking' => [
+        'controller' => 'Admin:Booking@indexAction'
+    ],
+
+    '/%s/module/rent-car/booking/delete/(:var)' => [
+        'controller' => 'Admin:Booking@deleteAction'
+    ],
+
+    '/%s/module/rent-car/booking/details/(:var)' => [
+        'controller' => 'Admin:Booking@detailsAction'
+    ],
+
+    '/%s/module/rent-car/booking/add' => [
+        'controller' => 'Admin:Booking@addAction'
+    ],
+
+    '/%s/module/rent-car/booking/edit/(:var)' => [
+        'controller' => 'Admin:Booking@editAction'
+    ],
+
+    '/%s/module/rent-car/booking/save' => [
+        'controller' => 'Admin:Booking@saveAction'
+    ],
+
+    '/module/rent-car/book' => [
+        'controller' => 'Car@bookAction'
     ]
 );
