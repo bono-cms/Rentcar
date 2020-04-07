@@ -3,6 +3,7 @@
 use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
+use Rentcar\Collection\RentServiceUnitCollection;
 
 defined('KRYSTAL') or die;
 
@@ -38,6 +39,24 @@ defined('KRYSTAL') or die;
                     'translateable' => true
                 ],
 
+                [
+                    'column' => 'unit',
+                    'translateable' => true,
+                    'value' => function($row){
+                        $rServUnitCol = new RentServiceUnitCollection();
+                        return $rServUnitCol->findByKey($row['unit']);
+                    },
+                    'attributes' => [
+                        'class' => function($row){
+                            if ($row['price'] == 0){
+                                return 'text-muted text-center';
+                            } else {
+                                return 'text-center';
+                            }
+                        }
+                    ]
+                ],
+                
                 [
                     'column' => 'price',
                     'translateable' => true,

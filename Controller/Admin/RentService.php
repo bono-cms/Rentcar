@@ -13,6 +13,7 @@ namespace Rentcar\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
+use Rentcar\Collection\RentServiceUnitCollection;
 
 final class RentService extends AbstractController
 {
@@ -28,7 +29,7 @@ final class RentService extends AbstractController
                                        ->addOne('Rent services');
 
         return $this->view->render('rent-service/index', [
-            'services' => $this->getModuleService('rentService')->fetchAll(false)
+            'services' => $this->getModuleService('rentService')->fetchAll(false),
         ]);
     }
 
@@ -48,8 +49,11 @@ final class RentService extends AbstractController
                                        ->addOne('Rent services', 'Rentcar:Admin:RentService@indexAction')
                                        ->addOne(is_object($service) ? 'Add new rent service' : 'Update rent service');
 
+        $rServUnitCol = new RentServiceUnitCollection();
+
         return $this->view->render('rent-service/form', [
-            'service' => $service
+            'service' => $service,
+            'units' => $rServUnitCol->getAll()
         ]);
     }
 
