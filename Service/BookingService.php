@@ -15,7 +15,9 @@ use Rentcar\Storage\BookingMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
+use Krystal\Date\TimeHelper;
 use Rentcar\Module;
+use Rentcar\Collection\OrderStatusCollection;
 
 final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
@@ -77,6 +79,20 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     public function getLastId()
     {
         return $this->bookingMapper->getMaxId();
+    }
+
+    /**
+     * Create new booking
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function createNew(array $input)
+    {
+        $input['status'] = OrderStatusCollection::STATUS_NEW;
+        $input['datetime'] = TimeHelper::getNow();
+
+        return $this->save($input);
     }
 
     /**
