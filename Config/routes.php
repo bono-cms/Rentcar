@@ -142,5 +142,9 @@ return array(
 
     '/%s/module/rent-car/booking/save' => [
         'controller' => 'Admin:Booking@saveAction'
+    ],
+
+    '/module/rent-car/book' => [
+        'controller' => 'Car@bookAction'
     ]
 );

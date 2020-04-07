@@ -16,6 +16,21 @@ use Site\Controller\AbstractController;
 final class Car extends AbstractController
 {
     /**
+     * Book a car (Form submit processor)
+     * 
+     * @return mixed
+     */
+    public function bookAction()
+    {
+        $data = $this->request->getPost();
+
+        $this->getModuleService('bookingService')->createNew($data);
+
+        $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!')
+        return 1;
+    }
+
+    /**
      * List all cars
      * 
      * @param int $id
