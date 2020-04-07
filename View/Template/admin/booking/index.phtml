@@ -100,13 +100,6 @@ defined('KRYSTAL') or die;
                     [
                         'column' => 'datetime',
                         'label' => 'Date and time'
-                    ],
-
-                    [
-                        'column' => 'amount',
-                        'value' => function($row){
-                            return number_format($row['amount']);
-                        }
                     ]
                 ],
 
