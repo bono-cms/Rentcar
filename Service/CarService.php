@@ -15,6 +15,7 @@ use Rentcar\Storage\CarMapperInterface;
 use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
 use Krystal\Image\Tool\ImageManagerInterface;
+use Krystal\Stdlib\ArrayUtils;
 
 final class CarService extends AbstractManager
 {
@@ -174,6 +175,16 @@ final class CarService extends AbstractManager
         $this->carMapper->saveServiceRelation($id, isset($data['services']) ? $data['services'] : []);
 
         return true;
+    }
+
+    /**
+     * Fetches hash map
+     * 
+     * @return array
+     */
+    public function fetchList()
+    {
+        return ArrayUtils::arrayList($this->carMapper->fetchAll(null, null), 'id', 'name');
     }
 
     /**
