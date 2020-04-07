@@ -3,6 +3,7 @@
 use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
+use Rentcar\Collection\OrderStatusCollection;
 
 defined('KRYSTAL') or die;
 
@@ -40,6 +41,15 @@ defined('KRYSTAL') or die;
                         $content .= $row['car'];
 
                         return $content;
+                    }
+                ],
+
+                [
+                    'column' => 'status',
+                    'translateable' => true,
+                    'value' => function($row){
+                        $orderStCol = new OrderStatusCollection();
+                        return $orderStCol->findByKey($row['status']);
                     }
                 ],
 

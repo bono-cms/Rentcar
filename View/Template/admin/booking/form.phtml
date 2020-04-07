@@ -15,7 +15,7 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Status'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::text('booking[status]', $booking->getStatus(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[status]', $this->translateArray($orderStatuses), $booking->getStatus(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
