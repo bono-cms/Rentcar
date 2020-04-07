@@ -37,7 +37,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->update(self::getTableName(), ['status' => $status])
                        ->whereEquals('id', $id);
 
-        return $db->execute(true);
+        return (bool) $db->execute(true);
     }
 
     /**
