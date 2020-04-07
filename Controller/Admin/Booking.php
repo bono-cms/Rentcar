@@ -62,6 +62,7 @@ final class Booking extends AbstractController
         return $this->view->render('booking/form', [
             'booking' => $booking,
             'orderStatuses' => $orderStCol->getAll(),
+            'cars' => $this->getModuleService('carService')->fetchList(),
             'genders' => $genderStCol->getAll()
         ]);
     }
