@@ -49,6 +49,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
                ->setCarId($row['car_id'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
+               ->setMethod($row['method'])
                ->setDatetime($row['datetime'])
                ->setName($row['name'])
                ->setGender($row['gender'])

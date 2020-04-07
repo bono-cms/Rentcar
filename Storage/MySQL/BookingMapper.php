@@ -82,6 +82,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
             self::column('status'),
             self::column('amount'),
             self::column('datetime'),
+            self::column('method'),
             // Client details
             self::column('name'),
             self::column('email'),
