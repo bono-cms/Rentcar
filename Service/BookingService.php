@@ -14,9 +14,10 @@ namespace Rentcar\Service;
 use Rentcar\Storage\BookingMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Db\Filter\FilterableServiceInterface;
 use Rentcar\Module;
 
-final class BookingService extends AbstractManager
+final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
     /**
      * Booking mapper
@@ -112,14 +113,10 @@ final class BookingService extends AbstractManager
     }
 
     /**
-     * Fetch all bookings
-     * 
-     * @param int $page Current page number
-     * @param int $limit Per page limit
-     * @return array
+     * {@inheritDoc}
      */
-    public function fetchAll($page = null, $limit = null)
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = [])
     {
-        return $this->prepareResults($this->bookingMapper->fetchAll($page, $limit));
+        return $this->prepareResults($this->bookingMapper->filter($input, $page, $itemsPerPage, $sortingColumn, $desc, $parameters));
     }
 }

@@ -25,14 +25,24 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
-     * Fetch all bookings
-     * 
-     * @param int $page Current page number
-     * @param int $limit Per page limit
-     * @return array
+     * {@inheritDoc}
      */
-    public function fetchAll($page = null, $limit = null)
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $parameters = [])
     {
+        $sortingColumns = [
+            'car_id' => self::column('car_id'),
+            'status' => self::column('status'),
+            'client' => self::column('client')
+        ];
+
+        // Current sorting column
+        $sortingColumn = isset($sortingColumns[$sortingColumn]) ? $sortingColumns[$sortingColumn] : self::column($this->getPk());
+
+        // If not defined explicitly, sort by PK
+        if (!$sortingColumn) {
+            $sortingColumn = $this->getPk();
+        }
+
         // Columns to be selected
         $columns = [
             self::column('id'),
@@ -47,12 +57,12 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
             self::column('phone'),
             self::column('gender'),
             self::column('comment'),
-            // Order detauls
+            // Order details
             self::column('pickup'),
             self::column('return'),
             self::column('checkin'),
             self::column('checkout'),
-
+            // The rest
             CarMapper::column('image') => 'image',
             CarTranslationMapper::column('name') => 'car'
         ];
@@ -69,14 +79,24 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                        ])
                        // Language constraint
                        ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
-                       ->orderBy(self::column('id'))
-                       ->desc();
 
-        // Apply pagination if required
-        if ($page !== null && $limit !== null) {
-            $db->paginate($page, $limit);
+                       // Filter constraints
+                       ->andWhereEquals(self::column('car_id'), $input['car_id'], true)
+                       ->andWhereEquals(self::column('status'), $input['status'], true)
+                       ->andWhereLike(self::column('name'), '%'.$input['name'].'%', true);
+
+        // Apply sorting
+        $db->orderBy($sortingColumn);
+
+        if ($desc) {
+            $db->desc();
         }
 
-        return $db->queryAll();
+        // Apply pagination if required
+        if ($page !== null && $itemsPerPage !== null) {
+            $db->paginate($page, $itemsPerPage);
+        }
+
+        return $db->queryAll();        
     }
 }
