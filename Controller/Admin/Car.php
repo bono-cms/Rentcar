@@ -28,7 +28,8 @@ final class Car extends AbstractController
                    ->addOne('Cars');
 
         return $this->view->render('car/index', array(
-            'cars' => $this->getModuleService('carService')->fetchAll()
+            'cars' => $this->getModuleService('carService')->fetchAll(),
+            'newBookings' => $this->getModuleService('bookingService')->countNew()
         ));
     }
 
