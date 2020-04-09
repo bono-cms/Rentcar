@@ -83,6 +83,30 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Get car availability information
+     * 
+     * @param int $carId
+     * @param string $checkin
+     * @param string $checkout
+     * @return array|boolean
+     */
+    public function carAvailability($carId, $checkin, $checkout)
+    {
+        $data = $this->bookingMapper->carAvailability($carId, $checkin, $checkout);
+
+        if (!empty($data)) {
+            // Append free and available keys
+            $data['free'] = intval($data['qty'] - $data['taken']);
+            $data['available'] = $data['free'] >= 1;
+
+            return $data;
+        } else {
+            // Invalid car ID supplied
+            return false;
+        }
+    }
+
+    /**
      * Create new booking
      * 
      * @param array $input

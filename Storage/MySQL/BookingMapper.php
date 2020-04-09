@@ -14,6 +14,7 @@ namespace Rentcar\Storage\MySQL;
 use Cms\Storage\MySQL\AbstractMapper;
 use Rentcar\Storage\BookingMapperInterface;
 use Rentcar\Collection\OrderStatusCollection;
+use Krystal\Db\Sql\QueryBuilder;
 
 final class BookingMapper extends AbstractMapper implements BookingMapperInterface
 {
@@ -23,6 +24,59 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     public static function getTableName()
     {
         return self::getWithPrefix('bono_module_rentcar_booking');
+    }
+
+    /**
+     * Get car availability information
+     * 
+     * @param int $carId
+     * @param string $checkin
+     * @param string $checkout
+     * @return array
+     */
+    public function carAvailability($carId, $checkin, $checkout)
+    {
+        // Create date comparer constraint
+        $dateConstraint = function($checkin, $checkout){
+            // Quote raw strings
+            $checkin = "'$checkin'";
+            $checkout = "'$checkout'";
+
+            $qb = new QueryBuilder();
+            $qb->openBracket()
+               ->openBracket()
+               ->compare(self::column('checkin'), '>', $checkin)
+               ->andWhere(self::column('checkout'), '<', $checkout)
+               ->closeBracket()
+               ->rawOr()
+               ->openBracket()
+               ->compare(self::column('checkin'), '<', $checkin)
+               ->andWhere(self::column('checkout'), '>', $checkout)
+               ->closeBracket()
+               ->closeBracket();
+
+            return $qb->getQueryString();
+        };
+
+        $db = $this->db->select([
+                            CarMapper::column('qty')
+                        ])
+                       ->count(self::column('id'), 'taken')
+                       ->from(self::getTableName())
+                       // Car relation
+                       ->leftJoin(CarMapper::getTableName(), [
+                            CarMapper::column('id') => self::getRawColumn('car_id')
+                        ])
+                        // Constraints
+                        ->whereEquals(CarMapper::column('id'), $carId)
+                        ->rawAnd()
+                        ->append('NOT')
+                        ->append($dateConstraint($checkin, $checkout))
+                        ->groupBy([
+                            CarMapper::column('qty')
+                        ]);
+
+        return $db->query();
     }
 
     /**
