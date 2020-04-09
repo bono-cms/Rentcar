@@ -1,0 +1,93 @@
+<?php
+
+use Krystal\Form\Element;
+use Krystal\Widget\GridView\GridViewWidget;
+use Cms\View\Icon;
+
+defined('KRYSTAL') or die;
+
+?>
+
+<div class="btn-toolbar">
+    <div class="btn-group mr-2">
+        <a href="<?= $this->url('Rentcar:Admin:Booking@addAction'); ?>" class="btn btn-primary btn-sm"><?php $this->show('Add new booking'); ?></a>
+    </div>
+</div>
+
+<div class="card">
+    <form>
+        <div class="row">
+            <div class="col-lg-2">
+                <p class="mt-1"><i class="far fa-calendar-alt"></i> <?php $this->show('Filter by date'); ?></p>
+            </div>
+
+            <div class="col-lg-4">
+                <?= Element::text('datetime', $datetime, ['class' => 'form-control']); ?>
+            </div>
+
+            <div class="col-lg-4">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-calendar-check"></i> <?php $this->show('Filter'); ?></button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h4 class="mb-4"><i class="fas fa-clock"></i> <?php $this->show('Availability graph'); ?> <small class="text-muted">(<?= count($cars); ?>)</small></h4>
+
+    <div class="table-responsive">
+        <?= $this->widget(new GridViewWidget($cars, [
+            'tableClass' => 'table table-bordered table-stripped table-sm',
+            'columns' => [
+                [
+                    'column' => 'id',
+                    'label' => '#',
+                    'attributes' => [
+                        'class' => 'text-muted text-center'
+                    ]
+                ],
+
+                [
+                    'column' => 'name',
+                    'name' => 'car_id',
+                    'value' => function($row){
+                        // Create HTML Image element
+                        $image = Element::image($row['image'], ['class' => 'w-50']);
+                        
+                        $content = Element::link($image, $this->url('Rentcar:Admin:Car@editAction', $row['id']));
+                        $content .= PHP_EOL;
+                        $content .= $row['name'];
+
+                        return nl2br($content);
+                    }
+                ],
+
+                [
+                    'column' => 'qty',
+                    'label' => 'Total in park'
+                ],
+
+                [
+                    'column' => 'taken',
+                    'label' => 'Taken in rent'
+                ],
+
+                [
+                    'column' => 'free',
+                    'label' => 'Total available now'
+                ]
+            ],
+
+            'actions' => [
+                function($row){
+                    if ($row['available']){
+                        $url = '';
+                        return Element::icon('fas fa-check-square', $url, ['class' => 'btn btn-success']);
+                    } else {
+                        return null;
+                    }
+                }
+            ]
+        ])); ?>
+    </div>
+</div>
