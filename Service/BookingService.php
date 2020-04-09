@@ -102,6 +102,20 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Appends meta data
+     * 
+     * @param array $data
+     * @return array
+     */
+    private static function withMeta(array $data)
+    {
+        $data['free'] = intval($data['qty'] - $data['taken']);
+        $data['available'] = $data['free'] >= 1;
+
+        return $data;
+    }
+    
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime
@@ -113,7 +127,13 @@ final class BookingService extends AbstractManager implements FilterableServiceI
             throw new InvalidArgumentException('Invalid datetime format provided');
         }
 
-        return $this->bookingMapper->fetchCars($datetime);
+        $rows = $this->bookingMapper->fetchCars($datetime);
+
+        foreach ($rows as &$row) {
+            $row = self::withMeta($row);
+        }
+
+        return $rows;
     }
 
     /**
@@ -133,11 +153,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         $data = $this->bookingMapper->carAvailability($carId, $checkin, $checkout);
 
         if (!empty($data)) {
-            // Append free and available keys
-            $data['free'] = intval($data['qty'] - $data['taken']);
-            $data['available'] = $data['free'] >= 1;
-
-            return $data;
+            return self::withMeta($data);
         } else {
             // Invalid car ID supplied
             return false;
