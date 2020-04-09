@@ -18,6 +18,9 @@ use Krystal\Db\Filter\FilterableServiceInterface;
 use Krystal\Date\TimeHelper;
 use Rentcar\Module;
 use Rentcar\Collection\OrderStatusCollection;
+use Datetime;
+use Exception;
+use InvalidArgumentException;
 
 final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
@@ -83,6 +86,22 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Checks whether datetime format is valid
+     * 
+     * @param string $datetime
+     * @return boolean
+     */
+    private static function formatValid($datetime)
+    {
+        try {
+            new Datetime($datetime);
+            return true;
+        } catch(Exception $e){
+            return false;
+        }
+    }
+
+    /**
      * Get car availability information
      * 
      * @param int $carId
@@ -92,6 +111,10 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function carAvailability($carId, $checkin, $checkout)
     {
+        if (!self::formatValid($checkin) || !self::formatValid($checkout)) {
+            throw new InvalidArgumentException('Invalid datetime format provided');
+        }
+
         $data = $this->bookingMapper->carAvailability($carId, $checkin, $checkout);
 
         if (!empty($data)) {
