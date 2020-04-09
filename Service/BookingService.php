@@ -100,7 +100,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Update booking status
      * 
      * @param int $id Booking id
-     * @param int $status STatus constant
+     * @param int $status Status constant
      * @return boolean
      */
     public function updateStatus($id, $status)
