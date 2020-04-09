@@ -69,7 +69,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         }
 
         if (isset($row['image'])) {
-            $entity->setImage(sprintf('%s/%s/350x350/%s', Module::IMG_PATH_CARS, $row['car_id'], $row['image']));
+            $entity->setImage(self::createImagePath($row['car_id'], $row['image']));
         }
 
         return $entity;
@@ -83,6 +83,18 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     public function getLastId()
     {
         return $this->bookingMapper->getMaxId();
+    }
+
+    /**
+     * Creates image path
+     * 
+     * @param int $carId
+     * @param string $image
+     * @return string
+     */
+    private static function createImagePath($carId, $image)
+    {
+        return sprintf('%s/%s/350x350/%s', Module::IMG_PATH_CARS, $carId, $image);
     }
 
     /**
@@ -111,6 +123,10 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     {
         $data['free'] = intval($data['qty'] - $data['taken']);
         $data['available'] = $data['free'] >= 1;
+
+        if (isset($data['image'])) {
+            $data['image'] = self::createImagePath($data['id'], $data['image']);
+        }
 
         return $data;
     }

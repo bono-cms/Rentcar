@@ -52,6 +52,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->select([
                             CarMapper::column('id'),
                             CarMapper::column('qty'),
+                            CarMapper::column('image'),
                             CarTranslationMapper::column('name'),
                             new RawSqlFragment(sprintf('(%s) AS taken', $countQuery($datetime)))
                         ])
