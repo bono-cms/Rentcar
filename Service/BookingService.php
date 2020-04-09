@@ -102,6 +102,21 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Fetch cars with booking status
+     * 
+     * @param string $datetime
+     * @return array
+     */
+    public function fetchCars($datetime)
+    {
+        if (!self::formatValid($datetime)) {
+            throw new InvalidArgumentException('Invalid datetime format provided');
+        }
+
+        return $this->bookingMapper->fetchCars($datetime);
+    }
+
+    /**
      * Get car availability information
      * 
      * @param int $carId
