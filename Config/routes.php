@@ -144,6 +144,10 @@ return array(
         'controller' => 'Admin:Booking@saveAction'
     ],
 
+    '/%s/module/rent-car/booking/availability' => [
+        'controller' => 'Admin:Booking@availabilityAction'
+    ],
+
     '/module/rent-car/book' => [
         'controller' => 'Car@bookAction'
     ]
