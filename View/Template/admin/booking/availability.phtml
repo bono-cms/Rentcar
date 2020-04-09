@@ -56,7 +56,7 @@ defined('KRYSTAL') or die;
                     'name' => 'car_id',
                     'value' => function($row){
                         // Create HTML Image element
-                        $image = Element::image($row['image'], ['class' => 'w-50']);
+                        $image = Element::image($row['image'], ['class' => 'w-25']);
                         
                         $content = Element::link($image, $this->url('Rentcar:Admin:Car@editAction', $row['id']));
                         $content .= PHP_EOL;
