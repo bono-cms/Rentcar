@@ -100,7 +100,12 @@ final class Booking extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity, 'Add new booking entry');
+        $carId = $this->request->getQuery('car_id', null);
+
+        $booking = new VirtualEntity;
+        $booking->setCarId($carId);
+
+        return $this->createForm($booking, 'Add new booking entry');
     }
 
     /**

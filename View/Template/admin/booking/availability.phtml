@@ -85,7 +85,7 @@ defined('KRYSTAL') or die;
             'actions' => [
                 function($row){
                     if ($row['available']){
-                        $url = '';
+                        $url = $this->url('Rentcar:Admin:Booking@addAction', ['car_id' => $row['id']]);
                         return Element::icon('fas fa-check-square', $url, ['class' => 'btn btn-success']);
                     } else {
                         return null;
