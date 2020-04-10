@@ -135,6 +135,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Fetch cars with booking status
      * 
      * @param string $datetime
+     * @throws \InvalidArgumentException On wrong date format
      * @return array
      */
     public function fetchCars($datetime)
@@ -158,6 +159,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * @param int $carId
      * @param string $checkin
      * @param string $checkout
+     * @throws \InvalidArgumentException On wrong date format
      * @return array|boolean
      */
     public function carAvailability($carId, $checkin, $checkout)
