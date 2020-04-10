@@ -95,12 +95,12 @@ final class CarGallery extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('image');
+        $input = $this->request->getAll();
 
         $carGalleryService = $this->getModuleService('carGalleryService');
         $carGalleryService->save($input);
 
-        if (!empty($input['id'])) {
+        if (!empty($input['data']['image']['id'])) {
 
             $this->flashBag->set('success', 'Gallery image has been updated successfully');
             return 1;

@@ -235,6 +235,13 @@ defined('KRYSTAL') or die;
                     ],
 
                     [
+                        'column' => 'image',
+                        'value' => function($image){
+                            return Element::image($image->getImageBag()->getUrl('original'), ['class' => 'img-fluid']);
+                        }
+                    ],
+
+                    [
                         'column' => 'order'
                     ]
                 ],

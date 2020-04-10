@@ -19,7 +19,11 @@ defined('KRYSTAL') or die;
     <div class="form-group">
         <label class="col-lg-12"><?php $this->show('Image file'); ?></label>
         <div class="col-lg-10">
-            <?= Element::text('image[image]', $image->getImage(), ['class' => 'form-control']); ?>
+            <?php if ($image->getImage()): ?>
+            <p><?= Element::image($image->getImageBag()->getUrl('original'), ['class' => 'img-fluid']); ?></p>
+            <?php endif; ?>
+
+            <?= Element::fileData('image[image]', $image->getImage(), 'image/*', ['class' => 'form-control']); ?>
         </div>
     </div>
 
