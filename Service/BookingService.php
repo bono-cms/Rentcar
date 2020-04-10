@@ -82,6 +82,28 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Counts total sum with corresponding currencies
+     * 
+     * @return array|boolean
+     */
+    public function getAmountSummary()
+    {
+        $rows = $this->bookingMapper->getAmountSummary();
+
+        if ($rows) {
+            $output = [];
+
+            foreach ($rows as $row) {
+                $output[] = sprintf('%s %s', number_format($row['amount']), $row['currency']);
+            }
+
+            return $output;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Returns last booking id
      * 
      * @return int

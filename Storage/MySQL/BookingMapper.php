@@ -28,6 +28,21 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Counts total sum with corresponding currencies
+     * 
+     * @return array
+     */
+    public function getAmountSummary()
+    {
+        $db = $this->db->select('currency')
+                       ->sum('amount', 'amount')
+                       ->from(self::getTableName())
+                       ->groupBy('currency');
+
+        return $db->queryAll();
+    }
+
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime
