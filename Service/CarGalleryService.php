@@ -33,7 +33,17 @@ final class CarGalleryService extends AbstractManager
     {
         $this->carGalleryMapper = $carGalleryMapper;
     }
-    
+
+    /**
+     * Returns last image id
+     * 
+     * @return int
+     */
+    public function getLastId()
+    {
+        return $this->carGalleryMapper->getMaxId();
+    }
+
     /**
      * Fetch all images by associated car id
      * 
