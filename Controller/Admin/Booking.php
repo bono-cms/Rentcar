@@ -27,6 +27,10 @@ final class Booking extends AbstractController
      */
     public function statAction()
     {
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
+                                       ->addOne('Statistic');
+
         $bookingService = $this->getModuleService('bookingService');
         $carService = $this->getModuleService('carService');
 
