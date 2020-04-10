@@ -38,6 +38,11 @@ return [
             [
                 'route' => 'Rentcar:Admin:Booking@availabilityAction',
                 'name' => 'Availability graph'
+            ],
+
+            [
+                'route' => 'Rentcar:Admin:Booking@statAction',
+                'name' => 'Statistic'
             ]
         ]
     ]
