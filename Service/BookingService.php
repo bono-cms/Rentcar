@@ -53,6 +53,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
                ->setCurrency($row['currency'])
+               ->setPrice(number_format($row['amount']) . ' ' . $row['currency']) // Formated price
                ->setMethod($row['method'])
                ->setDatetime($row['datetime'])
                ->setName($row['name'])
