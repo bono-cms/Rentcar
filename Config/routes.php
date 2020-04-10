@@ -150,5 +150,22 @@ return array(
 
     '/module/rent-car/book' => [
         'controller' => 'Car@bookAction'
+    ],
+
+    // Gallery
+    '/%s/module/rent-car/gallery/add/(:var)' => [
+        'controller' => 'Admin:CarGallery@addAction'
+    ],
+
+    '/%s/module/rent-car/gallery/edit/(:var)' => [
+        'controller' => 'Admin:CarGallery@editAction'
+    ],
+
+    '/%s/module/rent-car/gallery/delete/(:var)' => [
+        'controller' => 'Admin:CarGallery@deleteAction'
+    ],
+
+    '/%s/module/rent-car/gallery/save' => [
+        'controller' => 'Admin:CarGallery@saveAction'
     ]
 );
