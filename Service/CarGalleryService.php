@@ -13,6 +13,7 @@ namespace Rentcar\Service;
 
 use Cms\Service\AbstractManager;
 use Rentcar\Storage\CarGalleryMapperInterface;
+use Krystal\Stdlib\VirtualEntity;
 
 final class CarGalleryService extends AbstractManager
 {
@@ -35,6 +36,20 @@ final class CarGalleryService extends AbstractManager
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function toEntity(array $row)
+    {
+        $entity = new VirtualEntity();
+        $entity->setId($row['id'])
+               ->setCarId($row['car_id'])
+               ->setOrder($row['order'])
+               ->setImage($row['image']);
+
+        return $entity;
+    }
+
+    /**
      * Returns last image id
      * 
      * @return int
@@ -52,7 +67,7 @@ final class CarGalleryService extends AbstractManager
      */
     public function fetchAll($carId)
     {
-        return $this->carGalleryMapper->fetchAll($carId);
+        return $this->prepareResults($this->carGalleryMapper->fetchAll($carId));
     }
 
     /**
@@ -63,7 +78,7 @@ final class CarGalleryService extends AbstractManager
      */
     public function fetchById($id)
     {
-        return $this->carGalleryMapper->findByPk($id);
+        return $this->prepareResult($this->carGalleryMapper->findByPk($id));
     }
 
     /**
