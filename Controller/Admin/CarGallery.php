@@ -68,7 +68,7 @@ final class CarGallery extends AbstractController
         $image = $this->getModuleService('carGalleryService')->fetchById($id);
 
         if ($image) {
-            return $this->createForm($image, 'Edit gallery image');
+            return $this->createForm($image, $this->translator->translate('Edit gallery image #%s', $id));
         } else {
             return false;
         }
