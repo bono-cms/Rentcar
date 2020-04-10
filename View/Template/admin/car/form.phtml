@@ -14,6 +14,7 @@ defined('KRYSTAL') or die;
         <li role="presentation" class="nav-item active"><a class="nav-link" href="#page" role="tab" data-toggle="tab"><i class="fas fa-car"></i> <?php $this->show('Car'); ?></a></li>
         <?php if (is_array($car)): ?>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#modification" role="tab" data-toggle="tab"><i class="fas fa-clipboard-check"></i> <?php $this->show('Modification'); ?> <small class="text-muted">(<?= count($modifications); ?>)</small></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#car-gallery" role="tab" data-toggle="tab"><i class="fas fa-camera-retro"></i> <?php $this->show('Gallery'); ?> <small class="text-muted">(<?= count($gallery); ?>)</small></a></li>
         <?php endif; ?>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#configuration" role="tab" data-toggle="tab"><i class="fas fa-grip-horizontal"></i> <?php $this->show('Configuration'); ?></a></li>
         <li role="presentation" class="nav-item"><a class="nav-link" href="#car-rental" role="tab" data-toggle="tab"><i class="fas fa-car-side"></i> <?php $this->show('Car rental'); ?></a></li>
@@ -214,10 +215,48 @@ defined('KRYSTAL') or die;
                         );
                     }
                 )
-            ))); ?>            
+            ))); ?>
         </div>
         <?php endif; ?>
 
+        <div role="tabpanel" class="tab-pane" id="car-gallery">
+            <p>
+                <a class="btn btn-primary btn-sm" href="<?= $this->url('Rentcar:Admin:CarGallery@addAction', $entity->getId()); ?>"><i class="fas fa-camera-retro"></i> <?php $this->show('Upload new image'); ?></a>
+            </p>
+
+            <h2 class="page-header"><?php $this->show('Gallery'); ?> <small>(<?= count($gallery); ?>)</small></h2>
+
+            <?= $this->widget(new GridViewWidget($gallery, [
+                'tableClass' => 'table table-bordered',
+                'columns' => [
+                    [
+                        'column' => 'id',
+                        'label' => '#'
+                    ],
+
+                    [
+                        'column' => 'order'
+                    ]
+                ],
+
+                'actions' => [
+                    function($row){
+                        return Icon::edit(
+                            $this->url('Rentcar:Admin:CarGallery@editAction', $row['id']),
+                            $this->translate('Edit this image')
+                        );
+                    },
+
+                    function($row){
+                        return Icon::remove(
+                            $this->url('Rentcar:Admin:CarGallery@deleteAction', $row['id']),
+                            $this->translate('Remove this image')
+                        );
+                    }
+                ]
+            ])); ?>
+        </div>
+        
         <div role="tabpanel" class="tab-pane" id="configuration">
             <?= Element::hidden('car[id]', $entity->getId()); ?>
 

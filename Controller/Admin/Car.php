@@ -55,7 +55,8 @@ final class Car extends AbstractController
             'brands' => $this->getModuleService('brandService')->fetchList(),
             'services' => $this->getModuleService('rentService')->fetchList(),
             'activeServiceIds' => is_array($car) ? $this->getModuleService('rentService')->fetchAttachedIds($car[0]->getId()) : array(),
-            'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : array()
+            'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : array(),
+            'gallery' => is_array($car) ? $this->getModuleService('carGalleryService')->fetchAll($car[0]->getId()) : array()
         ));
     }
 
