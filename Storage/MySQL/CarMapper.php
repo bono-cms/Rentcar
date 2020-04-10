@@ -74,6 +74,20 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     }
 
     /**
+     * Returns total quantity of all cars
+     * 
+     * @return int
+     */
+    public function getTotalQty()
+    {
+        $db = $this->db->select()
+                       ->sum('qty')
+                       ->from(self::getTableName());
+
+        return $db->queryScalar();
+    }
+
+    /**
      * Returns total number of cars
      * 
      * @return int

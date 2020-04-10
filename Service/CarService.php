@@ -112,6 +112,16 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Returns total quantity of all cars
+     * 
+     * @return int
+     */
+    public function getTotalQty()
+    {
+        return (int) $this->carMapper->getTotalQty();
+    }
+
+    /**
      * Returns total number of cars
      * 
      * @return int
