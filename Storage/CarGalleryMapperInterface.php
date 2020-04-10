@@ -13,5 +13,11 @@ namespace Rentcar\Storage;
 
 interface CarGalleryMapperInterface
 {
-    
+    /**
+     * Fetch all images by associated car id
+     * 
+     * @param int $carId
+     * @return array
+     */
+    public function fetchAll($carId);
 }

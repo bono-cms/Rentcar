@@ -23,4 +23,21 @@ final class CarGalleryMapper extends AbstractMapper implements CarGalleryMapperI
     {
         return self::getWithPrefix('bono_module_rentcar_cars_gallery');
     }
+
+    /**
+     * Fetch all images by associated car id
+     * 
+     * @param int $carId
+     * @return array
+     */
+    public function fetchAll($carId)
+    {
+        $db = $this->db->select('*')
+                       ->from(self::getTableName())
+                       ->whereEquals('car_id', $carId)
+                       ->orderBy('id')
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }
