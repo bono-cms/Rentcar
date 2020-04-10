@@ -14,6 +14,13 @@ namespace Rentcar\Storage;
 interface CarMapperInterface
 {
     /**
+     * Returns total number of cars
+     * 
+     * @return int
+     */
+    public function getTotalCount();
+
+    /**
      * Save service relation with current Car Id
      * 
      * @param int $carId

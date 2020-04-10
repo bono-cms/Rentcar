@@ -74,6 +74,20 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     }
 
     /**
+     * Returns total number of cars
+     * 
+     * @return int
+     */
+    public function getTotalCount()
+    {
+        $db = $this->db->select()
+                       ->count('id')
+                       ->from(self::getTableName());
+
+        return $db->queryScalar();
+    }
+
+    /**
      * Save service relation with current Car Id
      * 
      * @param int $carId
