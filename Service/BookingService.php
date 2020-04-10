@@ -82,6 +82,29 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Count statuses
+     * 
+     * @return array
+     */
+    public function getStatusSummary()
+    {
+        $rows = $this->bookingMapper->getStatusSummary();
+
+        if ($rows) {
+            $output = [];
+            $collection = new OrderStatusCollection();
+
+            foreach ($rows as $row) {
+                $output[$row['count']] = $collection->findByKey($row['status']);
+            }
+
+            return $output;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Counts total sum with corresponding currencies
      * 
      * @return array|boolean

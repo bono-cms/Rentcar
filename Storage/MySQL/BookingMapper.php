@@ -28,6 +28,23 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Count statuses
+     * 
+     * @return array
+     */
+    public function getStatusSummary()
+    {
+        $column = 'status';
+
+        $db = $this->db->select($column)
+                       ->count($column, 'count')
+                       ->from(self::getTableName())
+                       ->groupBy($column);
+
+        return $db->queryAll();
+    }
+
+    /**
      * Counts total sum with corresponding currencies
      * 
      * @return array
