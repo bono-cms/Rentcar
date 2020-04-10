@@ -33,4 +33,48 @@ final class CarGalleryService extends AbstractManager
     {
         $this->carGalleryMapper = $carGalleryMapper;
     }
+    
+    /**
+     * Fetch all images by associated car id
+     * 
+     * @param int $carId
+     * @return array
+     */
+    public function fetchAll($carId)
+    {
+        return $this->carGalleryMapper->fetchAll($carId);
+    }
+
+    /**
+     * Fetch single image by its id
+     * 
+     * @param int $id Image id
+     * @return array
+     */
+    public function fetchById($id)
+    {
+        return $this->carGalleryMapper->findByPk($id);
+    }
+
+    /**
+     * Fetch single image by its id
+     * 
+     * @param int $id Image id
+     * @return array
+     */
+    public function deleteById($id)
+    {
+        return $this->carGalleryMapper->deleteByPk($id);
+    }
+
+    /**
+     * Save an image
+     * 
+     * @param array $input
+     * @return boolean
+     */
+    public function save(array $input)
+    {
+        return $this->carGalleryMapper->persist($input);
+    }
 }
