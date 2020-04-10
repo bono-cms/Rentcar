@@ -1,0 +1,46 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-3 bg-white p-4 mr-3">
+            <p><?php $this->show('Order statuses'); ?></p>
+            <p><?php $this->show('Total orders'); ?>: <?= $booking['status']['total']; ?></p>
+            
+            <ul class="list-group">
+              <?php foreach ($booking['status']['summary'] as $count => $name): ?>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <?php $this->show($name); ?>
+                <span class="badge badge-primary badge-pill"><?= $count; ?></span>
+              </li>
+              <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="col-4 bg-white p-4 mr-3">
+            <p><?php $this->show('Total amount (grouped by currencies)'); ?></p>
+
+            <ul class="list-group">
+              <?php foreach ($booking['amount'] as $price): ?>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <?= $price; ?>
+              </li>
+              <?php endforeach; ?>
+            </ul>
+        </div>
+
+        <div class="col-4 bg-white p-4">
+            <p><?php $this->show('Car information'); ?></p>
+
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <?php $this->show('Total car models'); ?>
+                <span class="badge badge-primary badge-pill"><?= $car['models']; ?></span>
+              </li>
+              
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <?php $this->show('Total quantity'); ?>
+                <span class="badge badge-primary badge-pill"><?= $car['qty']; ?></span>
+              </li>
+            </ul>
+        </div>
+    </div>
+</div>
