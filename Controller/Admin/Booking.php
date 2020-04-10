@@ -143,7 +143,8 @@ final class Booking extends AbstractController
                                            ->addOne($this->translator->translate('View booking details #%s', $id));
 
             return $this->view->render('booking/details', [
-                'booking' => $booking
+                'booking' => $booking,
+                'car' => $this->getModuleService('carService')->fetchById($booking->getCarId(), false)
             ]);
         } else {
             return false;

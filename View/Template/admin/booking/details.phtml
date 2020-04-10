@@ -5,23 +5,31 @@ use Krystal\Widget\ListView\ListViewWidget;
 ?>
 
 <div class="card">
+    <h2><i class="fas fa-info-circle"></i> <?= $this->getBreadcrumbBag()->getLastName(); ?></h2>
+    <hr />
+
     <div class="row">
+        <div class="col-lg-6 text-center">
+            <img src="<?= $car->getImageUrl('350x350'); ?>" class="img-fluid" />
+            <p><?= $car->getName(); ?></p>
+        </div>
+
         <div class="col-lg-6">
             <?= $this->widget(new ListViewWidget($booking, [
                 'columns' => [
-                    ['column' => 'id'],
+                    ['column' => 'id', 'label' => '#'],
                     ['column' => 'name'],
                     ['column' => 'datetime'],
                     ['column' => 'name'],
                     ['column' => 'gender'],
                     ['column' => 'email'],
-                    ['column' => 'comment'],
                     ['column' => 'pickup'],
                     ['column' => 'return'],
                     ['column' => 'checkin'],
                     ['column' => 'checkout'],
                     ['column' => 'status'],
                     ['column' => 'amount'],
+                    ['column' => 'comment']
                 ]
             ])); ?>
         </div>
