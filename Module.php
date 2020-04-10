@@ -14,6 +14,7 @@ namespace Rentcar;
 use Krystal\Image\Tool\ImageManager;
 use Cms\AbstractCmsModule;
 use Rentcar\Service\CarService;
+use Rentcar\Service\CarGalleryService;
 use Rentcar\Service\BrandService;
 use Rentcar\Service\LeaseService;
 use Rentcar\Service\SiteService;
@@ -89,6 +90,7 @@ final class Module extends AbstractCmsModule
 
         return array(
             'carService' => $carService,
+            'carGalleryService' => new CarGalleryService($this->getMapper('\Rentcar\Storage\MySQL\CarGalleryMapper')),
             'carModificationService' => $carModificationService,
             'siteService' => new SiteService($carService, $brandService, $carModificationService),
             'brandService' => $brandService,
