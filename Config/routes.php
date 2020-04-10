@@ -148,6 +148,10 @@ return array(
         'controller' => 'Admin:Booking@availabilityAction'
     ],
 
+    '/%s/module/rent-car/booking/stat' => [
+        'controller' => 'Admin:Booking@statAction'
+    ],
+
     '/module/rent-car/book' => [
         'controller' => 'Car@bookAction'
     ],

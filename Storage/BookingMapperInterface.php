@@ -14,6 +14,20 @@ namespace Rentcar\Storage;
 interface BookingMapperInterface
 {
     /**
+     * Count statuses
+     * 
+     * @return array
+     */
+    public function getStatusSummary();
+
+    /**
+     * Counts total sum with corresponding currencies
+     * 
+     * @return array
+     */
+    public function getAmountSummary();
+
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime
