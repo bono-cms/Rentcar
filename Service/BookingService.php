@@ -52,8 +52,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
                ->setCarId($row['car_id'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
-               ->setCurrency($row['currency'])
-               ->setPrice(number_format($row['amount']) . ' ' . $row['currency']) // Formated price
+               ->setCurrency(isset($row['currency']) ? $row['currency'] : null)
                ->setMethod($row['method'])
                ->setDatetime($row['datetime'])
                ->setName($row['name'])
@@ -68,6 +67,11 @@ final class BookingService extends AbstractManager implements FilterableServiceI
 
         if (isset($row['car'])) {
             $entity->setCar($row['car']);
+        }
+
+        // Set formated price
+        if (isset($row['amount'], $row['currency'])) {
+            $entity->setPrice(number_format($row['amount']) . ' ' . $row['currency']);
         }
 
         if (isset($row['image'])) {
