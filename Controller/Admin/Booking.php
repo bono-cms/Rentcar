@@ -21,6 +21,21 @@ use Rentcar\Collection\PaymentMethodCollection;
 final class Booking extends AbstractController
 {
     /**
+     * Render statistic
+     * 
+     * @return string
+     */
+    public function statAction()
+    {
+        $bookingService = $this->getModuleService('bookingService');
+
+        return $this->view->render('booking/stat', [
+            'amount' => $bookingService->getAmountSummary(),
+            'status' => $bookingService->getStatusSummary()
+        ]);
+    }
+
+    /**
      * Renders a grid with availability information
      * 
      * @return string
