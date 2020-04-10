@@ -136,6 +136,7 @@ CREATE TABLE bono_module_rentcar_booking (
     /* Main details */
     `status` SMALLINT NOT NULL COMMENT 'Booking status',
     `amount` FLOAT NOT NULL COMMENT 'Total amount',
+    `currency` varchar(10) NOT NULL COMMENT 'Used currency on payment page',
     `datetime` DATETIME NOT NULL COMMENT 'Date and time or this order',
     `method` SMALLINT NOT NULL COMMENT 'Payment method',
 
