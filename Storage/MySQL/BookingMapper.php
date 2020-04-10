@@ -14,6 +14,8 @@ namespace Rentcar\Storage\MySQL;
 use Cms\Storage\MySQL\AbstractMapper;
 use Rentcar\Storage\BookingMapperInterface;
 use Rentcar\Collection\OrderStatusCollection;
+use Krystal\Db\Sql\QueryBuilder;
+use Krystal\Db\Sql\RawSqlFragment;
 
 final class BookingMapper extends AbstractMapper implements BookingMapperInterface
 {
@@ -26,10 +28,108 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Fetch cars with booking status
+     * 
+     * @param string $datetime
+     * @return array
+     */
+    public function fetchCars($datetime)
+    {
+        // Internal query
+        $countQuery = function($datetime){
+            $datetime = "'$datetime'";
+
+            $qb = new QueryBuilder();
+            $qb->select()
+               ->count(BookingMapper::column('id'))
+               ->from(BookingMapper::getTableName())
+               ->whereEquals(BookingMapper::column('car_id'), CarMapper::column('id'))
+               ->andWhereBetween(new RawSqlFragment($datetime), BookingMapper::column('checkin'), BookingMapper::column('checkout'));
+
+            return $qb->getQueryString();
+        };
+
+        $db = $this->db->select([
+                            CarMapper::column('id'),
+                            CarMapper::column('qty'),
+                            CarMapper::column('image'),
+                            CarTranslationMapper::column('name'),
+                            new RawSqlFragment(sprintf('(%s) AS taken', $countQuery($datetime)))
+                        ])
+                        ->from(CarMapper::getTableName())
+                        // Car translation
+                        ->leftJoin(CarTranslationMapper::getTableName(), [
+                            CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
+                        ])
+                        // Booking relation
+                        ->leftJoin(BookingMapper::getTableName(), [
+                            BookingMapper::column('car_id') => CarMapper::getRawColumn('id')
+                        ])
+                        ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+                        ->orderBy(CarMapper::column('id'))
+                        ->desc();
+
+        return $db->queryAll();
+    }
+
+    /**
+     * Get car availability information
+     * 
+     * @param int $carId
+     * @param string $checkin
+     * @param string $checkout
+     * @return array
+     */
+    public function carAvailability($carId, $checkin, $checkout)
+    {
+        // Create date comparer constraint
+        $dateConstraint = function($checkin, $checkout){
+            // Quote raw strings
+            $checkin = "'$checkin'";
+            $checkout = "'$checkout'";
+
+            $qb = new QueryBuilder();
+            $qb->openBracket()
+               ->openBracket()
+               ->compare(self::column('checkin'), '>', $checkin)
+               ->andWhere(self::column('checkout'), '<', $checkout)
+               ->closeBracket()
+               ->rawOr()
+               ->openBracket()
+               ->compare(self::column('checkin'), '<', $checkin)
+               ->andWhere(self::column('checkout'), '>', $checkout)
+               ->closeBracket()
+               ->closeBracket();
+
+            return $qb->getQueryString();
+        };
+
+        $db = $this->db->select([
+                            CarMapper::column('qty')
+                        ])
+                       ->count(self::column('id'), 'taken')
+                       ->from(self::getTableName())
+                       // Car relation
+                       ->leftJoin(CarMapper::getTableName(), [
+                            CarMapper::column('id') => self::getRawColumn('car_id')
+                        ])
+                        // Constraints
+                        ->whereEquals(CarMapper::column('id'), $carId)
+                        ->rawAnd()
+                        ->append('NOT')
+                        ->append($dateConstraint($checkin, $checkout))
+                        ->groupBy([
+                            CarMapper::column('qty')
+                        ]);
+
+        return $db->query();
+    }
+
+    /**
      * Update booking status
      * 
      * @param int $id Booking id
-     * @param int $status STatus constant
+     * @param int $status Status constant
      * @return boolean
      */
     public function updateStatus($id, $status)

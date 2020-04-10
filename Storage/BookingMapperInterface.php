@@ -14,10 +14,28 @@ namespace Rentcar\Storage;
 interface BookingMapperInterface
 {
     /**
+     * Fetch cars with booking status
+     * 
+     * @param string $datetime
+     * @return array
+     */
+    public function fetchCars($datetime);
+
+    /**
+     * Get car availability information
+     * 
+     * @param int $carId
+     * @param string $checkin
+     * @param string $checkout
+     * @return array
+     */
+    public function carAvailability($carId, $checkin, $checkout);
+
+    /**
      * Update booking status
      * 
      * @param int $id Booking id
-     * @param int $status STatus constant
+     * @param int $status Status constant
      * @return boolean
      */
     public function updateStatus($id, $status);

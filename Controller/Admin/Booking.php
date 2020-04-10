@@ -13,12 +13,34 @@ namespace Rentcar\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
 use Krystal\Stdlib\VirtualEntity;
+use Krystal\Date\TimeHelper;
 use Rentcar\Collection\OrderStatusCollection;
 use Rentcar\Collection\GenderCollection;
 use Rentcar\Collection\PaymentMethodCollection;
 
 final class Booking extends AbstractController
 {
+    /**
+     * Renders a grid with availability information
+     * 
+     * @return string
+     */
+    public function availabilityAction()
+    {
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
+                                       ->addOne('Bookings', 'Rentcar:Admin:Booking@indexAction')
+                                       ->addOne('Availability graph');
+
+        // Use datetime from query string if available, otherwise use current date and time
+        $datetime = $this->request->getQuery('datetime', TimeHelper::getNow());
+
+        return $this->view->render('booking/availability', [
+            'cars' => $this->getModuleService('bookingService')->fetchCars($datetime),
+            'datetime' => $datetime
+        ]);
+    }
+
     /**
      * Render all booking entries
      * 
@@ -78,7 +100,12 @@ final class Booking extends AbstractController
      */
     public function addAction()
     {
-        return $this->createForm(new VirtualEntity, 'Add new booking entry');
+        $carId = $this->request->getQuery('car_id', null);
+
+        $booking = new VirtualEntity;
+        $booking->setCarId($carId);
+
+        return $this->createForm($booking, 'Add new booking entry');
     }
 
     /**

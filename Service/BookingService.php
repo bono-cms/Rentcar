@@ -18,6 +18,9 @@ use Krystal\Db\Filter\FilterableServiceInterface;
 use Krystal\Date\TimeHelper;
 use Rentcar\Module;
 use Rentcar\Collection\OrderStatusCollection;
+use Datetime;
+use Exception;
+use InvalidArgumentException;
 
 final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
@@ -66,7 +69,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         }
 
         if (isset($row['image'])) {
-            $entity->setImage(sprintf('%s/%s/350x350/%s', Module::IMG_PATH_CARS, $row['car_id'], $row['image']));
+            $entity->setImage(self::createImagePath($row['car_id'], $row['image']));
         }
 
         return $entity;
@@ -80,6 +83,99 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     public function getLastId()
     {
         return $this->bookingMapper->getMaxId();
+    }
+
+    /**
+     * Creates image path
+     * 
+     * @param int $carId
+     * @param string $image
+     * @return string
+     */
+    private static function createImagePath($carId, $image)
+    {
+        return sprintf('%s/%s/350x350/%s', Module::IMG_PATH_CARS, $carId, $image);
+    }
+
+    /**
+     * Checks whether datetime format is valid
+     * 
+     * @param string $datetime
+     * @return boolean
+     */
+    private static function formatValid($datetime)
+    {
+        try {
+            new Datetime($datetime);
+            return true;
+        } catch(Exception $e){
+            return false;
+        }
+    }
+
+    /**
+     * Appends meta data
+     * 
+     * @param array $data
+     * @return array
+     */
+    private static function withMeta(array $data)
+    {
+        $data['free'] = intval($data['qty'] - $data['taken']);
+        $data['available'] = $data['free'] >= 1;
+
+        if (isset($data['image'])) {
+            $data['image'] = self::createImagePath($data['id'], $data['image']);
+        }
+
+        return $data;
+    }
+    
+    /**
+     * Fetch cars with booking status
+     * 
+     * @param string $datetime
+     * @throws \InvalidArgumentException On wrong date format
+     * @return array
+     */
+    public function fetchCars($datetime)
+    {
+        if (!self::formatValid($datetime)) {
+            throw new InvalidArgumentException('Invalid datetime format provided');
+        }
+
+        $rows = $this->bookingMapper->fetchCars($datetime);
+
+        foreach ($rows as &$row) {
+            $row = self::withMeta($row);
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Get car availability information
+     * 
+     * @param int $carId
+     * @param string $checkin
+     * @param string $checkout
+     * @throws \InvalidArgumentException On wrong date format
+     * @return array|boolean
+     */
+    public function carAvailability($carId, $checkin, $checkout)
+    {
+        if (!self::formatValid($checkin) || !self::formatValid($checkout)) {
+            throw new InvalidArgumentException('Invalid datetime format provided');
+        }
+
+        $data = $this->bookingMapper->carAvailability($carId, $checkin, $checkout);
+
+        if (!empty($data)) {
+            return self::withMeta($data);
+        } else {
+            // Invalid car ID supplied
+            return false;
+        }
     }
 
     /**
@@ -100,7 +196,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Update booking status
      * 
      * @param int $id Booking id
-     * @param int $status STatus constant
+     * @param int $status Status constant
      * @return boolean
      */
     public function updateStatus($id, $status)
