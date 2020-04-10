@@ -84,7 +84,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     /**
      * Count statuses
      * 
-     * @return array
+     * @return array|boolean
      */
     public function getStatusSummary()
     {
