@@ -24,9 +24,18 @@ final class Car extends AbstractController
     {
         $data = $this->request->getPost();
 
-        $this->getModuleService('bookingService')->createNew($data);
+        $bookingService = $this->getModuleService('bookingService');
 
-        $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!')
+        // Double-check for availability
+        $availability = $bookingService->carAvailability($data['car_id'], $data['checkin'], $data['checkout']);
+
+        if ($availability['available'] === true) {
+            $bookingService->createNew($data);
+            $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!')
+        } else {
+            $this->flashBag->set('success', 'The car can not be reserved for provided dates');
+        }
+
         return 1;
     }
 
