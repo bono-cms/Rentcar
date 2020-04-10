@@ -98,7 +98,14 @@ final class BookingService extends AbstractManager implements FilterableServiceI
                 $output[$row['count']] = $collection->findByKey($row['status']);
             }
 
-            return $output;
+            // Total number of orders
+            $total = array_sum(array_keys($output));
+
+            return [
+                'total' => $total,
+                'summary' => $output
+            ];
+
         } else {
             return false;
         }
