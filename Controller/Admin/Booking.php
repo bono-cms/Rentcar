@@ -28,10 +28,18 @@ final class Booking extends AbstractController
     public function statAction()
     {
         $bookingService = $this->getModuleService('bookingService');
+        $carService = $this->getModuleService('carService');
 
         return $this->view->render('booking/stat', [
-            'amount' => $bookingService->getAmountSummary(),
-            'status' => $bookingService->getStatusSummary()
+            'car' => [
+                'models' => $carService->getTotalCount(),
+                'qty' => $carService->getTotalQty()
+            ],
+
+            'booking' => [
+                'amount' => $bookingService->getAmountSummary(),
+                'status' => $bookingService->getStatusSummary(),
+            ]
         ]);
     }
 
