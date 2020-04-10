@@ -81,6 +81,9 @@ final class Car extends AbstractController
         $car = $carService->fetchById($id, false);
 
         if ($car !== false) {
+            // Append gallery
+            $car->setGallery($this->getModuleService('carGalleryService')->fetchAll($id));
+            
             // Load view plugins
             $this->loadSitePlugins();
 

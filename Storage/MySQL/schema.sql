@@ -66,6 +66,17 @@ CREATE TABLE `bono_module_rentcar_cars_translations` (
     FOREIGN KEY (web_page_id) REFERENCES bono_module_cms_webpages(id) ON DELETE CASCADE
 ) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
 
+/* Car gallery */
+DROP TABLE IF EXISTS `bono_module_rentcar_cars_gallery`;
+CREATE TABLE `bono_module_rentcar_cars_gallery` (
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `car_id` INT DEFAULT NULL,
+    `order` INT NOT NULL,
+    `image` varchar(255) COMMENT 'Image file',
+
+    FOREIGN KEY (car_id) REFERENCES bono_module_rentcar_cars(id) ON DELETE CASCADE
+) DEFAULT CHARSET=UTF8 ENGINE = InnoDB;
+
 /* Car modifications */
 DROP TABLE IF EXISTS bono_module_rentcar_cars_modifications;
 CREATE TABLE bono_module_rentcar_cars_modifications (

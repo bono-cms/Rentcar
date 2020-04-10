@@ -14,6 +14,7 @@ namespace Rentcar;
 use Krystal\Image\Tool\ImageManager;
 use Cms\AbstractCmsModule;
 use Rentcar\Service\CarService;
+use Rentcar\Service\CarGalleryService;
 use Rentcar\Service\BrandService;
 use Rentcar\Service\LeaseService;
 use Rentcar\Service\SiteService;
@@ -26,6 +27,28 @@ final class Module extends AbstractCmsModule
     /* Constants */
     const IMG_PATH_CARS = '/data/uploads/module/rent-car';
     const IMG_PATH_BRAND = '/data/uploads/module/rent-car/brands';
+    const IMG_PATH_GALLERY = '/data/uploads/module/rent-car/gallery';
+
+    /**
+     * Returns album image manager
+     * 
+     * @return \Krystal\Image\Tool\ImageManager
+     */
+    private function createGalleryImageService()
+    {
+        $plugins = [
+            'original' => [
+                'prefix' => 'original'
+            ]
+        ];
+
+        return new ImageManager(
+            self::IMG_PATH_GALLERY,
+            $this->appConfig->getRootDir(),
+            $this->appConfig->getRootUrl(),
+            $plugins
+        );
+    }
 
     /**
      * Returns album image manager
@@ -89,6 +112,7 @@ final class Module extends AbstractCmsModule
 
         return array(
             'carService' => $carService,
+            'carGalleryService' => new CarGalleryService($this->getMapper('\Rentcar\Storage\MySQL\CarGalleryMapper'), $this->createGalleryImageService()),
             'carModificationService' => $carModificationService,
             'siteService' => new SiteService($carService, $brandService, $carModificationService),
             'brandService' => $brandService,
