@@ -43,6 +43,30 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Creates finder entity from query string
+     * 
+     * @param array $query Query array received from GET
+     * @return \Rentcar\Service\FinderEntity
+     */
+    public static function createFinder(array $query)
+    {
+        // Safely retrieves values from query array
+        $get = function($group, $key) use ($query){
+            return isset($group[$key]) ? $group[$key] : null;
+        };
+
+        $entity = new FinderEntity;
+        $entity->setPickup($get('location', 'pickup'))
+               ->setPickupDate($get('pickup', 'date'))
+               ->setPickupTime($get('pickup', 'time'))
+               ->setReturn($get('location', 'return'))
+               ->setReturnDate($get('return', 'date'))
+               ->setReturnTime($get('return', 'time'));
+
+        return $entity;
+    }
+
+    /**
      * {@inheritDoc}
      */
     protected function toEntity(array $row)
