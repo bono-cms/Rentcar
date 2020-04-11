@@ -52,7 +52,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     {
         // Safely retrieves values from query array
         $get = function($group, $key) use ($query){
-            return isset($group[$key]) ? $group[$key] : null;
+            return isset($query[$group][$key]) ? $query[$group][$key] : null;
         };
 
         $entity = new FinderEntity;
