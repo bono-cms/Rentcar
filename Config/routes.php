@@ -14,6 +14,10 @@ return array(
         'controller' => 'Car@listAction'
     ),
 
+    '/module/rent-car/book' => [
+        'controller' => 'Car@bookAction'
+    ],
+
     // Car modifications
     '/%s/module/rent-car/cars/modifications/edit/(:var)' => array(
         'controller' => 'Admin:CarModification@editAction'
@@ -150,10 +154,6 @@ return array(
 
     '/%s/module/rent-car/booking/stat' => [
         'controller' => 'Admin:Booking@statAction'
-    ],
-
-    '/module/rent-car/book' => [
-        'controller' => 'Car@bookAction'
     ],
 
     // Gallery
