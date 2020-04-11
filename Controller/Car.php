@@ -31,7 +31,7 @@ final class Car extends AbstractController
 
         if ($availability['available'] === true) {
             $bookingService->createNew($data);
-            $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!')
+            $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!');
         } else {
             $this->flashBag->set('success', 'The car can not be reserved for provided dates');
         }
