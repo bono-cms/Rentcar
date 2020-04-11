@@ -37,6 +37,20 @@ final class FinderEntity extends VirtualEntity
         return $date->format('Y-m-d H:i:s');
     }
 
+    /**
+     * Returns total rental period
+     * 
+     * @return int
+     */
+    public function getPeriod()
+    {
+        $checkin = new DateTime($this->getCheckin());
+        $checkout = new DateTime($this->getCheckout());
+
+        // Returns difference in days
+        return $checkout->diff($checkin)->format("%a");
+    }
+
     /** 
      * Returns checkout date and time
      * 
