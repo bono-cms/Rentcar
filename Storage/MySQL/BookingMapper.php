@@ -139,17 +139,16 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->select([
                             CarMapper::column('qty')
                         ])
-                       ->count(self::column('id'), 'taken')
-                       ->from(self::getTableName())
+                       ->count(self::column('car_id'), 'taken')
+                       ->from(CarMapper::getTableName())
                        // Car relation
-                       ->leftJoin(CarMapper::getTableName(), [
-                            CarMapper::column('id') => self::getRawColumn('car_id')
+                       ->leftJoin(self::getTableName(), [
+                            self::column('car_id') => CarMapper::getRawColumn('id')
                         ])
+                        ->rawAnd()
+                        ->append($dateConstraint($checkin, $checkout))
                         // Constraints
                         ->whereEquals(CarMapper::column('id'), $carId)
-                        ->rawAnd()
-                        ->append('NOT')
-                        ->append($dateConstraint($checkin, $checkout))
                         ->groupBy([
                             CarMapper::column('qty')
                         ]);
