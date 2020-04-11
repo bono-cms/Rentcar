@@ -17,6 +17,25 @@ use Rentcar\Service\FinderEntity;
 final class Car extends AbstractController
 {
     /**
+     * Creates data for insert
+     * 
+     * @return array
+     */
+    private function createBookingData()
+    {
+        $finder = $this->createFinder();
+
+        $data = $this->request->getPost('booking');
+        $data = array_merge($data, $finder->getAsColumns());
+
+        // Count amount
+        $data['amount'] = $this->getModuleService('carService')->countAmount($data['car_id'], $finder->getPeriod());
+        $data['currency'] = 'USD';
+
+        return $data;
+    }
+
+    /**
      * Returns populated finder entity
      * 
      * @return \Rentcar\Service\FinderEntity
@@ -53,7 +72,7 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $data = $this->request->getPost();
+        $data = $this->createBookingData();
 
         $bookingService = $this->getModuleService('bookingService');
 
