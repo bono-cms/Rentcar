@@ -41,6 +41,21 @@ final class FinderEntity extends VirtualEntity
     }
 
     /**
+     * Returns data as columns
+     * 
+     * @return array
+     */
+    public function getAsColumns()
+    {
+        return [
+            'pickup' => $this->getPickupLocation(),
+            'checkin' => $this->getCheckin(),
+            'return' => $this->getReturnLocation(),
+            'checkout' => $this->getCheckout()
+        ];
+    }
+
+    /**
      * Normalizes date and time
      * 
      * @param string $date
