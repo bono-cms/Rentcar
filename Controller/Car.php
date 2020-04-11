@@ -17,15 +17,31 @@ use Rentcar\Service\FinderEntity;
 final class Car extends AbstractController
 {
     /**
+     * Returns populated finder entity
+     * 
+     * @return \Rentcar\Service\FinderEntity
+     */
+    private function createFinder()
+    {
+        if ($this->request->hasPost('pickup', 'return')) {
+            $this->sessionBag->set('rental', [
+                'pickup' => $this->request->getPost('pickup'),
+                'return' => $this->request->getPost('return')
+            ]);
+        }
+
+        $data = $this->sessionBag->get('rental', []);
+
+        return FinderEntity::factory($data);
+    }
+
+    /*
      * {@inheritDoc}
      */
     protected function bootstrap($action)
     {
-        // Create finder entity that holds values
-        $finder = FinderEntity::factory($this->request->getQuery());
-
         // Add global finder entity
-        $this->view->addVariable('finder', $finder);
+        $this->view->addVariable('finder', $this->createFinder());
 
         parent::bootstrap($action);
     }
