@@ -12,9 +12,24 @@
 namespace Rentcar\Controller;
 
 use Site\Controller\AbstractController;
+use Rentcar\Service\BookingService;
 
 final class Car extends AbstractController
 {
+    /**
+     * {@inheritDoc}
+     */
+    protected function bootstrap($action)
+    {
+        // Create finder entity that holds values
+        $finder = BookingService::createFinder($this->request->getQuery());
+
+        // Add global finder entity
+        $this->view->addVariable('finder', $finder);
+
+        parent::bootstrap($action);
+    }
+
     /**
      * Book a car (Form submit processor)
      * 
