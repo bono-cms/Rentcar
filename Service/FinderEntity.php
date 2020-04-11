@@ -17,6 +17,30 @@ use DateTime;
 final class FinderEntity extends VirtualEntity
 {
     /**
+     * Creates finder entity instance from query string
+     * 
+     * @param array $query Query array received from GET
+     * @return \Rentcar\Service\FinderEntity
+     */
+    public static function factory(array $query)
+    {
+        // Safely retrieves values from query array
+        $get = function($group, $key) use ($query){
+            return isset($query[$group][$key]) ? $query[$group][$key] : null;
+        };
+
+        $entity = new self;
+        $entity->setPickupLocation($get('pickup', 'location'))
+               ->setPickupDate($get('pickup', 'date'))
+               ->setPickupTime($get('pickup', 'time'))
+               ->setReturnLocation($get('return', 'location'))
+               ->setReturnDate($get('return', 'date'))
+               ->setReturnTime($get('return', 'time'));
+
+        return $entity;
+    }
+
+    /**
      * Normalizes date and time
      * 
      * @param string $date

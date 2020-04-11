@@ -12,7 +12,7 @@
 namespace Rentcar\Controller;
 
 use Site\Controller\AbstractController;
-use Rentcar\Service\BookingService;
+use Rentcar\Service\FinderEntity;
 
 final class Car extends AbstractController
 {
@@ -22,7 +22,7 @@ final class Car extends AbstractController
     protected function bootstrap($action)
     {
         // Create finder entity that holds values
-        $finder = BookingService::createFinder($this->request->getQuery());
+        $finder = FinderEntity::factory($this->request->getQuery());
 
         // Add global finder entity
         $this->view->addVariable('finder', $finder);
