@@ -56,10 +56,10 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         };
 
         $entity = new FinderEntity;
-        $entity->setPickup($get('location', 'pickup'))
+        $entity->setPickupLocation($get('pickup', 'location'))
                ->setPickupDate($get('pickup', 'date'))
                ->setPickupTime($get('pickup', 'time'))
-               ->setReturn($get('location', 'return'))
+               ->setReturnLocation($get('return', 'location'))
                ->setReturnDate($get('return', 'date'))
                ->setReturnTime($get('return', 'time'));
 
