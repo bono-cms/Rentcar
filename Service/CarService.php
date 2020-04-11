@@ -112,6 +112,24 @@ final class CarService extends AbstractManager
     }
 
     /**
+     * Count amount by car id
+     * 
+     * @param int $carId
+     * @param int $period
+     * @return float
+     */
+    public function countAmount($carId, $period)
+    {
+        $price = $this->carMapper->getRentalPrice($carId);
+
+        if ($price){
+            return floatval($price) * intval($period);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * Returns total quantity of all cars
      * 
      * @return int
