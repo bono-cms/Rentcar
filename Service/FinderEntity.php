@@ -15,4 +15,17 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class FinderEntity extends VirtualEntity
 {
+    /**
+     * Checks if entire entity is populated
+     * 
+     * @return boolean
+     */
+    public function isPopulated()
+    {
+        $filtered = array_filter($this->getProperties(), function($value){
+            return empty($value);
+        });
+
+        return empty($filtered);
+    }
 }
