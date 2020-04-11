@@ -74,6 +74,21 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
     }
 
     /**
+     * Returns daily price by car id
+     * 
+     * @param int $id Car id
+     * @return float
+     */
+    public function getRentalPrice($id)
+    {
+        $db = $this->db->select('rent')
+                       ->from(self::getTableName())
+                       ->whereEquals('id', $id);
+
+        return $db->queryScalar();
+    }
+
+    /**
      * Returns total quantity of all cars
      * 
      * @return int

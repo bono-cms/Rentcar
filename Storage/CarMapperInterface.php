@@ -14,6 +14,14 @@ namespace Rentcar\Storage;
 interface CarMapperInterface
 {
     /**
+     * Returns daily price by car id
+     * 
+     * @param int $id Car id
+     * @return float
+     */
+    public function getRentalPrice($id);
+
+    /**
      * Returns total quantity of all cars
      * 
      * @return int
