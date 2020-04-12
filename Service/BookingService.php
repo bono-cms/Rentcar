@@ -92,6 +92,24 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Fetch all booking services by associated booking id
+     * 
+     * @param int $bookingId
+     * @return array
+     */
+    public function fetchServices($bookingId)
+    {
+        $rows = $this->bookingServiceMapper->fetchAll($bookingId);
+
+        // Append currency to price
+        foreach ($rows as &$row) {
+            $row['value'] = sprintf('%s %s', $row['price'], $row['currency']);
+        }
+
+        return $rows;
+    }
+
+    /**
      * Count statuses
      * 
      * @return array|boolean
