@@ -1,6 +1,7 @@
 <?php
 
 use Krystal\Widget\ListView\ListViewWidget;
+use Krystal\Widget\GridView\GridViewWidget;
 
 ?>
 
@@ -9,9 +10,23 @@ use Krystal\Widget\ListView\ListViewWidget;
     <hr />
 
     <div class="row">
-        <div class="col-lg-6 text-center">
-            <img src="<?= $car->getImageUrl('350x350'); ?>" class="img-fluid" />
-            <p><?= $car->getName(); ?></p>
+        <div class="col-lg-6">
+            <div class="text-center">
+                <img src="<?= $car->getImageUrl('350x350'); ?>" class="img-fluid" />
+                <p><?= $car->getName(); ?></p>
+            </div>
+
+            <?php if (!empty($services)): ?>
+            <h2><?php $this->show('Attached services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h2>
+
+            <?= $this->widget(new GridViewWidget($services, [
+                'tableClass' => 'table table-bordered table-stripped',
+                'columns' => [
+                    ['column' => 'service'],
+                    ['column' => 'price']
+                ],
+            ])); ?>
+            <?php endif; ?>
         </div>
 
         <div class="col-lg-6">
