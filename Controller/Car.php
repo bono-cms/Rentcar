@@ -133,16 +133,15 @@ final class Car extends AbstractController
         if ($car !== false) {
             // Append gallery
             $car->setGallery($this->getModuleService('carGalleryService')->fetchAll($id));
-            
+            // Append services
+            $this->getModuleService('rentService')->appendServices($car);
+
             // Load view plugins
             $this->loadSitePlugins();
 
             // Append breadcrumb
             $this->view->getBreadcrumbBag()
                        ->addOne($car->getName());
-
-            // Append services
-            $this->getModuleService('rentService')->appendServices($car);
 
             return $this->view->render('car-single', array(
                 'page' => $car,
