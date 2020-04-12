@@ -162,7 +162,7 @@ CREATE TABLE bono_module_rentcar_booking_services (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     `booking_id` INT NOT NULL COMMENT 'Attached booking ID',
     `service_id` INT NOT NULL COMMENT 'Attached service ID',
-    `price` FLOAT NOT NULL COMMENT 'Price at the moment of inserting',
+    `amount` FLOAT NOT NULL COMMENT 'Amount at the moment of inserting',
 
     FOREIGN KEY (booking_id) REFERENCES bono_module_rentcar_booking(id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES bono_module_rentcar_services(id) ON DELETE CASCADE

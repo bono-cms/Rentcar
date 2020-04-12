@@ -35,7 +35,7 @@ final class BookingServiceMapper extends AbstractMapper implements BookingServic
         // Columns to be selected
         $columns = [
             RentServiceTranslationMapper::column('name') => 'service',
-            self::column('price'),
+            self::column('amount'),
             BookingMapper::column('currency')
         ];
 

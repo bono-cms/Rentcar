@@ -62,7 +62,7 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
         $columns = [
             'booking_id',
             'service_id',
-            'price'
+            'amount'
         ];
 
         return $this->db->insertMany(BookingServiceMapper::getTableName(), $columns, $values)

@@ -103,7 +103,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
 
         // Append currency to price
         foreach ($rows as &$row) {
-            $row['value'] = sprintf('%s %s', $row['price'], $row['currency']);
+            $row['price'] = sprintf('%s %s', $row['amount'], $row['currency']);
         }
 
         return $rows;
