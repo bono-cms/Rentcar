@@ -13,6 +13,7 @@ namespace Rentcar\Controller;
 
 use Site\Controller\AbstractController;
 use Rentcar\Service\FinderEntity;
+use Krystal\Stdlib\VirtualEntity;
 
 final class Car extends AbstractController
 {
@@ -84,12 +85,24 @@ final class Car extends AbstractController
 
         if ($availability['available'] === true) {
             $bookingService->createNew($data);
-            $this->flashBag->set('success', 'You have successfully booked a car. Thank you for using our service!');
+
+            $title = 'You have successfully booked a car. Thank you for using our service!';
+            $template = 'car-booked';
         } else {
-            $this->flashBag->set('success', 'The car can not be reserved for provided dates');
+            $title = 'The car can not be reserved for provided dates';
+            $template = 'car-book-error';
         }
 
-        return 1;
+        $page = new VirtualEntity();
+        $page->setTitle($this->translator->translate($title));
+
+        // Load site plugins
+        $this->loadSitePlugins();
+
+        return $this->view->render($template, [
+            'page' => $page,
+            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
+        ]);
     }
 
     /**
