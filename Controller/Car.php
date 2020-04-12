@@ -85,10 +85,9 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $state = $this->saveBooking();
+        $success = $this->saveBooking();
 
-        $title = $state ? 'You have successfully booked a car. Thank you for using our service!' : 'The car can not be reserved for provided dates';
-        $template = $state ? 'car-booked' : 'car-book-error';
+        $title = $success ? 'You have booked a car' : 'An error occurred';
 
         $page = new VirtualEntity();
         $page->setTitle($this->translator->translate($title));
@@ -96,9 +95,10 @@ final class Car extends AbstractController
         // Load site plugins
         $this->loadSitePlugins();
 
-        return $this->view->render($template, [
+        return $this->view->render('car-booked', [
             'page' => $page,
-            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true)
+            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
+            'success' => $success
         ]);
     }
 
