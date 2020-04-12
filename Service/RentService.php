@@ -12,6 +12,7 @@
 namespace Rentcar\Service;
 
 use Rentcar\Storage\RentServiceMapperInterface;
+use Rentcar\Collection\RentServiceUnitCollection;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Stdlib\ArrayUtils;
@@ -51,6 +52,33 @@ final class RentService extends AbstractManager
                ->setDescription($row['description']);
 
         return $entity;
+    }
+
+    /**
+     * Counts total amount of extra services
+     * 
+     * @param array $ids Service ids
+     * @param int $period Rental period (number of days)
+     * @return float
+     */
+    public function countAmount(array $ids, $period)
+    {
+        $services = $this->fetchByIds($ids);
+        $amount = 0;
+
+        foreach ($services as $service) {
+            if ($service->getPrice() != 0) {
+                if ($service->getUnit() == RentServiceUnitCollection::UNIT_DAILY) {
+                    $amount += ($service->getPrice() * $period);
+                }
+
+                if ($service->getUnit() == RentServiceUnitCollection::UNIT_ONCE) {
+                    $amount += $service->getPrice();
+                }
+            }
+        }
+
+        return $amount;
     }
 
     /**
