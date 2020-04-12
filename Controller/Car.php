@@ -25,14 +25,17 @@ final class Car extends AbstractController
     {
         $finder = $this->createFinder();
 
-        $data = $this->request->getPost('booking');
-        $data = array_merge($data, $finder->getAsColumns());
+        $serviceIds = array_keys($this->request->getPost('service'));
+
+        $booking = $this->request->getPost('booking');
+        $booking = array_merge($booking, $finder->getAsColumns());
 
         // Count amount
-        $data['amount'] = $this->getModuleService('carService')->countAmount($data['car_id'], $finder->getPeriod());
-        $data['currency'] = 'USD';
+        $booking['amount'] = $this->getModuleService('carService')->countAmount($booking['car_id'], $finder->getPeriod());
+        $booking['amount'] += $this->getModuleService('rentService')->countAmount($serviceIds, $finder->getPeriod());
+        $booking['currency'] = 'USD';
 
-        return $data;
+        return $booking;
     }
 
     /**
