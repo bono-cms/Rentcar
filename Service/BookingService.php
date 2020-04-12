@@ -240,14 +240,21 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Create new booking
      * 
      * @param array $input
-     * @return boolean
+     * @return boolean Depending on success
      */
     public function createNew(array $input)
     {
-        $input['status'] = OrderStatusCollection::STATUS_NEW;
-        $input['datetime'] = TimeHelper::getNow();
+        // Double check if car is available
+        $availability = $this->carAvailability($input['car_id'], $input['checkin'], $input['checkout']);
 
-        return $this->save($input);
+        if ($availability['available'] === true) {
+            $input['status'] = OrderStatusCollection::STATUS_NEW;
+            $input['datetime'] = TimeHelper::getNow();
+
+            return $this->save($input);
+        } else {
+            return false;
+        }
     }
 
     /**
