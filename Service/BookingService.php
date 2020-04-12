@@ -11,17 +11,17 @@
 
 namespace Rentcar\Service;
 
-use Rentcar\Storage\BookingMapperInterface;
-use Rentcar\Storage\BookingServiceMapperInterface;
-use Cms\Service\AbstractManager;
-use Krystal\Stdlib\VirtualEntity;
-use Krystal\Db\Filter\FilterableServiceInterface;
-use Krystal\Date\TimeHelper;
-use Rentcar\Module;
-use Rentcar\Collection\OrderStatusCollection;
 use Datetime;
 use Exception;
 use InvalidArgumentException;
+use Krystal\Stdlib\VirtualEntity;
+use Krystal\Db\Filter\FilterableServiceInterface;
+use Krystal\Date\TimeHelper;
+use Cms\Service\AbstractManager;
+use Rentcar\Storage\BookingMapperInterface;
+use Rentcar\Storage\BookingServiceMapperInterface;
+use Rentcar\Module;
+use Rentcar\Collection\OrderStatusCollection;
 
 final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
