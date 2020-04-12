@@ -172,7 +172,7 @@ final class Booking extends AbstractController
 
             return $this->view->render('booking/details', [
                 'booking' => $booking,
-                'services', $bookingService->fetchServices($id),
+                'services' => $bookingService->fetchServices($id),
                 'car' => $this->getModuleService('carService')->fetchById($booking->getCarId(), false)
             ]);
         } else {
