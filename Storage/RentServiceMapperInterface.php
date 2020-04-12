@@ -14,6 +14,14 @@ namespace Rentcar\Storage;
 interface RentServiceMapperInterface
 {
     /**
+     * Save booking services
+     * 
+     * @param array $values
+     * @return boolean
+     */
+    public function saveBooking(array $values);
+
+    /**
      * Fetch attaches service Ids by associated car ID
      * 
      * @param int $id Car id

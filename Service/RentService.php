@@ -55,6 +55,30 @@ final class RentService extends AbstractManager
     }
 
     /**
+     * Save booking services
+     * 
+     * @param int $bookingId
+     * @param array $serviceIds
+     * @param int $period
+     * @return boolean
+     */
+    public function saveBooking($bookingId, array $serviceIds, $period)
+    {
+        $services = $this->fetchByIds($serviceIds);
+        $values = [];
+
+        foreach ($services as $service) {
+            $values[] = [
+                $bookingId,
+                $service->getId(),
+                $service->getPrice() * intval($period)
+            ];
+        }
+
+        return $this->serviceMapper->saveBooking($values);
+    }
+
+    /**
      * Counts total amount of extra services
      * 
      * @param array $ids Service ids

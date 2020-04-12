@@ -11,16 +11,17 @@
 
 namespace Rentcar\Service;
 
-use Rentcar\Storage\BookingMapperInterface;
-use Cms\Service\AbstractManager;
-use Krystal\Stdlib\VirtualEntity;
-use Krystal\Db\Filter\FilterableServiceInterface;
-use Krystal\Date\TimeHelper;
-use Rentcar\Module;
-use Rentcar\Collection\OrderStatusCollection;
 use Datetime;
 use Exception;
 use InvalidArgumentException;
+use Krystal\Stdlib\VirtualEntity;
+use Krystal\Db\Filter\FilterableServiceInterface;
+use Krystal\Date\TimeHelper;
+use Cms\Service\AbstractManager;
+use Rentcar\Storage\BookingMapperInterface;
+use Rentcar\Storage\BookingServiceMapperInterface;
+use Rentcar\Module;
+use Rentcar\Collection\OrderStatusCollection;
 
 final class BookingService extends AbstractManager implements FilterableServiceInterface
 {
@@ -32,14 +33,23 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     private $bookingMapper;
 
     /**
+     * Booking mapper
+     * 
+     * @var \Rentcar\Storage\BookingServiceMapperInterface
+     */
+    private $bookingServiceMapper;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Storage\BookingMapperInterface $bookingMapper
+     * @param \Rentcar\Storage\BookingServiceMapperInterface $bookingServiceMapper
      * @return void
      */
-    public function __construct(BookingMapperInterface $bookingMapper)
+    public function __construct(BookingMapperInterface $bookingMapper, BookingServiceMapperInterface $bookingServiceMapper)
     {
         $this->bookingMapper = $bookingMapper;
+        $this->bookingServiceMapper = $bookingServiceMapper;
     }
 
     /**
@@ -79,6 +89,24 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         }
 
         return $entity;
+    }
+
+    /**
+     * Fetch all booking services by associated booking id
+     * 
+     * @param int $bookingId
+     * @return array
+     */
+    public function fetchServices($bookingId)
+    {
+        $rows = $this->bookingServiceMapper->fetchAll($bookingId);
+
+        // Append currency to price
+        foreach ($rows as &$row) {
+            $row['price'] = sprintf('%s %s', $row['amount'], $row['currency']);
+        }
+
+        return $rows;
     }
 
     /**
@@ -240,6 +268,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Create new booking
      * 
      * @param array $input
+     * @param array $serviceIds
      * @return boolean Depending on success
      */
     public function createNew(array $input)

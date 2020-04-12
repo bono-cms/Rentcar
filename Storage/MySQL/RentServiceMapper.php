@@ -52,6 +52,24 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
     }
 
     /**
+     * Save booking services
+     * 
+     * @param array $values
+     * @return boolean
+     */
+    public function saveBooking(array $values)
+    {
+        $columns = [
+            'booking_id',
+            'service_id',
+            'amount'
+        ];
+
+        return $this->db->insertMany(BookingServiceMapper::getTableName(), $columns, $values)
+                        ->execute();
+    }
+
+    /**
      * Fetch attaches service Ids by associated car ID
      * 
      * @param int $id Car id
