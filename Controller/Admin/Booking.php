@@ -161,7 +161,8 @@ final class Booking extends AbstractController
      */
     public function detailsAction($id)
     {
-        $booking = $this->getModuleService('bookingService')->fetchById($id);
+        $bookingService = $this->getModuleService('bookingService');
+        $booking = $bookingService->fetchById($id);
 
         if ($booking !== false) {
             // Append breadcrumbs
@@ -171,6 +172,7 @@ final class Booking extends AbstractController
 
             return $this->view->render('booking/details', [
                 'booking' => $booking,
+                'services', $bookingService->fetchServices($id),
                 'car' => $this->getModuleService('carService')->fetchById($booking->getCarId(), false)
             ]);
         } else {
