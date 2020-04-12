@@ -12,6 +12,7 @@
 namespace Rentcar\Service;
 
 use Rentcar\Storage\BookingMapperInterface;
+use Rentcar\Storage\BookingServiceMapperInterface;
 use Cms\Service\AbstractManager;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
@@ -32,14 +33,23 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     private $bookingMapper;
 
     /**
+     * Booking mapper
+     * 
+     * @var \Rentcar\Storage\BookingServiceMapperInterface
+     */
+    private $bookingServiceMapper;
+
+    /**
      * State initialization
      * 
      * @param \Rentcar\Storage\BookingMapperInterface $bookingMapper
+     * @param \Rentcar\Storage\BookingServiceMapperInterface $bookingServiceMapper
      * @return void
      */
-    public function __construct(BookingMapperInterface $bookingMapper)
+    public function __construct(BookingMapperInterface $bookingMapper, BookingServiceMapperInterface $bookingServiceMapper)
     {
         $this->bookingMapper = $bookingMapper;
+        $this->bookingServiceMapper = $bookingServiceMapper;
     }
 
     /**
@@ -240,6 +250,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Create new booking
      * 
      * @param array $input
+     * @param array $serviceIds
      * @return boolean Depending on success
      */
     public function createNew(array $input)

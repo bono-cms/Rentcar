@@ -13,5 +13,4 @@ namespace Rentcar\Storage;
 
 interface BookingServiceMapperInterface
 {
-    
 }
