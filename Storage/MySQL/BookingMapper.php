@@ -146,6 +146,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                             self::column('car_id') => CarMapper::getRawColumn('id')
                         ])
                         ->rawAnd()
+                        ->append('NOT')
                         ->append($dateConstraint($checkin, $checkout))
                         // Constraints
                         ->whereEquals(CarMapper::column('id'), $carId)
