@@ -20,10 +20,15 @@ final class Car extends AbstractController
     /**
      * Creates data for insert
      * 
-     * @return array
+     * @return boolean
      */
-    private function createBookingData()
+    private function saveBooking()
     {
+        // Services
+        $bookingService = $this->getModuleService('bookingService');
+        $rentService = $this->getModuleService('rentService');
+        $carService = $this->getModuleService('carService');
+
         $finder = $this->createFinder();
 
         $serviceIds = array_keys($this->request->getPost('service'));
@@ -32,11 +37,15 @@ final class Car extends AbstractController
         $booking = array_merge($booking, $finder->getAsColumns());
 
         // Count amount
-        $booking['amount'] = $this->getModuleService('carService')->countAmount($booking['car_id'], $finder->getPeriod());
-        $booking['amount'] += $this->getModuleService('rentService')->countAmount($serviceIds, $finder->getPeriod());
+        $booking['amount'] = $carService->countAmount($booking['car_id'], $finder->getPeriod());
+        $booking['amount'] += $rentService->countAmount($serviceIds, $finder->getPeriod());
         $booking['currency'] = 'USD';
 
-        return $booking;
+        if ($bookingService->createNew($booking)) {
+            return $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
+        }
+
+        return false;
     }
 
     /**
@@ -76,15 +85,10 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $data = $this->createBookingData();
+        $state = $this->saveBooking();
 
-        if ($this->getModuleService('bookingService')->createNew($data)) {
-            $title = 'You have successfully booked a car. Thank you for using our service!';
-            $template = 'car-booked';
-        } else {
-            $title = 'The car can not be reserved for provided dates';
-            $template = 'car-book-error';
-        }
+        $title = $state ? 'You have successfully booked a car. Thank you for using our service!' : 'The car can not be reserved for provided dates';
+        $template = $state ? 'car-booked' : 'car-book-error';
 
         $page = new VirtualEntity();
         $page->setTitle($this->translator->translate($title));
