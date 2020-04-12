@@ -23,4 +23,39 @@ final class BookingServiceMapper extends AbstractMapper implements BookingServic
     {
         return self::getWithPrefix('bono_module_rentcar_booking_services');
     }
+
+    /**
+     * Fetch all booking services by associated booking id
+     * 
+     * @param int $bookingId
+     * @return array
+     */
+    public function fetchAll($bookingId)
+    {
+        // Columns to be selected
+        $columns = [
+            RentServiceTranslationMapper::column('name') => 'service',
+            self::column('price'),
+            BookingMapper::column('currency')
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       ->leftJoin(RentServiceMapper::getTableName(), [
+                            RentServiceMapper::column('id') => self::getRawColumn('service_id')
+                       ])
+                       ->leftJoin(RentServiceTranslationMapper::getTableName(), [
+                            RentServiceTranslationMapper::column('id') => RentServiceMapper::getRawColumn('id')
+                       ])
+                       // Booking relation
+                       ->leftJoin(BookingMapper::getTableName(), [
+                            BookingMapper::column('id') => self::getRawColumn('booking_id')
+                       ])
+                       ->whereEquals(RentServiceTranslationMapper::column('lang_id'), $this->getLangId())
+                       ->andWhereEquals(self::column('booking_id'), $bookingId)
+                       ->orderBy(self::getRawColumn('id'))
+                       ->desc();
+
+        return $db->queryAll();
+    }
 }

@@ -13,4 +13,11 @@ namespace Rentcar\Storage;
 
 interface BookingServiceMapperInterface
 {
+    /**
+     * Fetch all booking services by associated booking id
+     * 
+     * @param int $bookingId
+     * @return array
+     */
+    public function fetchAll($bookingId);
 }
