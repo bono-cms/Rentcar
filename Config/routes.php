@@ -10,7 +10,7 @@
  */
 
 return array(
-    '/module/cars/list' => array(
+    '/module/rent-cars/list' => array(
         'controller' => 'Car@listAction'
     ),
 
