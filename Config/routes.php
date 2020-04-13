@@ -10,7 +10,11 @@
  */
 
 return array(
-    '/module/cars/list' => array(
+    '/module/rent-cars/payment/response/(:var)' => array(
+        'controller' => 'Car@responseAction'
+    ),
+
+    '/module/rent-cars/list' => array(
         'controller' => 'Car@listAction'
     ),
 

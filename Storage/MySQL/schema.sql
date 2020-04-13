@@ -133,10 +133,14 @@ CREATE TABLE bono_module_rentcar_booking (
     `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT COMMENT 'Booking ID',
     `car_id` INT NOT NULL COMMENT 'Attached Car ID',
 
-    /* Main details */
+    /* Transaction details */
+    `extension` varchar(255) NOT NULL COMMENT 'Payment extension',
+    `token` varchar(255) NOT NULL COMMENT 'Unique transaction token',
     `status` SMALLINT NOT NULL COMMENT 'Booking status',
     `amount` FLOAT NOT NULL COMMENT 'Total amount',
     `currency` varchar(10) NOT NULL COMMENT 'Used currency on payment page',
+
+    /* Main details */
     `datetime` DATETIME NOT NULL COMMENT 'Date and time or this order',
     `method` SMALLINT NOT NULL COMMENT 'Payment method',
 

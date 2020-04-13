@@ -12,17 +12,41 @@
 namespace Rentcar\Controller;
 
 use Site\Controller\AbstractController;
+use Payment\Collection\ResponseCodeCollection;
+use Payment\Controller\PaymentTrait;
 use Rentcar\Service\FinderEntity;
+use Rentcar\Collection\PaymentMethodCollection;
 use Krystal\Stdlib\VirtualEntity;
 
 final class Car extends AbstractController
 {
+    use PaymentTrait;
+
+    /*
+     * {@inheritDoc}
+     */
+    protected function bootstrap($action)
+    {
+        // Disabled CSRF for gateway action
+        if ($action === 'responseAction') {
+            $this->enableCsrf = false;
+        }
+
+        parent::bootstrap($action);
+
+        // Add global finder entity
+        $this->view->addVariable('finder', $this->createFinder());
+    }
+
     /**
      * Creates data for insert
      * 
-     * @return boolean
+     * @param array $request Request data
+     * @param string $extension Payment extension
+     * @param string $currency Payment currency
+     * @return array|boolean Depending on success
      */
-    private function saveBooking()
+    private function saveBooking(array $request, $extension, $currency)
     {
         // Services
         $bookingService = $this->getModuleService('bookingService');
@@ -31,20 +55,24 @@ final class Car extends AbstractController
 
         $finder = $this->createFinder();
 
-        $serviceIds = array_keys($this->request->getPost('service'));
+        $serviceIds = array_keys(isset($request['service']) ? $request['service'] : []);
 
-        $booking = $this->request->getPost('booking');
+        $booking = $request['booking'];
         $booking = array_merge($booking, $finder->getAsColumns());
 
         // Count amount
         $booking['amount'] = $carService->countAmount($booking['car_id'], $finder->getPeriod());
         $booking['amount'] += $rentService->countAmount($serviceIds, $finder->getPeriod());
-        $booking['currency'] = 'USD';
+        $booking['extension'] = $extension;
+        $booking['currency'] = $currency;
 
-        if ($bookingService->createNew($booking)) {
-            return $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
+        if ($row = $bookingService->createNew($booking)) {
+            $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
+
+            return $row;
         }
 
+        // By default
         return false;
     }
 
@@ -67,15 +95,25 @@ final class Car extends AbstractController
         return FinderEntity::factory($data);
     }
 
-    /*
-     * {@inheritDoc}
+    /**
+     * Handle success or failure after payment gets done
+     * 
+     * @param string $token Unique transaction token
+     * @return mixed
      */
-    protected function bootstrap($action)
+    public function responseAction($token)
     {
-        // Add global finder entity
-        $this->view->addVariable('finder', $this->createFinder());
+        // Find transaction row by its token
+        $transaction = $this->getModuleService('bookingService')->fetchByToken($token);
+        $response = $this->createResponse($transaction['extension']);
 
-        parent::bootstrap($action);
+        if ($response->canceled()) {
+            return $this->renderResponse(ResponseCodeCollection::RESPONSE_CANCEL);
+        } else {
+            // Now confirm payment by token, since its successful
+            $this->getModuleService('bookingService')->confirmPayment($token);
+            return $this->renderResponse(ResponseCodeCollection::RESPONSE_SUCCESS);
+        }
     }
 
     /**
@@ -85,9 +123,17 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $success = $this->saveBooking();
+        // Whether payment needs to be done via card?
+        $isCard = $this->request->getPost('method') == PaymentMethodCollection::METHOD_CARD;
 
-        $title = $success ? 'You have booked a car' : 'An error occurred';
+        $transaction = $this->saveBooking($this->request->getPost(), $isCard ? 'Prime4G' : '', 'USD');
+
+        // Is this by card?
+        if (is_array($transaction) && $isCard) {
+            return $this->renderGateway('Rentcar:Car@responseAction', $transaction);
+        }
+
+        $title = $transaction ? 'You have booked a car' : 'An error occurred';
 
         $page = new VirtualEntity();
         $page->setTitle($this->translator->translate($title));
@@ -98,7 +144,7 @@ final class Car extends AbstractController
         return $this->view->render('car-booked', [
             'page' => $page,
             'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
-            'success' => $success
+            'success' => $transaction !== false
         ]);
     }
 

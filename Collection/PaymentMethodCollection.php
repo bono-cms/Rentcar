@@ -15,12 +15,17 @@ use Krystal\Stdlib\ArrayCollection;
 
 final class PaymentMethodCollection extends ArrayCollection
 {
+    /* Method constants */
+    const METHOD_CASH = 1;
+    const METHOD_CARD = 2;
+    const METHOD_BANK = 3;
+
     /**
      * {@inheritDoc}
      */
     protected $collection = [
-        '1' => 'By cash',
-        '2' => 'By card',
-        '3' => 'Bank transfer'
+        self::METHOD_CASH => 'By cash',
+        self::METHOD_CARD => 'By card',
+        self::METHOD_BANK => 'Bank transfer'
     ];
 }

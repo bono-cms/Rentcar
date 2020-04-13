@@ -28,6 +28,14 @@ interface BookingMapperInterface
     public function getAmountSummary();
 
     /**
+     * Finds transaction by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function findByToken($token);
+
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime
@@ -46,13 +54,13 @@ interface BookingMapperInterface
     public function carAvailability($carId, $checkin, $checkout);
 
     /**
-     * Update booking status
+     * Updates transaction status by its token
      * 
-     * @param int $id Booking id
-     * @param int $status Status constant
-     * @return boolean
+     * @param string $token Unique transaction token
+     * @param int $status New status constant
+     * @return boolean Depending on success
      */
-    public function updateStatus($id, $status);
+    public function updateStatusByToken($token, $status);
 
     /**
      * Count new orders

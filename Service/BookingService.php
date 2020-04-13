@@ -11,12 +11,11 @@
 
 namespace Rentcar\Service;
 
-use Datetime;
-use Exception;
 use InvalidArgumentException;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
 use Krystal\Date\TimeHelper;
+use Krystal\Text\TextUtils;
 use Cms\Service\AbstractManager;
 use Rentcar\Storage\BookingMapperInterface;
 use Rentcar\Storage\BookingServiceMapperInterface;
@@ -60,6 +59,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setCarId($row['car_id'])
+               ->setExtension($row['extension'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
                ->setCurrency(isset($row['currency']) ? $row['currency'] : null)
@@ -89,6 +89,17 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         }
 
         return $entity;
+    }
+
+    /**
+     * Confirms that payment is done by token
+     * 
+     * @param string $token Transaction token
+     * @return boolean Depending on success
+     */
+    public function confirmPayment($token)
+    {
+        return $this->transactionMapper->updateStatusByToken($token, OrderStatusCollection::STATUS_APPROVED);
     }
 
     /**
@@ -184,22 +195,6 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
-     * Checks whether datetime format is valid
-     * 
-     * @param string $datetime
-     * @return boolean
-     */
-    private static function formatValid($datetime)
-    {
-        try {
-            new Datetime($datetime);
-            return true;
-        } catch(Exception $e){
-            return false;
-        }
-    }
-
-    /**
      * Appends meta data
      * 
      * @param array $data
@@ -226,7 +221,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function fetchCars($datetime)
     {
-        if (!self::formatValid($datetime)) {
+        if (!TimeHelper::formatValid($datetime)) {
             throw new InvalidArgumentException('Invalid datetime format provided');
         }
 
@@ -250,7 +245,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function carAvailability($carId, $checkin, $checkout)
     {
-        if (!self::formatValid($checkin) || !self::formatValid($checkout)) {
+        if (!TimeHelper::formatValid($checkin) || !TimeHelper::formatValid($checkout)) {
             throw new InvalidArgumentException('Invalid datetime format provided');
         }
 
@@ -269,7 +264,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * 
      * @param array $input
      * @param array $serviceIds
-     * @return boolean Depending on success
+     * @return array|boolean Depending on success
      */
     public function createNew(array $input)
     {
@@ -279,23 +274,12 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         if ($availability['available'] === true) {
             $input['status'] = OrderStatusCollection::STATUS_NEW;
             $input['datetime'] = TimeHelper::getNow();
+            $input['token'] = TextUtils::uniqueString(); // Unique token of this transaction
 
-            return $this->save($input);
+            return $this->bookingMapper->persistRow($input);
         } else {
             return false;
         }
-    }
-
-    /**
-     * Update booking status
-     * 
-     * @param int $id Booking id
-     * @param int $status Status constant
-     * @return boolean
-     */
-    public function updateStatus($id, $status)
-    {
-        return $this->bookingMapper->updateStatus($id, $status);
     }
 
     /**
@@ -328,6 +312,17 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     public function deleteById($id)
     {
         return $this->bookingMapper->deleteByPk($id);
+    }
+
+    /**
+     * Finds row by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function fetchByToken($token)
+    {
+        return $this->prepareResult($this->bookingMapper->findByToken($token));
     }
 
     /**
