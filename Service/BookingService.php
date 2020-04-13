@@ -17,6 +17,7 @@ use InvalidArgumentException;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
 use Krystal\Date\TimeHelper;
+use Krystal\Text\TextUtils;
 use Cms\Service\AbstractManager;
 use Rentcar\Storage\BookingMapperInterface;
 use Rentcar\Storage\BookingServiceMapperInterface;
@@ -280,6 +281,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         if ($availability['available'] === true) {
             $input['status'] = OrderStatusCollection::STATUS_NEW;
             $input['datetime'] = TimeHelper::getNow();
+            $input['token'] = TextUtils::uniqueString(); // Unique token of this transaction
 
             return $this->save($input);
         } else {
