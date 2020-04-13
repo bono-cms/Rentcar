@@ -94,6 +94,17 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Confirms that payment is done by token
+     * 
+     * @param string $token Transaction token
+     * @return boolean Depending on success
+     */
+    public function confirmPayment($token)
+    {
+        return $this->transactionMapper->updateStatusByToken($token, OrderStatusCollection::STATUS_APPROVED);
+    }
+
+    /**
      * Fetch all booking services by associated booking id
      * 
      * @param int $bookingId
@@ -287,18 +298,6 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         } else {
             return false;
         }
-    }
-
-    /**
-     * Update booking status
-     * 
-     * @param int $id Booking id
-     * @param int $status Status constant
-     * @return boolean
-     */
-    public function updateStatus($id, $status)
-    {
-        return $this->bookingMapper->updateStatus($id, $status);
     }
 
     /**

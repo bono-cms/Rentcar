@@ -169,16 +169,16 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
-     * Update booking status
+     * Updates transaction status by its token
      * 
-     * @param int $id Booking id
-     * @param int $status Status constant
-     * @return boolean
+     * @param string $token Unique transaction token
+     * @param int $status New status constant
+     * @return boolean Depending on success
      */
-    public function updateStatus($id, $status)
+    public function updateStatusByToken($token, $status)
     {
         $db = $this->db->update(self::getTableName(), ['status' => $status])
-                       ->whereEquals('id', $id);
+                       ->whereEquals('token', $token);
 
         return (bool) $db->execute(true);
     }
