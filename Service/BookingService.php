@@ -334,6 +334,17 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Finds row by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function fetchByToken($token)
+    {
+        return $this->prepareResult($this->bookingMapper->findByToken($token));
+    }
+
+    /**
      * Fetches booking entry by its id
      * 
      * @param int $id Booking id

@@ -60,6 +60,17 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Finds transaction by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function findByToken($token)
+    {
+        return $this->fetchByColumn('token', $token);
+    }
+
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime

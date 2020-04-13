@@ -28,6 +28,14 @@ interface BookingMapperInterface
     public function getAmountSummary();
 
     /**
+     * Finds transaction by its associated token
+     * 
+     * @param string $token
+     * @return array
+     */
+    public function findByToken($token);
+
+    /**
      * Fetch cars with booking status
      * 
      * @param string $datetime
