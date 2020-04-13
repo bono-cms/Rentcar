@@ -282,7 +282,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * 
      * @param array $input
      * @param array $serviceIds
-     * @return boolean Depending on success
+     * @return array|boolean Depending on success
      */
     public function createNew(array $input)
     {
@@ -294,7 +294,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
             $input['datetime'] = TimeHelper::getNow();
             $input['token'] = TextUtils::uniqueString(); // Unique token of this transaction
 
-            return $this->save($input);
+            return $this->bookingMapper->persistRow($input);
         } else {
             return false;
         }
