@@ -11,8 +11,6 @@
 
 namespace Rentcar\Service;
 
-use Datetime;
-use Exception;
 use InvalidArgumentException;
 use Krystal\Stdlib\VirtualEntity;
 use Krystal\Db\Filter\FilterableServiceInterface;
@@ -197,22 +195,6 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
-     * Checks whether datetime format is valid
-     * 
-     * @param string $datetime
-     * @return boolean
-     */
-    private static function formatValid($datetime)
-    {
-        try {
-            new Datetime($datetime);
-            return true;
-        } catch(Exception $e){
-            return false;
-        }
-    }
-
-    /**
      * Appends meta data
      * 
      * @param array $data
@@ -239,7 +221,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function fetchCars($datetime)
     {
-        if (!self::formatValid($datetime)) {
+        if (!TimeHelper::formatValid($datetime)) {
             throw new InvalidArgumentException('Invalid datetime format provided');
         }
 
@@ -263,7 +245,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function carAvailability($carId, $checkin, $checkout)
     {
-        if (!self::formatValid($checkin) || !self::formatValid($checkout)) {
+        if (!TimeHelper::formatValid($checkin) || !TimeHelper::formatValid($checkout)) {
             throw new InvalidArgumentException('Invalid datetime format provided');
         }
 
