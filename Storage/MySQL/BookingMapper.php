@@ -54,6 +54,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->select('currency')
                        ->sum('amount', 'amount')
                        ->from(self::getTableName())
+                       ->whereEquals('status', OrderStatusCollection::STATUS_APPROVED)
                        ->groupBy('currency');
 
         return $db->queryAll();
