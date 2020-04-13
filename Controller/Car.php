@@ -42,9 +42,11 @@ final class Car extends AbstractController
      * Creates data for insert
      * 
      * @param array $request Request data
+     * @param string $extension Payment extension
+     * @param string $currency Payment currency
      * @return array|boolean Depending on success
      */
-    private function saveBooking(array $request)
+    private function saveBooking(array $request, $extension, $currency)
     {
         // Services
         $bookingService = $this->getModuleService('bookingService');
@@ -61,8 +63,8 @@ final class Car extends AbstractController
         // Count amount
         $booking['amount'] = $carService->countAmount($booking['car_id'], $finder->getPeriod());
         $booking['amount'] += $rentService->countAmount($serviceIds, $finder->getPeriod());
-        $booking['currency'] = 'USD';
-        $booking['extension'] = 'Prime4G';
+        $booking['extension'] = $extension;
+        $booking['currency'] = $currency;
 
         if ($row = $bookingService->createNew($booking)) {
             $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
@@ -121,7 +123,7 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $transaction = $this->saveBooking($this->request->getPost());
+        $transaction = $this->saveBooking($this->request->getPost(), 'Prime4G', 'USD');
 
         // Is this by card?
         if (is_array($transaction) && $transaction['method'] == PaymentMethodCollection::METHOD_CARD){
