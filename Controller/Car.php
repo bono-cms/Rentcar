@@ -20,9 +20,10 @@ final class Car extends AbstractController
     /**
      * Creates data for insert
      * 
+     * @param array $request Request data
      * @return boolean
      */
-    private function saveBooking()
+    private function saveBooking(array $request)
     {
         // Services
         $bookingService = $this->getModuleService('bookingService');
@@ -31,9 +32,9 @@ final class Car extends AbstractController
 
         $finder = $this->createFinder();
 
-        $serviceIds = array_keys($this->request->getPost('service'));
+        $serviceIds = array_keys(isset($request['service']) ? $request['service'] : []);
 
-        $booking = $this->request->getPost('booking');
+        $booking = $request['booking'];
         $booking = array_merge($booking, $finder->getAsColumns());
 
         // Count amount
@@ -45,6 +46,7 @@ final class Car extends AbstractController
             return $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
         }
 
+        // By default
         return false;
     }
 
@@ -85,7 +87,7 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
-        $success = $this->saveBooking();
+        $success = $this->saveBooking($this->request->getPost());
 
         $title = $success ? 'You have booked a car' : 'An error occurred';
 
