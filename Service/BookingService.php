@@ -60,6 +60,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
         $entity = new VirtualEntity();
         $entity->setId($row['id'])
                ->setCarId($row['car_id'])
+               ->setExtension($row['extension'])
                ->setStatus($row['status'])
                ->setAmount($row['amount'])
                ->setCurrency(isset($row['currency']) ? $row['currency'] : null)
