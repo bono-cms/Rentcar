@@ -169,7 +169,7 @@ final class Car extends AbstractController
 
             return $this->view->render('car-list', array(
                 'page' => $page,
-                'languages' => $pageService->getSwitchUrls($id),
+                'languages' => $pageService->getSwitchUrls($id, 'Rentcar:Car@listAction'),
                 'cars' => $this->getModuleService('carService')->fetchAll()
             ));
 
