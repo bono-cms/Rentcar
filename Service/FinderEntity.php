@@ -29,13 +29,16 @@ final class FinderEntity extends VirtualEntity
             return isset($query[$group][$key]) ? $query[$group][$key] : null;
         };
 
-        $entity = new self;
+        $entity = new self();
         $entity->setPickupLocation($get('pickup', 'location'))
                ->setPickupDate($get('pickup', 'date'))
                ->setPickupTime($get('pickup', 'time'))
                ->setReturnLocation($get('return', 'location'))
                ->setReturnDate($get('return', 'date'))
-               ->setReturnTime($get('return', 'time'));
+               ->setReturnTime($get('return', 'time'))
+               // Sometimes might be defined
+               ->setCheckin($get('pickup', 'checkin'))
+               ->setCheckout($get('return', 'checkout'));
 
         return $entity;
     }
@@ -97,6 +100,10 @@ final class FinderEntity extends VirtualEntity
      */
     public function getCheckout()
     {
+        if ($this->has('checkout')) {
+            return $this->get('checkout');
+        }
+
         return self::normalizeTime($this->getReturnDate(), $this->getReturnTime());
     }
 
@@ -107,6 +114,10 @@ final class FinderEntity extends VirtualEntity
      */
     public function getCheckin()
     {
+        if ($this->has('checkin')) {
+            return $this->get('checkin');
+        }
+
         return self::normalizeTime($this->getPickupDate(), $this->getPickupTime());
     }
 
