@@ -301,7 +301,7 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12 control-label"><?php $this->show('Price'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::number('car[price]', $entity->getPrice(), array('class' => 'form-control')); ?>
+                    <?= Element::number('car[price]', $entity->getPrice(), array('class' => 'form-control', 'step' => 'any')); ?>
                 </div>
             </div>
 
@@ -324,7 +324,7 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12"><?php $this->show('Daily rent price'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::number('car[rent]', $entity->getRent(), ['class' => 'form-control', 'min' => 0]); ?>
+                    <?= Element::number('car[rent]', $entity->getRent(), ['class' => 'form-control', 'min' => 0, 'step' => 'any']); ?>
                 </div>
             </div>
         </div>
