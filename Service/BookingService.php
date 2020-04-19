@@ -92,6 +92,19 @@ final class BookingService extends AbstractManager implements FilterableServiceI
     }
 
     /**
+     * Get availability count
+     * 
+     * @return int
+     */
+    public function getAvailabilityCount()
+    {
+        $total = (int) $this->bookingMapper->getTotalCarCount();
+        $taken = (int) $this->bookingMapper->getTakenCount(TimeHelper::getNow());
+
+        return $total - $taken;
+    }
+
+    /**
      * Confirms that payment is done by token
      * 
      * @param string $token Transaction token
