@@ -99,7 +99,7 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      */
     public function confirmPayment($token)
     {
-        return $this->transactionMapper->updateStatusByToken($token, OrderStatusCollection::STATUS_APPROVED);
+        return $this->bookingMapper->updateStatusByToken($token, OrderStatusCollection::STATUS_APPROVED);
     }
 
     /**
