@@ -16,6 +16,25 @@ use Rentcar\Service\FinderEntity;
 trait CarTrait
 {
     /**
+     * Format error messages
+     * 
+     * @param string $error Error string
+     * @param string $group Input group
+     * @return string
+     */
+    protected function formatErrors($errors, $group)
+    {
+        $errors = json_decode($errors, false);
+        $output = [];
+
+        foreach ($errors as $name => $messages) {
+            $output[sprintf('%s[%s]', $group, $name)] = $messages;
+        }
+
+        return json_encode($output);
+    }
+
+    /**
      * Checks whether car is available at the moment for booking
      * 
      * @param int $id Car id

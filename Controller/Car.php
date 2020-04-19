@@ -84,29 +84,46 @@ final class Car extends AbstractController
     {
         $request = $this->request->getPost();
 
-        // Whether payment needs to be done via card?
-        $isCard = $request['booking']['method'] == PaymentMethodCollection::METHOD_CARD;
-
-        $transaction = $this->saveBooking($request, $isCard ? 'Prime4G' : '', 'USD');
-
-        // Is this by card?
-        if (is_array($transaction) && $isCard) {
-            return $this->renderGateway('Rentcar:Car@responseAction', $transaction);
-        }
-
-        $title = $transaction ? 'You have booked a car' : 'An error occurred';
-
-        $page = new VirtualEntity();
-        $page->setTitle($this->translator->translate($title));
-
-        // Load site plugins
-        $this->loadSitePlugins();
-
-        return $this->view->render('car-booked', [
-            'page' => $page,
-            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
-            'success' => $transaction !== false
+        $formValidator = $this->createValidator([
+            'input' => [
+                'source' => $request['booking'],
+                'definition' => [
+                    'name' => new Pattern\Name,
+                    'email' => new Pattern\Email,
+                    'phone' => new Pattern\Phone
+                ]
+            ]
         ]);
+
+        // Validate booking form, before processing
+        if ($formValidator->isValid()) {
+            // Whether payment needs to be done via card?
+            $isCard = $request['booking']['method'] == PaymentMethodCollection::METHOD_CARD;
+
+            $transaction = $this->saveBooking($request, $isCard ? 'Prime4G' : '', 'USD');
+
+            // Is this by card?
+            if (is_array($transaction) && $isCard) {
+                return $this->renderGateway('Rentcar:Car@responseAction', $transaction);
+            }
+
+            $title = $transaction ? 'You have booked a car' : 'An error occurred';
+
+            $page = new VirtualEntity();
+            $page->setTitle($this->translator->translate($title));
+
+            // Load site plugins
+            $this->loadSitePlugins();
+
+            return $this->view->render('car-booked', [
+                'page' => $page,
+                'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
+                'success' => $transaction !== false
+            ]);
+
+        } else {
+            return $this->formatErrors($formValidator->getErrors(), 'booking');
+        }
     }
 
     /**
