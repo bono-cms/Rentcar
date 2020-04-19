@@ -96,6 +96,20 @@ final class Car extends AbstractController
     }
 
     /**
+     * Checks whether car is available at the moment for booking
+     * 
+     * @param int $id Car id
+     * @return boolean
+     */
+    private function carAvailable($id)
+    {
+        $finder = $this->createFinder();
+        $availability = $this->getModuleService('bookingService')->carAvailability($id, $finder->getCheckin(), $finder->getCheckout());
+
+        return $availability !== false && $availability['available'] === true;
+    }
+
+    /**
      * Handle success or failure after payment gets done
      * 
      * @param string $token Unique transaction token
@@ -205,7 +219,8 @@ final class Car extends AbstractController
             return $this->view->render('car-single', array(
                 'page' => $car,
                 'car' => $car,
-                'languages' => $carService->getSwitchUrls($id)
+                'languages' => $carService->getSwitchUrls($id),
+                'available' => $this->carAvailable($id)
             ));
 
         } else {
