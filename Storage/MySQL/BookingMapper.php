@@ -28,6 +28,38 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Returns total count
+     * 
+     * @return int
+     */
+    public function getTotalCarCount()
+    {
+        $db = $this->db->select()
+                       ->sum('qty')
+                       ->from(CarMapper::getTableName());
+
+        return $db->queryScalar();
+    }
+
+    /**
+     * Takes count of 
+     * 
+     * @param string $datetime
+     * @return int
+     */
+    public function getTakenCount($datetime)
+    {
+        $column = new RawSqlFragment(sprintf("'%s'", $datetime));
+
+        $db = $this->db->select()
+                       ->count('id')
+                       ->from(self::getTableName())
+                       ->whereBetween($column, new RawSqlFragment('checkin'), new RawSqlFragment('checkout'));
+
+        return $db->queryScalar();
+    }
+
+    /**
      * Count statuses
      * 
      * @return array

@@ -14,6 +14,21 @@ namespace Rentcar\Storage;
 interface BookingMapperInterface
 {
     /**
+     * Returns total count
+     * 
+     * @return int
+     */
+    public function getTotalCarCount();
+
+    /**
+     * Takes count of 
+     * 
+     * @param string $datetime
+     * @return int
+     */
+    public function getTakenCount($datetime);
+
+    /**
      * Count statuses
      * 
      * @return array
