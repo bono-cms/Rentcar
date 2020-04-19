@@ -14,13 +14,13 @@ namespace Rentcar\Controller;
 use Site\Controller\AbstractController;
 use Payment\Collection\ResponseCodeCollection;
 use Payment\Controller\PaymentTrait;
-use Rentcar\Service\FinderEntity;
 use Rentcar\Collection\PaymentMethodCollection;
 use Krystal\Stdlib\VirtualEntity;
 
 final class Car extends AbstractController
 {
     use PaymentTrait;
+    use CarTrait;
 
     /*
      * {@inheritDoc}
@@ -36,77 +36,6 @@ final class Car extends AbstractController
 
         // Add global finder entity
         $this->view->addVariable('finder', $this->createFinder());
-    }
-
-    /**
-     * Creates data for insert
-     * 
-     * @param array $request Request data
-     * @param string $extension Payment extension
-     * @param string $currency Payment currency
-     * @return array|boolean Depending on success
-     */
-    private function saveBooking(array $request, $extension, $currency)
-    {
-        // Services
-        $bookingService = $this->getModuleService('bookingService');
-        $rentService = $this->getModuleService('rentService');
-        $carService = $this->getModuleService('carService');
-
-        $finder = $this->createFinder();
-
-        $serviceIds = array_keys(isset($request['service']) ? $request['service'] : []);
-
-        $booking = $request['booking'];
-        $booking = array_merge($booking, $finder->getAsColumns());
-
-        // Count amount
-        $booking['amount'] = $carService->countAmount($booking['car_id'], $finder->getPeriod());
-        $booking['amount'] += $rentService->countAmount($serviceIds, $finder->getPeriod());
-        $booking['extension'] = $extension;
-        $booking['currency'] = $currency;
-
-        if ($row = $bookingService->createNew($booking)) {
-            $rentService->saveBooking($bookingService->getLastId(), $serviceIds, $finder->getPeriod());
-
-            return $row;
-        }
-
-        // By default
-        return false;
-    }
-
-    /**
-     * Returns populated finder entity
-     * 
-     * @return \Rentcar\Service\FinderEntity
-     */
-    private function createFinder()
-    {
-        if ($this->request->hasPost('pickup', 'return')) {
-            $this->sessionBag->set('rental', [
-                'pickup' => $this->request->getPost('pickup'),
-                'return' => $this->request->getPost('return')
-            ]);
-        }
-
-        $data = $this->sessionBag->get('rental', []);
-
-        return FinderEntity::factory($data);
-    }
-
-    /**
-     * Checks whether car is available at the moment for booking
-     * 
-     * @param int $id Car id
-     * @return boolean
-     */
-    private function carAvailable($id)
-    {
-        $finder = $this->createFinder();
-        $availability = $this->getModuleService('bookingService')->carAvailability($id, $finder->getCheckin(), $finder->getCheckout());
-
-        return $availability !== false && $availability['available'] === true;
     }
 
     /**
