@@ -39,6 +39,22 @@ final class Car extends AbstractController
     }
 
     /**
+     * Counts price
+     * 
+     * @return string
+     */
+    public function countAction()
+    {
+        $data = $this->parseRawData($this->request->getPost());
+        $amount = $data['booking']['amount'];
+
+        return $this->json([
+            'amount' => $amount,
+            'price' => number_format($amount)
+        ]);
+    }
+
+    /**
      * Handle success or failure after payment gets done
      * 
      * @param string $token Unique transaction token
