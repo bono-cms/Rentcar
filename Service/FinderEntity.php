@@ -59,6 +59,24 @@ final class FinderEntity extends VirtualEntity
     }
 
     /**
+     * Counts a price
+     * 
+     * @param float $amount Daily price
+     * @param boolean Whether to format output
+     * @return string
+     */
+    public function countPrice($amount, $format = true)
+    {
+        $price = $amount * $this->getPeriod();
+
+        if ($format == true) {
+            $price = number_format($price);
+        }
+
+        return $price;
+    }
+
+    /**
      * Normalizes date and time
      * 
      * @param string $date
@@ -132,6 +150,6 @@ final class FinderEntity extends VirtualEntity
             return empty($value);
         });
 
-        return empty($filtered);
+        return !empty($filtered);
     }
 }
