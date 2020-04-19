@@ -82,10 +82,12 @@ final class Car extends AbstractController
      */
     public function bookAction()
     {
+        $request = $this->request->getPost();
+        
         // Whether payment needs to be done via card?
-        $isCard = $this->request->getPost('method') == PaymentMethodCollection::METHOD_CARD;
+        $isCard = $request['booking']['method'] == PaymentMethodCollection::METHOD_CARD;
 
-        $transaction = $this->saveBooking($this->request->getPost(), $isCard ? 'Prime4G' : '', 'USD');
+        $transaction = $this->saveBooking($request, $isCard ? 'Prime4G' : '', 'USD');
 
         // Is this by card?
         if (is_array($transaction) && $isCard) {
