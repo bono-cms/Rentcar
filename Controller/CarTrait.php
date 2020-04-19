@@ -59,6 +59,7 @@ trait CarTrait
     protected function saveBooking(array $data, $extension, $currency)
     {
         $bookingService = $this->getModuleService('bookingService');
+        $rentService = $this->getModuleService('rentService');
 
         $request = $this->parseRawData($data);
 
