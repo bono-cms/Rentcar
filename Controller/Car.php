@@ -83,7 +83,7 @@ final class Car extends AbstractController
     public function bookAction()
     {
         $request = $this->request->getPost();
-        
+
         // Whether payment needs to be done via card?
         $isCard = $request['booking']['method'] == PaymentMethodCollection::METHOD_CARD;
 
