@@ -108,9 +108,10 @@ trait CarTrait
      * @param array $request Request data
      * @param string $extension Payment extension
      * @param string $currency Payment currency
+     * @param boolean $temporary Whether the booking is temporary
      * @return array|boolean Depending on success
      */
-    protected function saveBooking(array $data, $extension, $currency)
+    protected function saveBooking(array $data, $extension, $currency, $temporary = false)
     {
         $bookingService = $this->getModuleService('bookingService');
         $rentService = $this->getModuleService('rentService');
@@ -121,7 +122,7 @@ trait CarTrait
         $request['booking']['extension'] = $extension;
         $request['booking']['currency'] = $currency;
 
-        if ($row = $bookingService->createNew($request['booking'])) {
+        if ($row = $bookingService->createNew($request['booking'], $temporary)) {
             $rentService->saveBooking($bookingService->getLastId(), $request['service']['ids'], $request['period']);
 
             return $row;
