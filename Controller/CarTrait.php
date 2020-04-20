@@ -40,9 +40,11 @@ trait CarTrait
         ];
 
         // Render message template
-        $body = $this->view->renderRaw('Rentcar', 'admin', 'mail/notification', $client);
+        $body = $this->view->renderRaw('Rentcar', 'admin', 'mail/notification', [
+            'client' => $client
+        ]);
 
-        $subject = $this->translator->translate('You have received a new booking from %s', $client['name']);
+        $subject = $this->translator->translate('You have received a new booking from %s', $transaction['name']);
 
         $mailer = $this->getService('Cms', 'mailer');
         return $mailer->send($body, $subject);

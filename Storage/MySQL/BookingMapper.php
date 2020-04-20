@@ -42,6 +42,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
             self::column('status'),
             self::column('extension'),
             self::column('amount'),
+            self::column('currency'),
             self::column('datetime'),
             self::column('method'),
             // Client details
@@ -150,7 +151,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     public function findByToken($token)
     {
         $db = $this->createSharedQuery()
-                   ->whereEquals(self::column('token'), $token);
+                   ->andWhereEquals(self::column('token'), $token);
 
         return $db->query();
     }
