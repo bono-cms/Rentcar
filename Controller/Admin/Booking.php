@@ -114,7 +114,7 @@ final class Booking extends AbstractController
             'booking' => $booking,
             'cars' => $this->getModuleService('carService')->fetchList(),
             // Collections
-            'orderStatuses' => $orderStCol->getAll(),
+            'orderStatuses' => $orderStCol->getStatuses(),
             'genders' => $genderStCol->getAll(),
             'paymentMethods' => $payMethCol->getAll()
         ]);
