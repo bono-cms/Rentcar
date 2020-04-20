@@ -308,7 +308,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         if (!$sortingColumn) {
             $sortingColumn = $this->getPk();
         }
-        
+
         $db = $this->createSharedQuery();
 
         // Filter by void state, by default

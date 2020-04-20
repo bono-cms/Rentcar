@@ -87,7 +87,7 @@ final class Booking extends AbstractController
 
             // Vars for filters
             'cars' => $this->getModuleService('carService')->fetchList(),
-            'orderStatuses' => $orderStCol->getAll(),
+            'orderStatuses' => $orderStCol->getStatuses(),
             'filterApplied' => $this->request->getQuery('filter', false)
         ]);
     }
