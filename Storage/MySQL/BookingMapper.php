@@ -199,7 +199,6 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                             BookingMapper::column('car_id') => CarMapper::getRawColumn('id')
                         ])
                         ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
-                        ->andWhereNotEquals(self::column('status'), OrderStatusCollection::STATUS_VOID)
                         ->orderBy(CarMapper::column('id'))
                         ->desc();
 
@@ -250,9 +249,10 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                         ->rawAnd()
                         ->append('NOT')
                         ->append($dateConstraint($checkin, $checkout))
+                        ->rawAnd()
+                        ->notEquals(self::column('status'), OrderStatusCollection::STATUS_VOID)
                         // Constraints
                         ->whereEquals(CarMapper::column('id'), $carId)
-                        ->andWhereNotEquals(self::column('status'), OrderStatusCollection::STATUS_VOID)
                         ->groupBy([
                             CarMapper::column('qty')
                         ]);
