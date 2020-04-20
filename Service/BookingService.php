@@ -280,15 +280,16 @@ final class BookingService extends AbstractManager implements FilterableServiceI
      * Create new booking
      * 
      * @param array $input
+     * @param boolean $temporary Whether booking is temporary
      * @return array|boolean Depending on success
      */
-    public function createNew(array $input)
+    public function createNew(array $input, $temporary = false)
     {
         // Double check if car is available
         $availability = $this->carAvailability($input['car_id'], $input['checkin'], $input['checkout']);
 
         if ($availability['available'] === true) {
-            $input['status'] = OrderStatusCollection::STATUS_NEW;
+            $input['status'] = $temporary ? OrderStatusCollection::STATUS_VOID : OrderStatusCollection::STATUS_NEW;
             $input['datetime'] = TimeHelper::getNow();
             $input['token'] = TextUtils::uniqueString(); // Unique token of this transaction
 

@@ -39,7 +39,7 @@ final class OrderStatusCollection extends ArrayCollection
     public function getStatuses()
     {
         $collection = $this->collection;
-        
+
         // Remove void state
         unset($collection[self::STATUS_VOID]);
 
