@@ -47,7 +47,7 @@ trait CarTrait
         $subject = $this->translator->translate('You have received a new booking from %s', $transaction['name']);
 
         $mailer = $this->getService('Cms', 'mailer');
-        return $mailer->send($body, $subject);
+        return $mailer->send($subject, $body);
     }
 
     /**
