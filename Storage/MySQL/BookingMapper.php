@@ -71,7 +71,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                             CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
                        ])
                        // Language constraint
-                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId());
 
         return $db;
     }
@@ -149,7 +149,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
      */
     public function findByToken($token)
     {
-        $db = $this->createSharedQuery();
+        $db = $this->createSharedQuery()
                    ->whereEquals(self::column('token'), $token);
 
         return $db->query();
