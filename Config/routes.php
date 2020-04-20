@@ -18,6 +18,14 @@ return array(
         'controller' => 'Car@responseAction'
     ),
 
+    '/module/rent-cars/payment/gateway/(:var)' => array(
+        'controller' => 'Car@gatewayAction'
+    ),
+
+    '/module/rent-cars/payment/finish/(:var)' => array(
+        'controller' => 'Car@finishAction'
+    ),
+
     '/module/rent-cars/list' => array(
         'controller' => 'Car@listAction'
     ),

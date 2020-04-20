@@ -79,6 +79,48 @@ final class Car extends AbstractController
     }
 
     /**
+     * Renders gateway page
+     * 
+     * @param string $token Transaction token
+     * @return string
+     */
+    public function gatewayAction($token)
+    {
+        $transaction = $this->getModuleService('bookingService')->fetchByToken($token);
+
+        if ($transaction) {
+            return $this->renderGateway('Rentcar:Car@responseAction', $transaction);
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Renders finish page
+     * 
+     * @param string $token Transaction token
+     * @return string
+     */
+    public function finishAction($token)
+    {
+        $transaction = $this->getModuleService('bookingService')->fetchByToken($token);
+
+        $title = $transaction ? 'You have booked a car' : 'An error occurred';
+
+        $page = new VirtualEntity();
+        $page->setTitle($this->translator->translate($title));
+
+        // Load site plugins
+        $this->loadSitePlugins();
+
+        return $this->view->render('car-booked', [
+            'page' => $page,
+            'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
+            'success' => $transaction !== false
+        ]);
+    }
+
+    /**
      * Book a car (Form submit processor)
      * 
      * @return mixed
@@ -107,24 +149,16 @@ final class Car extends AbstractController
 
             // Is this by card?
             if (is_array($transaction) && $isCard) {
-                return $this->renderGateway('Rentcar:Car@responseAction', $transaction);
+                return $this->json([
+                    'backUrl' => $this->createUrl('Rentcar:Car@gatewayAction', [$transaction['token']])
+                ]);
             }
-
-            $title = $transaction ? 'You have booked a car' : 'An error occurred';
-
-            $page = new VirtualEntity();
-            $page->setTitle($this->translator->translate($title));
-
-            // Load site plugins
-            $this->loadSitePlugins();
 
             // Send email notification
             $this->notifyOwner($transaction);
 
-            return $this->view->render('car-booked', [
-                'page' => $page,
-                'languages' => $this->getService('Cms', 'languageManager')->fetchAll(true),
-                'success' => $transaction !== false
+            return $this->json([
+                'backUrl' => $this->createUrl('Rentcar:Car@finishAction', [$transaction['token']])
             ]);
 
         } else {
