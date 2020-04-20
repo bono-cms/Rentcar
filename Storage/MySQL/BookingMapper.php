@@ -313,12 +313,13 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
 
         // Filter by void state, by default
         if (!$input['status']) {
-            $input['status'] = OrderStatusCollection::STATUS_VOID;
+            $db->andWhereNotEquals(self::column('status'), OrderStatusCollection::STATUS_VOID);
+        } else {
+            $db->andWhereEquals(self::column('status'), $input['status']);
         }
 
         // Filter constraints
         $db->andWhereEquals(self::column('car_id'), $input['car_id'], true)
-           ->andWhereEquals(self::column('status'), $input['status'])
            ->andWhereLike(self::column('name'), '%'.$input['name'].'%', true);
 
         // Apply sorting
