@@ -12,9 +12,41 @@
 namespace Rentcar\Controller;
 
 use Rentcar\Service\FinderEntity;
+use Rentcar\Collection\PaymentMethodCollection;
 
 trait CarTrait
 {
+    /**
+     * Sends email notification to owner
+     * 
+     * @param array $transaction
+     * @return boolean
+     */
+    protected function notifyOwner(array $transaction)
+    {
+        $payMethCol = new PaymentMethodCollection();
+
+        // Prepare data. Client information.
+        $client = [
+            'Client name' => $transaction['name'],
+            'Email' => $transaction['email'],
+            'Phone' => $transaction['phone'],
+            'Payment amount' => sprintf('%s %s', $transaction['amount'], $transaction['currency']),
+            'Payment method' => $payMethCol->findByKey($transaction['method']),
+            'Pick up at' => sprintf('%s / %s', $transaction['pickup'], $transaction['checkin']), 
+            'Return at' => sprintf('%s / %s', $transaction['return'], $transaction['checkout']),
+            'Comment' => $transaction['comment']
+        ];
+
+        // Render message template
+        $body = $this->view->renderRaw('Rentcar', 'admin', 'mail/notification', $client);
+
+        $subject = $this->translator->translate('You have received a new booking from %s', $client['name']);
+
+        $mailer = $this->getService('Cms', 'mailer');
+        return $mailer->send($body, $subject);
+    }
+
     /**
      * Format error messages
      * 

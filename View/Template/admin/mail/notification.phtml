@@ -1,0 +1,21 @@
+
+<p><?php $this->show('Hello, there,'); ?></p>
+<p><?php $this->show('You have received a new order from the site.'); ?></p>
+<p><?php $this->show('Order information:'); ?></p>
+
+<table>
+    <tbody>
+        <?php foreach ($client as $key => $value): ?>
+
+        <?php if (!empty($value)): ?>
+        <tr>
+            <td><?= $this->translate($key); ?></td>
+            <td><?= $value; ?></td>
+        </tr>
+        <?php endif; ?>
+
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<p><?php $this->show('Please enter administration panel and review this order manually. Thank you.'); ?></p>
