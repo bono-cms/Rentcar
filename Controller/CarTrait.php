@@ -33,6 +33,7 @@ trait CarTrait
             'Phone' => $transaction['phone'],
             'Payment amount' => sprintf('%s %s', $transaction['amount'], $transaction['currency']),
             'Payment method' => $payMethCol->findByKey($transaction['method']),
+            'Car' => $transaction['car'],
             'Pick up at' => sprintf('%s / %s', $transaction['pickup'], $transaction['checkin']), 
             'Return at' => sprintf('%s / %s', $transaction['return'], $transaction['checkout']),
             'Comment' => $transaction['comment']
