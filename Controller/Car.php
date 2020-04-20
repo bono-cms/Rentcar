@@ -69,6 +69,9 @@ final class Car extends AbstractController
         if ($response->canceled()) {
             return $this->renderResponse(ResponseCodeCollection::RESPONSE_CANCEL);
         } else {
+            // Payment is successful, so now just send email notification
+            $this->notifyOwner($transaction);
+
             // Now confirm payment by token, since its successful
             $this->getModuleService('bookingService')->confirmPayment($token);
             return $this->renderResponse(ResponseCodeCollection::RESPONSE_SUCCESS);
@@ -114,6 +117,9 @@ final class Car extends AbstractController
 
             // Load site plugins
             $this->loadSitePlugins();
+
+            // Send email notification
+            $this->notifyOwner($transaction);
 
             return $this->view->render('car-booked', [
                 'page' => $page,
