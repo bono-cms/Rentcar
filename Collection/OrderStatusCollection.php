@@ -16,10 +16,10 @@ use Krystal\Stdlib\ArrayCollection;
 final class OrderStatusCollection extends ArrayCollection
 {
     /* Status constants */
-    const STATUS_DECLINED = 0;
-    const STATUS_APPROVED = 1;
-    const STATUS_NEW = 2;
-    const STATUS_VOID = 3;
+    const STATUS_DECLINED = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_NEW = 3;
+    const STATUS_VOID = 4;
 
     /**
      * {@inheritDoc}
