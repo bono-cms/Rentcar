@@ -28,6 +28,55 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
     }
 
     /**
+     * Creates shared query
+     * 
+     * @return \Krystal\Db\Sql\Db
+     */
+    private function createSharedQuery()
+    {
+        // Columns to be selected
+        $columns = [
+            self::column('id'),
+            self::column('car_id'),
+            // Main details
+            self::column('status'),
+            self::column('extension'),
+            self::column('amount'),
+            self::column('datetime'),
+            self::column('method'),
+            // Client details
+            self::column('name'),
+            self::column('email'),
+            self::column('phone'),
+            self::column('gender'),
+            self::column('comment'),
+            // Order details
+            self::column('pickup'),
+            self::column('return'),
+            self::column('checkin'),
+            self::column('checkout'),
+            // The rest
+            CarMapper::column('image') => 'image',
+            CarTranslationMapper::column('name') => 'car'
+        ];
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       // Car relation
+                       ->leftJoin(CarMapper::getTableName(), [
+                            CarMapper::column('id') => self::getRawColumn('car_id')
+                       ])
+                       // Car translation relation
+                       ->leftJoin(CarTranslationMapper::getTableName(), [
+                            CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
+                       ])
+                       // Language constraint
+                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
+
+        return $db;
+    }
+
+    /**
      * Returns total count
      * 
      * @return int
@@ -100,7 +149,10 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
      */
     public function findByToken($token)
     {
-        return $this->fetchByColumn('token', $token);
+        $db = $this->createSharedQuery();
+                   ->whereEquals(self::column('token'), $token);
+
+        return $db->query();
     }
 
     /**
@@ -249,50 +301,13 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         if (!$sortingColumn) {
             $sortingColumn = $this->getPk();
         }
+        
+        $db = $this->createSharedQuery();
 
-        // Columns to be selected
-        $columns = [
-            self::column('id'),
-            self::column('car_id'),
-            // Main details
-            self::column('status'),
-            self::column('extension'),
-            self::column('amount'),
-            self::column('datetime'),
-            self::column('method'),
-            // Client details
-            self::column('name'),
-            self::column('email'),
-            self::column('phone'),
-            self::column('gender'),
-            self::column('comment'),
-            // Order details
-            self::column('pickup'),
-            self::column('return'),
-            self::column('checkin'),
-            self::column('checkout'),
-            // The rest
-            CarMapper::column('image') => 'image',
-            CarTranslationMapper::column('name') => 'car'
-        ];
-
-        $db = $this->db->select($columns)
-                       ->from(self::getTableName())
-                       // Car relation
-                       ->leftJoin(CarMapper::getTableName(), [
-                            CarMapper::column('id') => self::getRawColumn('car_id')
-                       ])
-                       // Car translation relation
-                       ->leftJoin(CarTranslationMapper::getTableName(), [
-                            CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
-                       ])
-                       // Language constraint
-                       ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
-
-                       // Filter constraints
-                       ->andWhereEquals(self::column('car_id'), $input['car_id'], true)
-                       ->andWhereEquals(self::column('status'), $input['status'], true)
-                       ->andWhereLike(self::column('name'), '%'.$input['name'].'%', true);
+        // Filter constraints
+        $db->andWhereEquals(self::column('car_id'), $input['car_id'], true)
+           ->andWhereEquals(self::column('status'), $input['status'], true)
+           ->andWhereLike(self::column('name'), '%'.$input['name'].'%', true);
 
         // Apply sorting
         $db->orderBy($sortingColumn);
