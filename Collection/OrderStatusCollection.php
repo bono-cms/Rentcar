@@ -30,4 +30,19 @@ final class OrderStatusCollection extends ArrayCollection
         self::STATUS_NEW => 'New',
         self::STATUS_VOID => 'Void'
     ];
+
+    /**
+     * Return payment statuses except void state
+     * 
+     * @return array
+     */
+    public function getStatuses()
+    {
+        $collection = $this->collection;
+        
+        // Remove void state
+        unset($collection[self::STATUS_VOID]);
+
+        return $collection;
+    }
 }
