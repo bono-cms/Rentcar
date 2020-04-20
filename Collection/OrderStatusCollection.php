@@ -16,9 +16,10 @@ use Krystal\Stdlib\ArrayCollection;
 final class OrderStatusCollection extends ArrayCollection
 {
     /* Status constants */
-    const STATUS_DECLINED = 0;
-    const STATUS_APPROVED = 1;
-    const STATUS_NEW = 2;
+    const STATUS_DECLINED = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_NEW = 3;
+    const STATUS_VOID = 4;
 
     /**
      * {@inheritDoc}
@@ -26,6 +27,22 @@ final class OrderStatusCollection extends ArrayCollection
     protected $collection = [
         self::STATUS_DECLINED => 'Declined',
         self::STATUS_APPROVED => 'Approved',
-        self::STATUS_NEW => 'New'
+        self::STATUS_NEW => 'New',
+        self::STATUS_VOID => 'Void'
     ];
+
+    /**
+     * Return payment statuses except void state
+     * 
+     * @return array
+     */
+    public function getStatuses()
+    {
+        $collection = $this->collection;
+
+        // Remove void state
+        unset($collection[self::STATUS_VOID]);
+
+        return $collection;
+    }
 }

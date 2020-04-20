@@ -105,7 +105,8 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->select()
                        ->count('id')
                        ->from(self::getTableName())
-                       ->whereBetween($column, new RawSqlFragment('checkin'), new RawSqlFragment('checkout'));
+                       ->whereBetween($column, new RawSqlFragment('checkin'), new RawSqlFragment('checkout'))
+                       ->andWhereNotEquals('status', OrderStatusCollection::STATUS_VOID);
 
         return $db->queryScalar();
     }
@@ -122,6 +123,7 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         $db = $this->db->select($column)
                        ->count($column, 'count')
                        ->from(self::getTableName())
+                       ->whereNotEquals('status', OrderStatusCollection::STATUS_VOID)
                        ->groupBy($column);
 
         return $db->queryAll();
@@ -174,7 +176,8 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                ->count(BookingMapper::column('id'))
                ->from(BookingMapper::getTableName())
                ->whereEquals(BookingMapper::column('car_id'), CarMapper::column('id'))
-               ->andWhereBetween(new RawSqlFragment($datetime), BookingMapper::column('checkin'), BookingMapper::column('checkout'));
+               ->andWhereBetween(new RawSqlFragment($datetime), BookingMapper::column('checkin'), BookingMapper::column('checkout'))
+               ->andWhereNotEquals(BookingMapper::column('status'), OrderStatusCollection::STATUS_VOID);
 
             return $qb->getQueryString();
         };
@@ -246,6 +249,8 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
                         ->rawAnd()
                         ->append('NOT')
                         ->append($dateConstraint($checkin, $checkout))
+                        ->rawAnd()
+                        ->notEquals(self::column('status'), OrderStatusCollection::STATUS_VOID)
                         // Constraints
                         ->whereEquals(CarMapper::column('id'), $carId)
                         ->groupBy([
@@ -303,12 +308,18 @@ final class BookingMapper extends AbstractMapper implements BookingMapperInterfa
         if (!$sortingColumn) {
             $sortingColumn = $this->getPk();
         }
-        
+
         $db = $this->createSharedQuery();
+
+        // Filter by void state, by default
+        if (!$input['status']) {
+            $db->andWhereNotEquals(self::column('status'), OrderStatusCollection::STATUS_VOID);
+        } else {
+            $db->andWhereEquals(self::column('status'), $input['status']);
+        }
 
         // Filter constraints
         $db->andWhereEquals(self::column('car_id'), $input['car_id'], true)
-           ->andWhereEquals(self::column('status'), $input['status'], true)
            ->andWhereLike(self::column('name'), '%'.$input['name'].'%', true);
 
         // Apply sorting
