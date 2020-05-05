@@ -19,10 +19,10 @@ trait CarTrait
     /**
      * Sends email notification to owner
      * 
-     * @param array $transaction
+     * @param array\ArrayAcess $transaction
      * @return boolean
      */
-    protected function notifyOwner(array $transaction)
+    protected function notifyOwner($transaction)
     {
         $payMethCol = new PaymentMethodCollection();
 
