@@ -14,7 +14,7 @@ return array(
         'controller' => 'Car@countAction'
     ],
 
-    '/module/rent-cars/payment/response/(:var)' => array(
+    '/module/rent-cars/payment/response/(:var)/' => array(
         'controller' => 'Car@responseAction'
     ),
 
