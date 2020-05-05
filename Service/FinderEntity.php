@@ -146,10 +146,10 @@ final class FinderEntity extends VirtualEntity
      */
     public function isPopulated()
     {
-        $filtered = array_filter($this->getProperties(), function($value){
+        $filtered = array_filter($this->getAsColumns(), function($value){
             return empty($value);
         });
 
-        return !empty($filtered);
+        return empty($filtered);
     }
 }
