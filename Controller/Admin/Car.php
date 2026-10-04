@@ -3,6 +3,8 @@
 /**
  * This file is part of the Bono CMS
  * 
+ * Copyright (c) No Global State Lab
+ * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -25,10 +27,10 @@ final class Car extends AbstractController
         $this->view->getBreadcrumbBag()
                    ->addOne('Cars');
 
-        return $this->view->render('car/index', array(
+        return $this->view->render('car/index', [
             'cars' => $this->getModuleService('carService')->fetchAll(),
             'newBookings' => $this->getModuleService('bookingService')->countNew()
-        ));
+        ]);
     }
 
     /**
@@ -48,14 +50,14 @@ final class Car extends AbstractController
                    ->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                    ->addOne($title);
 
-        return $this->view->render('car/form', array(
+        return $this->view->render('car/form', [
             'car' => $car,
             'brands' => $this->getModuleService('brandService')->fetchList(),
             'services' => $this->getModuleService('rentService')->fetchList(),
-            'activeServiceIds' => is_array($car) ? $this->getModuleService('rentService')->fetchAttachedIds($car[0]->getId()) : array(),
-            'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : array(),
-            'gallery' => is_array($car) ? $this->getModuleService('carGalleryService')->fetchAll($car[0]->getId()) : array()
-        ));
+            'activeServiceIds' => is_array($car) ? $this->getModuleService('rentService')->fetchAttachedIds($car[0]->getId()) : [],
+            'modifications' => is_array($car) ? $this->getModuleService('carModificationService')->fetchAll($car[0]->getId()) : [],
+            'gallery' => is_array($car) ? $this->getModuleService('carGalleryService')->fetchAll($car[0]->getId()) : []
+        ]);
     }
 
     /**
@@ -102,15 +104,46 @@ final class Car extends AbstractController
     {
         $input = $this->request->getAll();
 
-        $carService = $this->getModuleService('carService');
-        $carService->save($input);
+        $validator = $this->createValidation();
 
-        if ($input['data']['car']['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        $validator->field('car.price')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('car.order')
+                  ->addRule('numeric');
+
+        $validator->field('car.qty')
+                  ->addRule('numeric');
+
+        $validator->field('car.rent')
+                  ->addRule('numeric');
+
+        $validator->field('translation.*.name')
+                  ->required();
+
+        if ($validator->isPassed()) {
+            $carService = $this->getModuleService('carService');
+            $carService->save($input);
+
+            if ($input['data']['car']['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Rentcar:Admin:Car@editAction', [$carService->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $carService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 
@@ -141,6 +174,8 @@ final class Car extends AbstractController
             $this->flashBag->set('success', 'Selected element has been removed successfully');
         }
 
-        return 1;
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 }
