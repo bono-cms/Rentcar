@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -12,7 +10,7 @@
 namespace Rentcar\Storage\MySQL;
 
 use Krystal\Db\Sql\RawSqlFragment;
-use Cms\Storage\MySQL\AbstractMapper;;
+use Cms\Storage\MySQL\AbstractMapper;
 use Rentcar\Storage\RentServiceMapperInterface;
 
 final class RentServiceMapper extends AbstractMapper implements RentServiceMapperInterface
@@ -40,7 +38,7 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('order'),
             self::column('price'),
@@ -48,7 +46,7 @@ final class RentServiceMapper extends AbstractMapper implements RentServiceMappe
             RentServiceTranslationMapper::column('lang_id'),
             RentServiceTranslationMapper::column('name'),
             RentServiceTranslationMapper::column('description')
-        );
+        ];
     }
 
     /**

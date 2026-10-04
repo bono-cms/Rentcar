@@ -17,46 +17,46 @@ defined('KRYSTAL') or die;
         <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Brands'); ?> (<?= count($brands); ?>)</h4>
 
         <div class="table-responsive">
-            <?= $this->widget(new GridViewWidget($brands, array(
+            <?= $this->widget(new GridViewWidget($brands, [
                 'tableClass' => 'table table-hover table-bordered',
-                'columns' => array(
-                    array(
+                'columns' => [
+                    [
                         'column' => 'id',
                         'label' => '#'
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'icon',
                         'value' => function($row){
-                            return Element::image($row->getImageUrl(), array('class' => 'img-fluid'));
+                            return Element::image($row->getImageUrl(), ['class' => 'img-fluid']);
                         }
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'name'
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'order'
-                    )
-                ),
+                    ]
+                ],
 
-                'actions' => array(
-                    'edit' => function($row){
+                'actions' => [
+                    function($row){
                         return Icon::edit(
                             $this->url('Rentcar:Admin:Brand@editAction', $row['id']),
                             $this->translate('Edit this brand')
                         );
                     },
 
-                    'remove' => function($row){
+                    function($row){
                         return Icon::remove(
                             $this->url('Rentcar:Admin:Brand@deleteAction', $row['id']),
                             $this->translate('Remove this brand')
                         );
                     }
-                )
-            ))); ?>
+                ]
+            ])); ?>
 
             <?php if (empty($brands)): ?>
             <div class="center-block">
@@ -66,4 +66,3 @@ defined('KRYSTAL') or die;
         </div>
     </div>
 </form>
-

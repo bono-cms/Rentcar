@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -31,12 +29,12 @@ final class CarModification extends AbstractController
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()
                    ->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
-                   ->addOne($this->translator->translate('Edit the car "%s"', $car->getName()), $this->createUrl('Rentcar:Admin:Car@editAction', array($carId)))
+                   ->addOne($this->translator->translate('Edit the car "%s"', $car->getName()), $this->createUrl('Rentcar:Admin:Car@editAction', [$carId]))
                    ->addOne($title);
 
-        return $this->view->render('car-modification/form', array(
+        return $this->view->render('car-modification/form', [
             'modification' => $modification
-        ));
+        ]);
     }
 
     /**
@@ -82,7 +80,10 @@ final class CarModification extends AbstractController
         $this->getModuleService('carModificationService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -92,18 +93,43 @@ final class CarModification extends AbstractController
      */
     public function saveAction()
     {
-        // Get raw POST data
-        $input = $this->request->getPost();
+        $validator = $this->createValidation();
 
-        $carModificationService = $this->getModuleService('carModificationService');
-        $carModificationService->save($input);
+        $validator->field('modification.car_id')
+                  ->required()
+                  ->addRule('numeric');
 
-        if ($input['modification']['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        $validator->field('modification.price')
+                  ->addRule('numeric');
+
+        $validator->field('translation.*.name')
+                  ->required();
+
+        if ($validator->isPassed()) {
+            // Get raw POST data
+            $input = $this->request->getPost();
+
+            $carModificationService = $this->getModuleService('carModificationService');
+            $carModificationService->save($input);
+
+            if ($input['modification']['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Rentcar:Admin:CarModification@editAction', [$carModificationService->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $carModificationService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

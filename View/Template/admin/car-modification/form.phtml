@@ -19,19 +19,19 @@ defined('KRYSTAL') or die;
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $modification); ?>
 
-                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
                     <div class="form-group">
                         <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
-                                <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Name'))); ?>
+                                <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Name')]); ?>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                             </div>
                         </div>
@@ -42,24 +42,24 @@ defined('KRYSTAL') or die;
         </div>
 
         <div class="tab-pane fade" id="configuration" role="tabpanel">
-            <?php echo Element::hidden('modification[id]', $entity->getId()); ?>
-            <?php echo Element::hidden('modification[car_id]', $entity->getCarId()); ?>
+            <?= Element::hidden('modification[id]', $entity->getId()); ?>
+            <?= Element::hidden('modification[car_id]', $entity->getCarId()); ?>
 
             <div class="form-group">
                 <label class="col-lg-2 control-label"><?php $this->show('Price'); ?></label>
                 <div class="col-lg-10">
-                    <?php echo Element::number('modification[price]', $entity->getPrice(), array('class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Modification price'))); ?>
+                    <?= Element::number('modification[price]', $entity->getPrice(), ['class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Modification price')]); ?>
                 </div>
             </div>
         </div>
     </div>
 
-    <?php $this->loadPartial('actions', array(
+    <?php $this->loadPartial('actions', [
         'new' => !$entity->getId(),
-        'add' => array('Rentcar:Admin:CarModification@addAction', $entity->getCarId()),
+        'add' => ['Rentcar:Admin:CarModification@addAction', $entity->getCarId()],
         'edit' => 'Rentcar:Admin:CarModification@editAction',
         'save' => 'Rentcar:Admin:CarModification@saveAction',
         'cancel' => 'Rentcar:Admin:CarModification@gridAction'
-    )); ?>
+    ]); ?>
 
 </form>

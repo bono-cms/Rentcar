@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -40,7 +38,7 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('brand_id'),
             self::column('price'),
@@ -70,7 +68,7 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
             WebPageMapper::column('slug'),
             WebPageMapper::column('changefreq'),
             WebPageMapper::column('priority')
-        );
+        ];
     }
 
     /**
@@ -142,9 +140,9 @@ final class CarMapper extends AbstractMapper implements CarMapperInterface
 
         $db = $this->createWebPageSelect($columns)
                    // Brand relation
-                   ->leftJoin(BrandMapper::getTableName(), array(
+                   ->leftJoin(BrandMapper::getTableName(), [
                         BrandMapper::column('id') => self::column('brand_id')
-                   ))
+                   ])
                    ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
                    ->orderBy(self::column('id'));
 

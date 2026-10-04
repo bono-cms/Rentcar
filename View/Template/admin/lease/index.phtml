@@ -15,15 +15,15 @@ $stCol = new LeasePeriodCollection();
 <form autocomplete="off">
     <div class="btn-toolbar">
         <div class="btn-group mr-2">
-            <?php $this->loadPartial('menu', array(
-                'items' => array(
+            <?php $this->loadPartial('menu', [
+                'items' => [
                     'Rentcar:Admin:Lease@addAction' => 'Add new contract'
-                ),
-                'actions' => array(
+                ],
+                'actions' => [
                     'data' => $contracts,
                     'delete' => 'Rentcar:Admin:Lease@deleteAction'
-                )
-            )); ?>
+                ]
+            ]); ?>
         </div>
 
         <div class="btn-group mr-2">
@@ -35,38 +35,38 @@ $stCol = new LeasePeriodCollection();
         <h4><i class="fab fa-accusoft"></i> <?php $this->show('Contracts'); ?> (<?= count($contracts); ?>)</h4>
 
         <div class="table-responsive">
-            <?= $this->widget(new GridViewWidget($contracts, array(
+            <?= $this->widget(new GridViewWidget($contracts, [
                 'tableClass' => 'table table-hover table-bordered',
                 'batch' => true,
                 'pk' => 'id',
-                'rowAttributes' => array(
+                'rowAttributes' => [
                     'class' => function($row){
                         return $row['status'] == StatusCollection::STATUS_FINISHED ? 'table-success' : 'table-warning';
                     }
-                ),
-                'columns' => array(
-                    array(
+                ],
+                'columns' => [
+                    [
                         'column' => 'owner',
                         'filter' => true
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'model',
                         'type' => 'select',
                         'filter' => $models
-                    ),
+                    ],
                     
-                    array(
+                    [
                         'column' => 'numberplate',
                         'filter' => true
-                    ),
+                    ],
                     
-                    array(
+                    [
                         'column' => 'contract_number',
                         'filter' => true
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'period',
                         'translateable' => true,
                         'filter' => $this->translateArray($stCol->getAll()),
@@ -74,32 +74,32 @@ $stCol = new LeasePeriodCollection();
                         'value' => function($row) use ($stCol){
                             return $stCol->findByKey($row['period']);
                         }
-                    )
-                ),
+                    ]
+                ],
 
-                'actions' => array(
-                    'view' => function($row){
+                'actions' => [
+                    function($row){
                         return Icon::details(
                             $this->url('Rentcar:Admin:Lease@viewAction', $row['id']),
                             $this->translate('View this contract')
                         );
                     },
 
-                    'edit' => function($row){
+                    function($row){
                         return Icon::edit(
                             $this->url('Rentcar:Admin:Lease@editAction', $row['id']),
                             $this->translate('Edit this contract')
                         );
                     },
 
-                    'remove' => function($row){
+                    function($row){
                         return Icon::remove(
-                            $this->url('Rentcar:Admin:Brand@deleteAction', $row['id']),
+                            $this->url('Rentcar:Admin:Lease@deleteAction', $row['id']),
                             $this->translate('Remove this contract')
                         );
                     }
-                )
-            ))); ?>
+                ]
+            ])); ?>
 
             <?php if (empty($contracts)): ?>
             <div class="center-block">
@@ -111,4 +111,3 @@ $stCol = new LeasePeriodCollection();
         <?php $this->loadPartial('paginator'); ?>
     </div>
 </form>
-

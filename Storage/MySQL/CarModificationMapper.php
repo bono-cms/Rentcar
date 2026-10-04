@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -39,13 +37,13 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
      */
     private function getColumns()
     {
-        return array(
+        return [
             self::column('id'),
             self::column('car_id'),
             self::column('price'),
             CarModificationTranslationMapper::column('lang_id'),
             CarModificationTranslationMapper::column('name')
-        );
+        ];
     }
 
     /**
@@ -56,18 +54,18 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
      */
     public function fetchAllPrices($carId = null)
     {
-        $columns = array(
+        $columns = [
             CarMapper::column('id'),
             CarMapper::column('price'),
             CarTranslationMapper::column('name') => 'car'
-        );
+        ];
 
         $db = $this->db->select($columns)
                        ->from(CarMapper::getTableName())
                        // Translation mapper
-                       ->leftJoin(CarTranslationMapper::getTableName(), array(
+                       ->leftJoin(CarTranslationMapper::getTableName(), [
                             CarTranslationMapper::column('id') => CarMapper::getRawColumn('id')
-                       ))
+                       ])
                        ->whereEquals(CarTranslationMapper::column('lang_id'), $this->getLangId())
                        // Don't fetch zero-prices
                        ->andWhereNotEquals(CarMapper::column('price'), 0);
@@ -108,14 +106,14 @@ final class CarModificationMapper extends AbstractMapper implements CarModificat
 
         $db = $this->createEntitySelect($columns)
                    // Car relation
-                   ->leftJoin(CarMapper::getTableName(), array(
+                   ->leftJoin(CarMapper::getTableName(), [
                         CarMapper::column('id') => self::getRawColumn('car_id')
-                   ))
+                   ])
                    // Car translation mapper
-                   ->leftJoin(CarTranslationMapper::getTableName(), array(
+                   ->leftJoin(CarTranslationMapper::getTableName(), [
                         CarTranslationMapper::column('id') => CarMapper::getRawColumn('id'),
                         CarTranslationMapper::column('lang_id') => CarModificationTranslationMapper::getRawColumn('lang_id')
-                   ))
+                   ])
                    ->whereEquals(CarModificationTranslationMapper::column('lang_id'), $this->getLangId());
 
         // Apply car ID constraint if provided

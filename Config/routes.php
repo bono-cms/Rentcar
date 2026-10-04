@@ -3,120 +3,118 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
-return array(
+return [
     '/module/rent-cars/payment/count' => [
         'controller' => 'Car@countAction'
     ],
 
-    '/module/rent-cars/payment/response/(:var)/' => array(
+    '/module/rent-cars/payment/response/(:var)/' => [
         'controller' => 'Car@responseAction'
-    ),
+    ],
 
-    '/module/rent-cars/payment/gateway/(:var)' => array(
+    '/module/rent-cars/payment/gateway/(:var)' => [
         'controller' => 'Car@gatewayAction'
-    ),
+    ],
 
-    '/module/rent-cars/payment/finish/(:var)' => array(
+    '/module/rent-cars/payment/finish/(:var)' => [
         'controller' => 'Car@finishAction'
-    ),
+    ],
 
-    '/module/rent-cars/list' => array(
+    '/module/rent-cars/list' => [
         'controller' => 'Car@listAction'
-    ),
+    ],
 
     '/module/rent-car/book' => [
         'controller' => 'Car@bookAction'
     ],
 
     // Car modifications
-    '/%s/module/rent-car/cars/modifications/edit/(:var)' => array(
+    '/%s/module/rent-car/cars/modifications/edit/(:var)' => [
         'controller' => 'Admin:CarModification@editAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/modifications/add/(:var)' => array(
+    '/%s/module/rent-car/cars/modifications/add/(:var)' => [
         'controller' => 'Admin:CarModification@addAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/modifications/delete/(:var)' => array(
+    '/%s/module/rent-car/cars/modifications/delete/(:var)' => [
         'controller' => 'Admin:CarModification@deleteAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/modifications/save' => array(
+    '/%s/module/rent-car/cars/modifications/save' => [
         'controller' => 'Admin:CarModification@saveAction'
-    ),
+    ],
     
     // Cars
-    '/%s/module/rent-car' => array(
+    '/%s/module/rent-car' => [
         'controller' => 'Admin:Car@indexAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/save' => array(
+    '/%s/module/rent-car/cars/save' => [
         'controller' => 'Admin:Car@saveAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/add' => array(
+    '/%s/module/rent-car/cars/add' => [
         'controller' => 'Admin:Car@addAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/edit/(:var)' => array(
+    '/%s/module/rent-car/cars/edit/(:var)' => [
         'controller' => 'Admin:Car@editAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/cars/delete/(:var)' => array(
+    '/%s/module/rent-car/cars/delete/(:var)' => [
         'controller' => 'Admin:Car@deleteAction'
-    ),
+    ],
 
     // Brands
-    '/%s/module/rent-car/brands' => array(
+    '/%s/module/rent-car/brands' => [
         'controller' => 'Admin:Brand@indexAction'
-    ),
+    ],
     
-    '/%s/module/rent-car/brands/save' => array(
+    '/%s/module/rent-car/brands/save' => [
         'controller' => 'Admin:Brand@saveAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/brands/add' => array(
+    '/%s/module/rent-car/brands/add' => [
         'controller' => 'Admin:Brand@addAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/brands/edit/(:var)' => array(
+    '/%s/module/rent-car/brands/edit/(:var)' => [
         'controller' => 'Admin:Brand@editAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/brands/delete/(:var)' => array(
+    '/%s/module/rent-car/brands/delete/(:var)' => [
         'controller' => 'Admin:Brand@deleteAction'
-    ),
+    ],
 
     // Lease
-    '/%s/module/rent-car/lease' => array(
+    '/%s/module/rent-car/lease' => [
         'controller' => 'Admin:Lease@indexAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/lease/save' => array(
+    '/%s/module/rent-car/lease/save' => [
         'controller' => 'Admin:Lease@saveAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/lease/add' => array(
+    '/%s/module/rent-car/lease/add' => [
         'controller' => 'Admin:Lease@addAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/lease/edit/(:var)' => array(
+    '/%s/module/rent-car/lease/edit/(:var)' => [
         'controller' => 'Admin:Lease@editAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/lease/delete/(:var)' => array(
+    '/%s/module/rent-car/lease/delete/(:var)' => [
         'controller' => 'Admin:Lease@deleteAction'
-    ),
+    ],
 
-    '/%s/module/rent-car/lease/view/(:var)' => array(
+    '/%s/module/rent-car/lease/view/(:var)' => [
         'controller' => 'Admin:Lease@viewAction'
-    ),
+    ],
 
     // Services
     '/%s/module/rent-car/services' => [
@@ -188,4 +186,4 @@ return array(
     '/%s/module/rent-car/gallery/save' => [
         'controller' => 'Admin:CarGallery@saveAction'
     ]
-);
+];

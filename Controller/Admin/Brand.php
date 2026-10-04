@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -30,9 +28,9 @@ final class Brand extends AbstractController
                                        ->addOne('Brands', 'Rentcar:Admin:Brand@indexAction')
                                        ->addOne($title);
 
-        return $this->view->render('brand/form', array(
+        return $this->view->render('brand/form', [
             'brand' => $brand
-        ));
+        ]);
     }
 
     /**
@@ -46,9 +44,9 @@ final class Brand extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Brands');
 
-        return $this->view->render('brand/index', array(
+        return $this->view->render('brand/index', [
             'brands' => $this->getModuleService('brandService')->fetchAll()
-        ));
+        ]);
     }
 
     /**
@@ -89,7 +87,10 @@ final class Brand extends AbstractController
         $this->getModuleService('brandService')->deleteById($id);
 
         $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -102,17 +103,36 @@ final class Brand extends AbstractController
         // Get raw POST data
         $input = $this->request->getAll();
 
-        $brandService = $this->getModuleService('brandService');
-        $brandService->save($input);
+        $validator = $this->createValidation();
 
-        if ($input['data']['brand']['id']) {
+        $validator->field('brand.name')
+                  ->required();
 
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        $validator->field('brand.order')
+                  ->addRule('numeric');
+
+        if ($validator->isPassed()) {
+            $brandService = $this->getModuleService('brandService');
+            $brandService->save($input);
+
+            if ($input['data']['brand']['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Rentcar:Admin:Brand@editAction', [$brandService->getLastId()]),
+                ]);
+            }
+
         } else {
-
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $brandService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

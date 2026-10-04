@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -48,25 +46,6 @@ trait CarTrait
 
         $mailer = $this->getService('Cms', 'mailer');
         return $mailer->send($subject, $body);
-    }
-
-    /**
-     * Format error messages
-     * 
-     * @param string $error Error string
-     * @param string $group Input group
-     * @return string
-     */
-    protected function formatErrors($errors, $group)
-    {
-        $errors = json_decode($errors, false);
-        $output = [];
-
-        foreach ($errors as $name => $messages) {
-            $output[sprintf('%s[%s]', $group, $name)] = $messages;
-        }
-
-        return json_encode($output);
     }
 
     /**

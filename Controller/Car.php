@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -129,19 +127,20 @@ final class Car extends AbstractController
     {
         $request = $this->request->getPost();
 
-        $formValidator = $this->createValidator([
-            'input' => [
-                'source' => $request['booking'],
-                'definition' => [
-                    'name' => new Pattern\Name,
-                    'email' => new Pattern\Email,
-                    'phone' => new Pattern\Phone
-                ]
-            ]
-        ]);
+        $validator = $this->createValidation();
+
+        $validator->field('booking.name')
+                  ->required();
+
+        $validator->field('booking.email')
+                  ->required()
+                  ->addRule('email');
+
+        $validator->field('booking.phone')
+                  ->required();
 
         // Validate booking form, before processing
-        if ($formValidator->isValid()) {
+        if ($validator->isPassed()) {
             // Whether payment needs to be done via card?
             $isCard = $request['booking']['method'] == PaymentMethodCollection::METHOD_CARD;
 
@@ -150,7 +149,7 @@ final class Car extends AbstractController
             // Is this by card?
             if (is_array($transaction) && $isCard) {
                 return $this->json([
-                    'backUrl' => $this->createUrl('Rentcar:Car@gatewayAction', [$transaction['token']])
+                    'redirect' => $this->createUrl('Rentcar:Car@gatewayAction', [$transaction['token']])
                 ]);
             }
 
@@ -158,11 +157,13 @@ final class Car extends AbstractController
             $this->notifyOwner($transaction);
 
             return $this->json([
-                'backUrl' => $this->createUrl('Rentcar:Car@finishAction', [$transaction['token']])
+                'redirect' => $this->createUrl('Rentcar:Car@finishAction', [$transaction['token']])
             ]);
 
         } else {
-            return $this->formatErrors($formValidator->getErrors(), 'booking');
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 
@@ -185,11 +186,11 @@ final class Car extends AbstractController
             $this->view->getBreadcrumbBag()
                        ->addOne($page->getName());
 
-            return $this->view->render('car-list', array(
+            return $this->view->render('car-list', [
                 'page' => $page,
                 'languages' => $pageService->getSwitchUrls($id, 'Rentcar:Car@listAction'),
                 'cars' => $this->getModuleService('carService')->fetchAll()
-            ));
+            ]);
 
         } else {
             return false;
@@ -220,12 +221,12 @@ final class Car extends AbstractController
             $this->view->getBreadcrumbBag()
                        ->addOne($car->getName());
 
-            return $this->view->render('car-single', array(
+            return $this->view->render('car-single', [
                 'page' => $car,
                 'car' => $car,
                 'languages' => $carService->getSwitchUrls($id),
                 'available' => $this->carAvailable($id)
-            ));
+            ]);
 
         } else {
             // Wrong ID provided. Trigger 404 Error

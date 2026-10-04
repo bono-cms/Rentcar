@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -85,7 +83,10 @@ final class CarGallery extends AbstractController
         $this->getModuleService('carGalleryService')->deleteById($id);
 
         $this->flashBag->set('success', 'Gallery image has been removed successfully');
-        return 1;
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -97,17 +98,41 @@ final class CarGallery extends AbstractController
     {
         $input = $this->request->getAll();
 
-        $carGalleryService = $this->getModuleService('carGalleryService');
-        $carGalleryService->save($input);
+        $validator = $this->createValidation();
 
-        if (!empty($input['data']['image']['id'])) {
+        $validator->field('image.car_id')
+                  ->required()
+                  ->addRule('numeric');
 
-            $this->flashBag->set('success', 'Gallery image has been updated successfully');
-            return 1;
+        $validator->field('image.order')
+                  ->addRule('numeric');
+
+        $validator->file('file')
+                  ->required('The image is required', empty($input['data']['image']['id']))
+                  ->addRule('image');
+
+        if ($validator->isPassed()) {
+            $carGalleryService = $this->getModuleService('carGalleryService');
+            $carGalleryService->save($input);
+
+            if (!empty($input['data']['image']['id'])) {
+                $this->flashBag->set('success', 'Gallery image has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'Gallery image has been uploaded successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Rentcar:Admin:CarGallery@editAction', [$carGalleryService->getLastId()]),
+                ]);
+            }
+
         } else {
-
-            $this->flashBag->set('success', 'Gallery image has been uploaded successfully');
-            return $carGalleryService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

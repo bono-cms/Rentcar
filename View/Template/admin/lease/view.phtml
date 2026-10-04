@@ -9,67 +9,67 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="card">
-    <?= $this->widget(new ListViewWidget($lease, array(
+    <?= $this->widget(new ListViewWidget($lease, [
         'tableClass' => 'table table-hover table-bordered',
-        'columns' => array(
-            array(
+        'columns' => [
+            [
                 'column' => 'owner'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'model'
-            ),
+            ],
             
-            array(
+            [
                 'column' => 'numberplate'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'contract_number'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'apply_date'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'run_date'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'contract_lease_number'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'period',
                 'translate' => true,
                 'value' => function($key, $value){
                     $lpCol = new LeasePeriodCollection();
                     return $lpCol->findByKey($value);
                 }
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'status',
                 'translate' => true,
                 'value' => function($key, $value){
                     $stCol = new StatusCollection();
                     return $stCol->findByKey($value);
                 }
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'city_applied'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'city_owner'
-            ),
+            ],
 
-            array(
+            [
                 'column' => 'comment'
-            )
-        )
-    ))); ?>
+            ]
+        ]
+    ])); ?>
 
 </div>

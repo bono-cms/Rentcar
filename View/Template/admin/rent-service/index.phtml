@@ -75,14 +75,14 @@ defined('KRYSTAL') or die;
             ],
 
             'actions' => [
-                'edit' => function($row){
+                function($row){
                     return Icon::edit(
                         $this->url('Rentcar:Admin:RentService@editAction', $row['id']),
                         $this->translate('Edit this service')
                     );
                 },
 
-                'remove' => function($row){
+                function($row){
                     return Icon::remove(
                         $this->url('Rentcar:Admin:RentService@deleteAction', $row['id']),
                         $this->translate('Remove this service')
@@ -92,4 +92,3 @@ defined('KRYSTAL') or die;
         ])); ?>
     </div>
 </div>
-

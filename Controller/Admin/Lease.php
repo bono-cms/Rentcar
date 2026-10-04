@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -27,17 +25,17 @@ final class Lease extends AbstractController
     {
         $leaseService = $this->getModuleService('leaseService');
 
-        $contracts = $this->getFilter($leaseService, $this->createUrl('Rentcar:Admin:Lease@indexAction', array(null)));
+        $contracts = $this->getFilter($leaseService, $this->createUrl('Rentcar:Admin:Lease@indexAction', [null]));
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Cars', 'Rentcar:Admin:Car@indexAction')
                                        ->addOne('Lease');
 
-        return $this->view->render('lease/index', array(
+        return $this->view->render('lease/index', [
             'contracts' => $contracts,
             'models' => $leaseService->fetchModels(),
             'paginator' => $leaseService->getPaginator()
-        ));
+        ]);
     }
 
     /**
@@ -56,9 +54,9 @@ final class Lease extends AbstractController
                                            ->addOne('Lease', 'Rentcar:Admin:Lease@indexAction')
                                            ->addOne('View contract');
             
-            return $this->view->render('lease/view', array(
+            return $this->view->render('lease/view', [
                 'lease' => $lease
-            ));
+            ]);
         } else {
             return false;
         }
@@ -83,11 +81,11 @@ final class Lease extends AbstractController
         $lpCol = new LeasePeriodCollection();
         $stCol = new StatusCollection();
 
-        return $this->view->render('lease/form', array(
+        return $this->view->render('lease/form', [
             'lease' => $lease,
             'periods' => $lpCol->getAll(),
             'statuses' => $stCol->getAll()
-        ));
+        ]);
     }
 
     /**
@@ -145,7 +143,9 @@ final class Lease extends AbstractController
             $this->flashBag->set('success', 'Selected element has been removed successfully');
         }
 
-        return 1;
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -155,17 +155,58 @@ final class Lease extends AbstractController
      */
     public function saveAction()
     {
-        $input = $this->request->getPost('lease');
+        $validator = $this->createValidation();
 
-        $leaseService = $this->getModuleService('leaseService');
-        $leaseService->save($input);
+        $validator->field('lease.owner')
+                  ->required();
 
-        if ($input['id']) {
-            $this->flashBag->set('success', 'The element has been updated successfully');
-            return 1;
+        $validator->field('lease.model')
+                  ->required();
+
+        $validator->field('lease.numberplate')
+                  ->required();
+
+        $validator->field('lease.contract_number')
+                  ->required();
+
+        $validator->field('lease.apply_date')
+                  ->required();
+
+        $validator->field('lease.run_date')
+                  ->required();
+
+        $validator->field('lease.period')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('lease.status')
+                  ->required()
+                  ->addRule('numeric');
+
+        if ($validator->isPassed()) {
+            $input = $this->request->getPost('lease');
+
+            $leaseService = $this->getModuleService('leaseService');
+            $leaseService->save($input);
+
+            if ($input['id']) {
+                $this->flashBag->set('success', 'The element has been updated successfully');
+
+                return $this->json([
+                    'refresh' => true
+                ]);
+            } else {
+                $this->flashBag->set('success', 'The element has been created successfully');
+
+                return $this->json([
+                    'redirect' => $this->createUrl('Rentcar:Admin:Lease@editAction', [$leaseService->getLastId()]),
+                ]);
+            }
+
         } else {
-            $this->flashBag->set('success', 'The element has been created successfully');
-            return $leaseService->getLastId();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

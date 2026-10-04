@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -57,18 +55,18 @@ final class Module extends AbstractCmsModule
      */
     private function createImageService()
     {
-        $plugins = array(
-            'thumb' => array(
-                'dimensions' => array(
+        $plugins = [
+            'thumb' => [
+                'dimensions' => [
                     // Administration area
-                    array(350, 350)
-                )
-            ),
+                    [350, 350]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             self::IMG_PATH_CARS,
@@ -85,11 +83,11 @@ final class Module extends AbstractCmsModule
      */
     private function createBrandIcon()
     {
-        $plugins = array(
-            'original' => array(
+        $plugins = [
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             self::IMG_PATH_BRAND,
@@ -100,7 +98,7 @@ final class Module extends AbstractCmsModule
     }
 
     /**
-     * {@inhertiDoc}
+     * {@inheritDoc}
      */
     public function getServiceProviders()
     {
@@ -110,7 +108,7 @@ final class Module extends AbstractCmsModule
         $brandService = new BrandService($this->getMapper('\Rentcar\Storage\MySQL\BrandMapper'), $this->createBrandIcon());
         $carModificationService = new CarModificationService($this->getMapper('\Rentcar\Storage\MySQL\CarModificationMapper'));
 
-        return array(
+        return [
             'carService' => $carService,
             'carGalleryService' => new CarGalleryService($this->getMapper('\Rentcar\Storage\MySQL\CarGalleryMapper'), $this->createGalleryImageService()),
             'carModificationService' => $carModificationService,
@@ -119,6 +117,6 @@ final class Module extends AbstractCmsModule
             'leaseService' => new LeaseService($this->getMapper('\Rentcar\Storage\MySQL\LeaseMapper')),
             'rentService' => new RentService($this->getMapper('\Rentcar\Storage\MySQL\RentServiceMapper')),
             'bookingService' => new BookingService($this->getMapper('\Rentcar\Storage\MySQL\BookingMapper'), $this->getMapper('\Rentcar\Storage\MySQL\BookingServiceMapper'))
-        );
+        ];
     }
 }

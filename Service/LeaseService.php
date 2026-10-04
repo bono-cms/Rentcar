@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -102,7 +100,7 @@ final class LeaseService extends AbstractManager implements FilterableServiceInt
      * @param string $desc Whether to sort in DESC order
      * @return array
      */
-    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $params = array())
+    public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc, array $params = [])
     {
         return $this->prepareResults($this->leaseMapper->filter($input, $page, $itemsPerPage, $sortingColumn, $desc));
     }

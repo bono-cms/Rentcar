@@ -10,8 +10,8 @@ defined('KRYSTAL') or die;
 
 <form>
     <div class="btn-toolbar">
-        <?php $this->loadPartial('menu', array(
-            'items' => array(
+        <?php $this->loadPartial('menu', [
+            'items' => [
                 'Rentcar:Admin:Car@addAction' => 'Add new car',
                 'Rentcar:Admin:Brand@indexAction' => 'Brands',
                 'Rentcar:Admin:Lease@indexAction' => 'Car leasing',
@@ -21,70 +21,70 @@ defined('KRYSTAL') or die;
                     'caption' => 'Bookings',
                     'notifications' => $newBookings
                 ]
-            ),
-            'actions' => array(
+            ],
+            'actions' => [
                 'data' => $cars,
                 'delete' => 'Rentcar:Admin:Car@deleteAction'
-            )
-        )); ?>
+            ]
+        ]); ?>
     </div>
 
     <div class="card">
-        <?php $this->loadPartial('items-per-page', array('caption' => 'Cars')); ?>
+        <?php $this->loadPartial('items-per-page', ['caption' => 'Cars']); ?>
 
         <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Cars'); ?> (<?= count($cars); ?>)</h4>
 
         <div class="table-responsive">
-            <?= $this->widget(new GridViewWidget($cars, array(
+            <?= $this->widget(new GridViewWidget($cars, [
                 'tableClass' => 'table table-bordered table-sm',
                 'pk' => 'id',
                 'batch' => true,
-                'columns' => array(
-                    array(
+                'columns' => [
+                    [
                         'column' => 'id',
                         'label' => '#'
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'image',
                         'value' => function($row){
-                            return Element::image($row->getImageUrl('350x350'), array('class' => 'img-fluid col-5'));
+                            return Element::image($row->getImageUrl('350x350'), ['class' => 'img-fluid col-5']);
                         }
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'name'
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'brand'
-                    ),
+                    ],
 
-                    array(
+                    [
                         'column' => 'order'
-                    )
-                ),
+                    ]
+                ],
 
-                'actions' => array(
-                    'view' => function($row){
+                'actions' => [
+                    function($row){
                         return Icon::view($row['url'], $this->translate('View this car on site'));
                     },
 
-                    'edit' => function($row){
+                    function($row){
                         return Icon::edit(
                             $this->url('Rentcar:Admin:Car@editAction', $row['id']),
                             $this->translate('Edit this car')
                         );
                     },
 
-                    'remove' => function($row){
+                    function($row){
                         return Icon::remove(
                             $this->url('Rentcar:Admin:Car@deleteAction', $row['id']),
                             $this->translate('Remove this car')
                         );
                     }
-                )
-            ))); ?>
+                ]
+            ])); ?>
 
             <?php if (empty($cars)): ?>
             <div class="center-block">
@@ -94,4 +94,3 @@ defined('KRYSTAL') or die;
         </div>
     </div>
 </form>
-

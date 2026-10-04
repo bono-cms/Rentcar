@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -98,13 +96,13 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
      */
     public function filter($input, $page, $itemsPerPage, $sortingColumn, $desc)
     {
-        $sortingColumns = array(
+        $sortingColumns = [
             'owner' => self::column('owner'),
             'model' => self::column('model')
-        );
+        ];
 
         // Current sorting column
-        $sortingColumn = isset($sortingColumn[$sortingColumn]) ? $sortingColumn[$sortingColumn] : self::column($this->getPk());
+        $sortingColumn = isset($sortingColumns[$sortingColumn]) ? $sortingColumns[$sortingColumn] : self::column($this->getPk());
 
         if (!$sortingColumn) {
             $sortingColumn = $this->getPk();
@@ -137,12 +135,12 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
     public function findByAttributes($attributes)
     {
         // Columns to be selected
-        $columns = array(
+        $columns = [
             '*',
             // Override date columns with different format
             $this->formatDate('apply_date'),
             $this->formatDate('run_date')
-        );
+        ];
 
         $db = $this->db->select(join(', ', $columns))
                        ->from(self::getTableName())
@@ -163,7 +161,7 @@ final class LeaseMapper extends AbstractMapper implements LeaseMapperInterface
      */
     public function fetchById($id)
     {
-        return $this->findByAttributes(array($this->getPk() => $id));
+        return $this->findByAttributes([$this->getPk() => $id]);
     }
 
     /**

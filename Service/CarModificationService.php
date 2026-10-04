@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -43,14 +41,14 @@ final class CarModificationService extends AbstractManager
      */
     private static function parsePrices(array $prices)
     {
-        $output = array();
+        $output = [];
 
         foreach ($prices as $price) {
-            $output[] = array(
+            $output[] = [
                 'name' => $price['car'],
                 'price' => $price['price'],
                 'car_id' => $price['id']
-            );
+            ];
         }
 
         return $output;
@@ -64,14 +62,14 @@ final class CarModificationService extends AbstractManager
      */
     private static function parseModifications(array $modifications)
     {
-        $output = array();
+        $output = [];
 
         foreach ($modifications as $modification) {
-            $output[] = array(
+            $output[] = [
                 'name' => sprintf('%s (%s)', $modification['car'], $modification['name']),
                 'price' => $modification['price'],
                 'car_id' => $modification['car_id']
-            );
+            ];
         }
 
         return $output;
