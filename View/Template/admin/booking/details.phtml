@@ -5,7 +5,7 @@ use Krystal\Widget\GridView\GridViewWidget;
 
 ?>
 
-<div class="card">
+<div class="card card-body">
     <h2><i class="fas fa-info-circle"></i> <?= $this->getBreadcrumbBag()->getLastName(); ?></h2>
     <hr />
 
@@ -17,10 +17,10 @@ use Krystal\Widget\GridView\GridViewWidget;
             </div>
 
             <?php if (!empty($services)): ?>
-            <h2><?php $this->show('Attached services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h2>
+            <h2><?= $this->translate('Attached services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h2>
 
             <?= $this->widget(new GridViewWidget($services, [
-                'tableClass' => 'table table-bordered table-stripped',
+                'tableClass' => 'table table-bordered table-striped',
                 'columns' => [
                     ['column' => 'service'],
                     ['column' => 'price']

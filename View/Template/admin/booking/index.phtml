@@ -5,37 +5,35 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 use Rentcar\Collection\OrderStatusCollection;
 
-defined('KRYSTAL') or die;
-
 ?>
 
 <form>
-    <div class="btn-toolbar">
-        <div class="btn-group mr-2">
-            <a href="<?= $this->url('Rentcar:Admin:Booking@addAction'); ?>" class="btn btn-primary btn-sm"><?php $this->show('Add new booking'); ?></a>
+    <div class="btn-toolbar mb-3">
+        <div class="btn-group me-2">
+            <a href="<?= $this->url('Rentcar:Admin:Booking@addAction'); ?>" class="btn btn-primary btn-sm"><?= $this->translate('Add new booking'); ?></a>
         </div>
 
-        <div class="btn-group mr-2">
-            <a href="<?= $this->url('Rentcar:Admin:Booking@availabilityAction'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-clock"></i> <?php $this->show('Availability graph'); ?></a>
+        <div class="btn-group me-2">
+            <a href="<?= $this->url('Rentcar:Admin:Booking@availabilityAction'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-clock"></i> <?= $this->translate('Availability graph'); ?></a>
         </div>
 
-        <div class="btn-group mr-2">
-            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button>
+        <div class="btn-group me-2">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search"></i> <?= $this->translate('Filter'); ?></button>
         </div>
 
         <?php if ($filterApplied): ?>
-        <div class="btn-group mr-2">
-            <a href="<?= $this->url('Rentcar:Admin:Booking@indexAction'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-search-minus"></i> <?php $this->show('Reset filter'); ?></a>
+        <div class="btn-group me-2">
+            <a href="<?= $this->url('Rentcar:Admin:Booking@indexAction'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-search-minus"></i> <?= $this->translate('Reset filter'); ?></a>
         </div>
         <?php endif; ?>
     </div>
 
-    <div class="card">
-        <h4 class="mb-4"><i class="fas fa-address-card"></i> <?php $this->show('Bookings'); ?> <small class="text-muted">(<?= count($bookings); ?>)</small></h4>
+    <div class="card card-body">
+        <h4 class="mb-4"><i class="fas fa-address-card"></i> <?= $this->translate('Bookings'); ?> <small class="text-muted">(<?= count($bookings); ?>)</small></h4>
 
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($bookings, [
-                'tableClass' => 'table table-bordered table-stripped table-sm',
+                'tableClass' => 'table table-bordered table-striped table-sm',
                 'columns' => [
                     [
                         'column' => 'id',

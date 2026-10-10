@@ -4,17 +4,15 @@ use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 ?>
 
 <form>
-    <div class="btn-toolbar">
-        <a class="btn btn-primary" href="<?= $this->url('Rentcar:Admin:Brand@addAction'); ?>"><?php $this->show('Add new brand'); ?></a>
+    <div class="btn-toolbar mb-3">
+        <a class="btn btn-primary" href="<?= $this->url('Rentcar:Admin:Brand@addAction'); ?>"><?= $this->translate('Add new brand'); ?></a>
     </div>
 
-    <div class="card">
-        <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Brands'); ?> (<?= count($brands); ?>)</h4>
+    <div class="card card-body">
+        <h4><i class="bi bi-list-ul"></i> <?= $this->translate('Brands'); ?> (<?= count($brands); ?>)</h4>
 
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($brands, [
@@ -60,7 +58,7 @@ defined('KRYSTAL') or die;
 
             <?php if (empty($brands)): ?>
             <div class="center-block">
-                <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No brands'); ?></h2>
+                <h2 class="text-center text-muted"><i class="bi bi-x-circle"></i> <?= $this->translate('No brands'); ?></h2>
             </div>
             <?php endif; ?>
         </div>

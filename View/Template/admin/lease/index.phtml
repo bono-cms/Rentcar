@@ -6,15 +6,13 @@ use Rentcar\Collection\LeasePeriodCollection;
 use Rentcar\Collection\StatusCollection;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 $stCol = new LeasePeriodCollection();
 
 ?>
 
 <form autocomplete="off">
-    <div class="btn-toolbar">
-        <div class="btn-group mr-2">
+    <div class="btn-toolbar mb-3">
+        <div class="btn-group me-2">
             <?php $this->loadPartial('menu', [
                 'items' => [
                     'Rentcar:Admin:Lease@addAction' => 'Add new contract'
@@ -26,13 +24,13 @@ $stCol = new LeasePeriodCollection();
             ]); ?>
         </div>
 
-        <div class="btn-group mr-2">
-            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?php $this->show('Filter'); ?></button>
+        <div class="btn-group me-2">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> <?= $this->translate('Filter'); ?></button>
         </div>
     </div>
 
-    <div class="card">
-        <h4><i class="fab fa-accusoft"></i> <?php $this->show('Contracts'); ?> (<?= count($contracts); ?>)</h4>
+    <div class="card card-body">
+        <h4><i class="fab fa-accusoft"></i> <?= $this->translate('Contracts'); ?> (<?= count($contracts); ?>)</h4>
 
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($contracts, [
@@ -103,7 +101,7 @@ $stCol = new LeasePeriodCollection();
 
             <?php if (empty($contracts)): ?>
             <div class="center-block">
-                <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No contracts'); ?></h2>
+                <h2 class="text-center text-muted"><i class="bi bi-x-circle"></i> <?= $this->translate('No contracts'); ?></h2>
             </div>
             <?php endif; ?>
         </div>

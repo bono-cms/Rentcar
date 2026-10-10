@@ -1,47 +1,46 @@
 <?php
 
 use Krystal\Form\Element;
-defined('KRYSTAL') or die;
 
 ?>
 
-<form class="card" data-group="booking" autocomplete="off">
+<form class="card card-body" autocomplete="off">
     <?= Element::hidden('booking[id]', $booking->getId()); ?>
 
     <div class="row">
         <div class="col-lg-6">
-            <h2 class="mb-4 ml-3"><i class="fas fa-address-card"></i> <?php $this->show('Order details'); ?></h2>
+            <h2 class="mb-4 ms-3"><i class="fas fa-address-card"></i> <?= $this->translate('Order details'); ?></h2>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Status'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Status'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('booking[status]', $this->translateArray($orderStatuses), $booking->getStatus(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[status]', $this->translateArray($orderStatuses), $booking->getStatus(), ['class' => 'form-select']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Amount'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Amount'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[amount]', $booking->getAmount(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Payment method'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Payment method'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('booking[method]', $this->translateArray($paymentMethods), $booking->getMethod(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[method]', $this->translateArray($paymentMethods), $booking->getMethod(), ['class' => 'form-select']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Date and time'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Date and time'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[datetime]', $booking->getDatetime(), ['class' => 'form-control', 'data-plugin' => 'datetimepicker']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Comment'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Comment'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::textarea('booking[comment]', $booking->getComment(), ['class' => 'form-control']); ?>
                 </div>
@@ -49,31 +48,31 @@ defined('KRYSTAL') or die;
         </div>
 
         <div class="col-lg-6">
-            <h2 class="mb-4 ml-3"><i class="fas fa-user-tie"></i> <?php $this->show('Client details'); ?></h2>
+            <h2 class="mb-4 ms-3"><i class="fas fa-user-tie"></i> <?= $this->translate('Client details'); ?></h2>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Name'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Name'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[name]', $booking->getName(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Gender'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Gender'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('booking[gender]', $this->translateArray($genders), $booking->getGender(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[gender]', $this->translateArray($genders), $booking->getGender(), ['class' => 'form-select']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Email'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Email'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[email]', $booking->getEmail(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Phone'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Phone'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[phone]', $booking->getPhone(), ['class' => 'form-control']); ?>
                 </div>
@@ -81,38 +80,38 @@ defined('KRYSTAL') or die;
         </div>
 
         <div class="col-lg-8">
-            <h2 class="mb-4 ml-3"><i class="fas fa-car-side"></i> <?php $this->show('Pickup and return'); ?></h2>
+            <h2 class="mb-4 ms-3"><i class="fas fa-car-side"></i> <?= $this->translate('Pickup and return'); ?></h2>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Car'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Car'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('booking[car_id]', $cars, $booking->getCarId(), ['class' => 'form-control']); ?>
+                    <?= Element::select('booking[car_id]', $cars, $booking->getCarId(), ['class' => 'form-select']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Pickup'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Pickup'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[pickup]', $booking->getPickup(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Return'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Return'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[return]', $booking->getReturn(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Checkin'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Checkin'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[checkin]', $booking->getCheckin(), ['class' => 'form-control', 'data-plugin' => 'datetimepicker']); ?>
                 </div>
             </div>
             
-            <div class="form-group">
-                <label class="col-lg-12"><?php $this->show('Checkout'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Checkout'); ?></label>
                 <div class="col-lg-10">
                     <?= Element::text('booking[checkout]', $booking->getCheckout(), ['class' => 'form-control', 'data-plugin' => 'datetimepicker']); ?>
                 </div>

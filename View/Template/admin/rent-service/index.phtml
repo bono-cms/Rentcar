@@ -5,22 +5,20 @@ use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 use Rentcar\Collection\RentServiceUnitCollection;
 
-defined('KRYSTAL') or die;
-
 ?>
 
-<div class="btn-toolbar">
+<div class="btn-toolbar mb-3">
     <div class="btn-group">
-        <a class="btn btn-primary btn-sm" href="<?= $this->url('Rentcar:Admin:RentService@addAction'); ?>"><?php $this->show('Add new service'); ?></a>
+        <a class="btn btn-primary btn-sm" href="<?= $this->url('Rentcar:Admin:RentService@addAction'); ?>"><?= $this->translate('Add new service'); ?></a>
     </div>
 </div>
 
-<div class="card">
-    <h4 class="mb-4"><i class="fas fa-dolly"></i> <?php $this->show('Rent services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h4>
+<div class="card card-body">
+    <h4 class="mb-4"><i class="fas fa-dolly"></i> <?= $this->translate('Rent services'); ?> <small class="text-muted">(<?= count($services); ?>)</small></h4>
 
     <div class="table-responsive">
         <?= $this->widget(new GridViewWidget($services, [
-            'tableClass' => 'table table-bordered table-stripped',
+            'tableClass' => 'table table-bordered table-striped',
             'columns' => [
                 [
                     'column' => 'id',

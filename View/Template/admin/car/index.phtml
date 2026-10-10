@@ -4,12 +4,10 @@ use Krystal\Form\Element;
 use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 
-defined('KRYSTAL') or die;
-
 ?>
 
 <form>
-    <div class="btn-toolbar">
+    <div class="btn-toolbar mb-3">
         <?php $this->loadPartial('menu', [
             'items' => [
                 'Rentcar:Admin:Car@addAction' => 'Add new car',
@@ -29,10 +27,10 @@ defined('KRYSTAL') or die;
         ]); ?>
     </div>
 
-    <div class="card">
+    <div class="card card-body">
         <?php $this->loadPartial('items-per-page', ['caption' => 'Cars']); ?>
 
-        <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Cars'); ?> (<?= count($cars); ?>)</h4>
+        <h4><i class="bi bi-list-ul"></i> <?= $this->translate('Cars'); ?> (<?= count($cars); ?>)</h4>
 
         <div class="table-responsive">
             <?= $this->widget(new GridViewWidget($cars, [
@@ -88,7 +86,7 @@ defined('KRYSTAL') or die;
 
             <?php if (empty($cars)): ?>
             <div class="center-block">
-                <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No cars'); ?></h2>
+                <h2 class="text-center text-muted"><i class="bi bi-x-circle"></i> <?= $this->translate('No cars'); ?></h2>
             </div>
             <?php endif; ?>
         </div>

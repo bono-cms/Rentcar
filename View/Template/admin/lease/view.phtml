@@ -4,11 +4,9 @@ use Krystal\Widget\ListView\ListViewWidget;
 use Rentcar\Collection\LeasePeriodCollection;
 use Rentcar\Collection\StatusCollection;
 
-defined('KRYSTAL') or die;
-
 ?>
 
-<div class="card">
+<div class="card card-body">
     <?= $this->widget(new ListViewWidget($lease, [
         'tableClass' => 'table table-hover table-bordered',
         'columns' => [
